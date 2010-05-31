@@ -1,0 +1,7 @@
+For the project developers:
+
+1. 盡量使用UTF-8編碼，以減少不同系統間的亂碼問題。
+2. 原始碼請遵照template.java來撰寫header。
+3. Commit時記得加上有意義的summary。
+
+

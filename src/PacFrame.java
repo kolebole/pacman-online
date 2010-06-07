@@ -29,15 +29,15 @@ public class PacFrame extends JFrame {
 		pane.setLayout(new FlowLayout());
 		JPanel LPanel = new JPanel(), 
 			   RPanel = new JPanel(new BorderLayout());
-		PlayerPanel RNPanel = new PlayerPanel( 0, 4 ),
-			RCPanel = new PlayerPanel( 1, 4 );
+		PlayerPanel pacmanPanel = new PlayerPanel( 0, 4 ),
+					monsterPanel = new PlayerPanel( 1, 4 );
 		ConnectPanel RSPanel = new ConnectPanel();
 		//LPanel.setLayout(null);
 		//LPanel.add(new JLabel("Game Area"));
 		LPanel.add(new JTextArea(30,30));
 		// Basic Layout
-		RPanel.add(RNPanel, "North");
-		RPanel.add(RCPanel, "Center");
+		RPanel.add(pacmanPanel, "North");
+		RPanel.add(monsterPanel, "Center");
 		RPanel.add(RSPanel, "South");
 		pane.add(LPanel);
 		pane.add(RPanel);

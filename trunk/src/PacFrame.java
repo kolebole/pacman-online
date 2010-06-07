@@ -16,8 +16,8 @@ public class PacFrame extends JFrame {
 		try {
 			setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 			pack();
-			setSize(800, 600);
-			//setResizable(false);
+			setSize(800, 620);
+			setResizable(false);
 			createGUI();
 		} catch (Exception e) {
 			e.printStackTrace();

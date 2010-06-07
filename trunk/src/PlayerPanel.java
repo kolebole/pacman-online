@@ -26,7 +26,7 @@ public class PlayerPanel extends JPanel {
 		GridBagConstraints gbc = new GridBagConstraints();
 		for ( i = 0 ; i < listLen ; i++ ){
 			pictureList[i] = new JLabel("pic"+i);
-			nickList[i] = new JLabel("Player #"+i);//+", your nickname will show here.");
+			nickList[i] = new JLabel("Player #"+i, SwingConstants.RIGHT);//+", your nickname will show here.");
 			gbc.gridx = 0;
 			gbc.gridy = i;
 			gbc.weightx = 0.5;

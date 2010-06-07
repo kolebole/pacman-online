@@ -16,7 +16,7 @@ public class PacFrame extends JFrame {
 		try {
 			setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 			pack();
-			setSize(1000, 1000);
+			setSize(800, 600);
 			//setResizable(false);
 			createGUI();
 		} catch (Exception e) {
@@ -29,10 +29,10 @@ public class PacFrame extends JFrame {
 		pane.setLayout(new FlowLayout());
 		JPanel LPanel = new JPanel(), 
 			   RPanel = new JPanel(new BorderLayout());
-		PlayerPanel RNPanel = new PlayerPanel(),
-			RCPanel = new PlayerPanel();
+		PlayerPanel RNPanel = new PlayerPanel(4),
+			RCPanel = new PlayerPanel(4);
 		ConnectPanel RSPanel = new ConnectPanel();
-		LPanel.setLayout(null);
+		//LPanel.setLayout(null);
 		//LPanel.add(new JLabel("Game Area"));
 		LPanel.add(new JTextArea(30,30));
 		// Basic Layout

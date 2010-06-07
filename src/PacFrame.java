@@ -29,8 +29,8 @@ public class PacFrame extends JFrame {
 		pane.setLayout(new FlowLayout());
 		JPanel LPanel = new JPanel(), 
 			   RPanel = new JPanel(new BorderLayout());
-		PlayerPanel RNPanel = new PlayerPanel(4),
-			RCPanel = new PlayerPanel(4);
+		PlayerPanel RNPanel = new PlayerPanel( 0, 4 ),
+			RCPanel = new PlayerPanel( 1, 4 );
 		ConnectPanel RSPanel = new ConnectPanel();
 		//LPanel.setLayout(null);
 		//LPanel.add(new JLabel("Game Area"));

@@ -32,9 +32,10 @@ public class PacFrame extends JFrame {
 		PlayerPanel RNPanel = new PlayerPanel(),
 			RCPanel = new PlayerPanel();
 		ConnectPanel RSPanel = new ConnectPanel();
-		//LPanel.setLayout(null);
+		LPanel.setLayout(null);
 		//LPanel.add(new JLabel("Game Area"));
 		LPanel.add(new JTextArea(30,30));
+		// Basic Layout
 		RPanel.add(RNPanel, "North");
 		RPanel.add(RCPanel, "Center");
 		RPanel.add(RSPanel, "South");

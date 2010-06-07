@@ -40,6 +40,7 @@ public class PacFrame extends JFrame {
 		RPanel.add(monsterPanel, "Center");
 		RPanel.add(RSPanel, "South");
 		pane.add(LPanel);
+		pane.add(new JSeparator(SwingConstants.VERTICAL));
 		pane.add(RPanel);
 		
 	}

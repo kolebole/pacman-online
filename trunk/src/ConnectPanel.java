@@ -1,17 +1,26 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.net.*;
 
-public class ConnectPanel extends JPanel {
+public class ConnectPanel extends JPanel implements ActionListener {
 	JPanel nickPanel, clientPanel, serverPanel, csPanel, finalPanel;
-	JTextField nickField, IPField, cPortField, sPortField;
+	JTextField nickField, addrField, cPortField, sPortField;
 	JButton clientButton, serverButton, finalButton;
+	
+	/* Network相關的東西：到最後可能獨立出去 */
+	ServerSocket ss;
+	//DatagramSocket ss;
+	Socket cs, cons;  // client socket, connected socket
+	int sPort, cPort;
+	String addr;
+	
 	
 	ConnectPanel() {
 		/* The GUI */
 		GUI();
-	}
-		
+		addListeners();
+	}	
 
 	private void GUI() {
 		this.setLayout(new BorderLayout());
@@ -39,11 +48,11 @@ public class ConnectPanel extends JPanel {
 
 		gbc1.gridx = 0;
 		gbc1.gridy = 0;
-		clientPanel.add(new JLabel("IP", SwingConstants.RIGHT), gbc1);
+		clientPanel.add(new JLabel("Address", SwingConstants.RIGHT), gbc1);
 		gbc2.gridx = 1;
 		gbc2.gridy = 0;
-		IPField = new JTextField(10);
-		clientPanel.add(IPField, gbc2);
+		addrField = new JTextField(10);
+		clientPanel.add(addrField, gbc2);
 		gbc1.gridx = 0;
 		gbc1.gridy = 1;
 		clientPanel.add(new JLabel("Port", SwingConstants.RIGHT), gbc1);
@@ -81,6 +90,55 @@ public class ConnectPanel extends JPanel {
 		finalButton.setEnabled(false);
 		finalButton.setFont(new Font("Arial Black", Font.PLAIN, 24));
 		finalPanel.add(finalButton);
+	}
+	
+	private void addListeners() {
+		clientButton.addActionListener(this);
+		serverButton.addActionListener(this);
+		finalButton.addActionListener(this);
+	}
+	
+	public void actionPerformed(ActionEvent evt) {
+		JButton src = (JButton)evt.getSource();
+		/* Server: Create a game */
+		if (src == serverButton) {			
+			sPort = Integer.parseInt(sPortField.getText());
+			try {
+				ss = new ServerSocket(sPort);
+				System.out.println("Server: Listen on port " + sPort + " ...");
+				/* disable other buttons */
+				addrField.setEnabled(false);
+				cPortField.setEnabled(false);
+				sPortField.setEnabled(false);
+				clientButton.setEnabled(false);
+				serverButton.setEnabled(false);
+				cons = ss.accept();
+				System.out.println("Server: Socket accepted");
+				System.out.println("Server: Client from " + cons.getInetAddress() + ":" + cons.getPort());
+				
+				
+				
+			} catch (Exception e) {
+				Utility.error(e);
+			}
+		}
+		/* Client: Connect to a server */
+		else if (src == clientButton) {
+			addr = addrField.getText();
+			cPort = Integer.parseInt(cPortField.getText());
+			try {
+				System.out.println("Client: Connect to " + addr + ":" + cPort + " ...");
+				/* new a Socket and connect at the same time */
+				cs = new Socket(addr, cPort);
+				addrField.setEnabled(false);
+				cPortField.setEnabled(false);
+				sPortField.setEnabled(false);
+				clientButton.setEnabled(false);
+				serverButton.setEnabled(false);				
+			} catch (Exception e) {
+				Utility.error(e);
+			}
+		}
 	}
 }
 

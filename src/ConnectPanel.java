@@ -89,6 +89,7 @@ public class ConnectPanel extends JPanel implements ActionListener {
 		finalButton = new JButton("Ready");
 		finalButton.setEnabled(false);
 		finalButton.setFont(new Font("Arial Black", Font.PLAIN, 24));
+		finalButton.setForeground(Color.blue);
 		finalPanel.add(finalButton);
 	}
 	

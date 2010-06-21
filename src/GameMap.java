@@ -2,15 +2,15 @@ import java.io.*;
 
 
 public class GameMap {
-	int HEIGHT = 35;
-	int WIDTH = 25;
+	int WIDTH = 35;
+	int HEIGHT = 25;
 	int size = 20;
 	Grid[][] map;
 	GameMap () throws IOException{
 		int i, j;
-		BufferedReader buffer = new BufferedReader( new FileReader( "/resouce/test.map" ) );
+		BufferedReader buffer = new BufferedReader( new FileReader( "resouce/test.map" ) );
 		String line;
-		map = new Grid[WIDTH][HEIGHT];
+		map = new Grid[HEIGHT][WIDTH];
 		for ( i = 0 ; i < HEIGHT ; i++ ){
 			line = buffer.readLine();
 			for ( j = 0 ; j < WIDTH ; j++ ){

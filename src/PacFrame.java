@@ -46,6 +46,7 @@ public class PacFrame extends JFrame {
 					monsterPanel = new PlayerPanel( 1, 4 );
 		ConnectPanel RSPanel = new ConnectPanel();
 
+
 		/* left part */
 		LPanel.add(gamePanel, "North");
 		LPanel.add(new JSeparator(SwingConstants.HORIZONTAL), "Center");		
@@ -59,6 +60,7 @@ public class PacFrame extends JFrame {
 		LSPanel.add(msgField,"South");
 
 		/* right part */
+
 		RPanel.add(pacmanPanel, "North");
 		RPanel.add(monsterPanel, "Center");
 		RPanel.add(RSPanel, "South");

@@ -23,6 +23,10 @@ public class PacFrame extends JFrame {
 		gamePanel.initMap( map );
 	}
 	
+	public void placePlayer( Player[] playerList ){
+		gamePanel.placePlayer( playerList );
+	}
+	
 	private void initGUI() {
 		try {
 			setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

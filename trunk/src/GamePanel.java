@@ -8,9 +8,28 @@ import javax.swing.*;
  */
 
 public class GamePanel extends JPanel {
+	String[] srcs = {
+		"pics/wall.jpeg",
+		"pics/credit.jpeg"
+	};
 
 	GamePanel() {
 		GUI();
+	}
+	
+	public void initMap( Grid[][] map ) {
+		int i, j;
+		JLabel temp;
+		for ( i = 0 ; i < GameMap.HEIGHT ; i++ ){
+			for ( j = 0 ; j < GameMap.WIDTH ; j++ ){
+				temp = new JLabel( new ImageIcon(srcs[map[i][j].content-1]) );
+				temp.setLocation( map[i][j].x ,map[i][j].y );
+				temp.setSize( 20, 20 );
+				System.out.print(map[i][j].content + " ");
+				add(temp);
+			}
+			System.out.println();
+		}
 	}
 	
 	private void GUI() {
@@ -19,9 +38,9 @@ public class GamePanel extends JPanel {
 		setBackground(Color.black); // so we can "see" the JPanel
 		/* setPreferredSize is VERY IMPORTANT. Otherwise the size will be (0,0) */
 		setPreferredSize(new Dimension(PacFrame.GAME_WIDTH, PacFrame.GAME_HEIGHT));
-		JButton bb = new JButton("Hello game");
+		/*JButton bb = new JButton("Hello game");
 		bb.setLocation(500,100);
 		bb.setSize(100,50);
-		add(bb);				
+		add(bb);*/				
 	}
 }

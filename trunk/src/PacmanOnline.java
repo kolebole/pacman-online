@@ -8,7 +8,7 @@ import javax.swing.SwingUtilities;
  * Description: Sample code for coding style.
  */
 public class PacmanOnline {
-
+	public static PacFrame inst;
 	/**
 	 * @param args
 	 * @throws IOException 
@@ -18,12 +18,18 @@ public class PacmanOnline {
 		System.out.println("Hello, Pacman-Online!");
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				PacFrame inst = new PacFrame();
+				inst = new PacFrame();
 				inst.setLocationRelativeTo(null);
 				inst.setVisible(true);
+				try {
+					GameMap map = new GameMap();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
-		GameMap map = new GameMap();
+		
 	}
 
 }

@@ -6,6 +6,7 @@ import javax.swing.*;
 
 public class PacFrame extends JFrame {
 	JTextField msgField;
+	GamePanel gamePanel;
 	
 	/* Define some size constants */
 	private final int FRAME_WIDTH = 1000;
@@ -16,6 +17,10 @@ public class PacFrame extends JFrame {
 	public PacFrame() {
 		super("Pacman Online");
 		initGUI();
+	}
+	
+	public void initGameMap( Grid[][] map ) {
+		gamePanel.initMap( map );
 	}
 	
 	private void initGUI() {
@@ -41,7 +46,7 @@ public class PacFrame extends JFrame {
 		pane.add(RPanel);
 
 		/*** New the 4 panel objects and add them to the big panels ***/
-		GamePanel gamePanel = new GamePanel();
+		gamePanel = new GamePanel();
 		PlayerPanel pacmanPanel = new PlayerPanel( 0, 4 ),
 					monsterPanel = new PlayerPanel( 1, 4 );
 		ConnectPanel RSPanel = new ConnectPanel();

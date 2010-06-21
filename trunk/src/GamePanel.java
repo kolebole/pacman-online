@@ -10,11 +10,13 @@ import javax.swing.*;
 public class GamePanel extends JPanel {
 	String[] srcs = {
 		"pics/wall.jpeg",
-		"pics/credit.jpeg"
+		"pics/credit.jpeg",
+		"pics/pac.jpeg"
 	};
 
 	GamePanel() {
 		GUI();
+		
 	}
 	
 	public void initMap( Grid[][] map ) {
@@ -25,10 +27,21 @@ public class GamePanel extends JPanel {
 				temp = new JLabel( new ImageIcon(srcs[map[i][j].content-1]) );
 				temp.setLocation( map[i][j].x ,map[i][j].y );
 				temp.setSize( 20, 20 );
-				System.out.print(map[i][j].content + " ");
-				add(temp);
+				//System.out.print(map[i][j].content + " ");
+				//add(temp);
 			}
-			System.out.println();
+			//System.out.println();
+		}
+	}
+	
+	public void placePlayer( Player[] playerList ){
+		int i;
+		JLabel temp;
+		for ( i = 0 ; i < playerList.length ; i++ ){
+			temp = new JLabel( new ImageIcon(srcs[2]) );
+			temp.setLocation(playerList[i].x, playerList[i].y);
+			temp.setSize( 20, 20 );
+			add( temp );
 		}
 	}
 	

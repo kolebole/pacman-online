@@ -23,17 +23,19 @@ public class PacmanOnline {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				inst = new PacFrame();
-				inst.setLocationRelativeTo(null);
-				inst.setVisible(true);
+				
 				try {
 					map = new GameMap();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				inst.gamePanel.addKeyListener(new MoveListener());
-				KeyListener[] kls = inst.gamePanel.getKeyListeners();
+				inst.addKeyListener(new MoveListener());
+				KeyListener[] kls = inst.getKeyListeners();
 				System.out.println(kls);
+				
+				inst.setLocationRelativeTo(null);
+				inst.setVisible(true);
 			}
 		});
 		

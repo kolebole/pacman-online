@@ -28,7 +28,7 @@ public class MoveListener implements KeyListener {
 			playerList[0].x++;
 			break;
 		default:
-			// error
+			System.out.println("KeyCode is " + keyCode );
 		}
 		System.out.println("Player move to: " + playerList[0].x + ", " + playerList[0].y);
 		frame.placePlayer(playerList);

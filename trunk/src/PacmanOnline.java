@@ -30,7 +30,7 @@ public class PacmanOnline {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				inst.addKeyListener(new MoveListener());
+				inst.msgField.addKeyListener(new MoveListener());
 				KeyListener[] kls = inst.getKeyListeners();
 				System.out.println(kls);
 				

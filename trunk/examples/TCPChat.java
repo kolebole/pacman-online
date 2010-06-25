@@ -1,3 +1,4 @@
+// source code from http://www.ashishmyles.com/tutorials/tcpchat/index.html
 import java.lang.*;
 import java.util.*;
 import java.io.*;
@@ -23,7 +24,7 @@ public class TCPChat implements Runnable {
    public final static String END_CHAT_SESSION =
       new Character((char)0).toString(); // Indicates the end of a session
 
-   // Connection atate info
+   // Connection state info
    public static String hostIP = "localhost";
    public static int port = 1234;
    public static int connectionStatus = DISCONNECTED;

@@ -7,7 +7,7 @@
 public interface Constants {
 	/*** Game-related ***/
 	/* maximum allowable number of players */
-	public static final int MAX_PLAYERS = 8;
+	public static final int MAX_PLAYERS = 1;
 	
 	/*** GUI-related ***/
 	/* The whole frame (window) */

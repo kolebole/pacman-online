@@ -27,6 +27,7 @@ public class DirectionListener implements KeyListener {
 			System.out.println("KeyCode is " + keyCode );
 		}
 		System.out.println("Player move to: " + playerList[0].x + ", " + playerList[0].y);
+		System.out.println("Player move to: " + playerList[0].gridx + ", " + playerList[0].gridy);
 		frame.movePlayer(playerList);
 	}
 

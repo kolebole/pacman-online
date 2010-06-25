@@ -11,11 +11,13 @@ public class ServerThread implements Runnable {
 	ServerSocket ss;
 	Socket cs;
 	private static final int port = ConnectPanel.port;
+	JTextField nickField;
 	JTextField addrField;
 	JButton serverButton;
 	
 	/* constructor */
-	ServerThread(JTextField addrField, JButton serverButton) {
+	ServerThread(JTextField nickField, JTextField addrField, JButton serverButton) {
+		this.nickField = nickField;
 		this.addrField = addrField;
 		this.serverButton = serverButton;
 		Thread thread = new Thread(this);
@@ -28,7 +30,8 @@ public class ServerThread implements Runnable {
 		try {
 			ss = new ServerSocket(port);
 			System.out.println("Server: Listen on port " + port + " ...");
-			/* disable other buttons */
+			/* disable other textfields or buttons */
+			nickField.setEnabled(false);
 			addrField.setEnabled(false);
 			serverButton.setEnabled(false);
 			

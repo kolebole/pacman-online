@@ -1,5 +1,7 @@
 import java.awt.event.KeyEvent;
 
+import javax.swing.JLabel;
+
 
 public class Player {
 	public static int PACMAN = 0,
@@ -9,6 +11,7 @@ public class Player {
 	String iconSrc;
 	int type;
 	int direction;
+	JLabel image;
 	
 	Player( int x, int y, int type ) {
 		this.x = x;

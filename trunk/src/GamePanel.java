@@ -42,7 +42,12 @@ public class GamePanel extends JPanel {
 			temp.setLocation(playerList[i].x, playerList[i].y);
 			temp.setSize( 20, 20 );
 			add( temp );
+			playerList[i].image = temp;
 		}
+	}
+	
+	public void movePlayer( Player player ){
+		player.image.setLocation( player.x, player.y );
 	}
 	
 	private void GUI() {
@@ -51,6 +56,7 @@ public class GamePanel extends JPanel {
 		setBackground(Color.black); // so we can "see" the JPanel
 		/* setPreferredSize is VERY IMPORTANT. Otherwise the size will be (0,0) */
 		setPreferredSize(new Dimension(PacFrame.GAME_WIDTH, PacFrame.GAME_HEIGHT));
+		setFocusable(true);
 		/*JButton bb = new JButton("Hello game");
 		bb.setLocation(500,100);
 		bb.setSize(100,50);

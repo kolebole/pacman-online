@@ -20,8 +20,9 @@ public class GameMap {
 			}
 		}
 		
-		playerList = new Player[1];
+		playerList = new Player[2];
 		playerList[0] = new Player( 35, 40, Player.PACMAN );
+		playerList[1] = new Player( 60, 90, Player.PACMAN );
 		
 		// draw picture
 		frame.initGameMap(map);

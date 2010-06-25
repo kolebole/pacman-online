@@ -61,7 +61,7 @@ public class Player {
 	}
 	
 	public void updateGrid( ){
-		final double FLU = 0.9, FRD = 0.1, FNW = 0.5;
+		final double FLU = 0.99, FRD = 1-FLU, FNW = 0.5;
 		int offsetx	= x % SIZE,
 			offsety = y % SIZE;
 		int gt[][] = new int[2][2];

@@ -33,19 +33,16 @@ public class ClientThread implements Constants, Messages, Runnable {
 			System.out.println("Create socket"); 
 
 			/* Check for connection success */
+			cs.setSoTimeout(CONN_TIMEOUT);
 			InputStream cin = cs.getInputStream();
+			System.out.println("step 1");			
 			PrintStream cout = new PrintStream(cs.getOutputStream());
+			System.out.println("step 2");
 			int msg = -1;
 			/*** IMPORTANT: set the timeout before read() ***/
-			try {
 				cs.setSoTimeout(CONN_TIMEOUT);
 				msg = cin.read();
-			}
-			catch (SocketTimeoutException e) {
-				JOptionPane.showMessageDialog(panel.getParent(), "Connection failed.", 
-						"Error", JOptionPane.ERROR_MESSAGE);
-				return;
-			}
+				System.out.println("step 3");				
 			
 			if (msg == IM_ALIVE) {
 				System.out.println("Connection succeeded");
@@ -60,16 +57,21 @@ public class ClientThread implements Constants, Messages, Runnable {
 			ConnectPanel.serverButton.setEnabled(false);
 		
 		} 
-		catch (UnknownHostException e) {
-			JOptionPane.showMessageDialog(panel.getParent(), "Unknown host", 
-					"Error", JOptionPane.INFORMATION_MESSAGE);			
+		catch (SocketTimeoutException e) {
+			JOptionPane.showMessageDialog(panel.getParent(), "Connection failed.", 
+					"Error", JOptionPane.ERROR_MESSAGE);
 			return;
-		}		
+		}
 		catch (ConnectException e) {
 			JOptionPane.showMessageDialog(panel.getParent(), "Connection refused.", 
 					"Error", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
+		catch (UnknownHostException e) {
+			JOptionPane.showMessageDialog(panel.getParent(), "Unknown host", 
+					"Error", JOptionPane.INFORMATION_MESSAGE);			
+			return;
+		}		
 		catch (Exception e) {
 			Utility.error(e);
 		}

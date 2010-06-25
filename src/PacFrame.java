@@ -76,6 +76,7 @@ public class PacFrame extends JFrame {
 		LSPanel.add(new JLabel("Message:"), "North");
 		msgField = new JTextField();
 		msgField.setEditable(false);
+		msgField.setFocusable(false);
 		msgField.setPreferredSize(new Dimension(PacFrame.GAME_WIDTH,40));
 		msgField.setFont(new Font("Arial", Font.PLAIN, 16));
 		LSPanel.add(msgField,"South");

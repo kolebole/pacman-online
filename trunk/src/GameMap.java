@@ -25,8 +25,8 @@ public class GameMap {
 		}
 		
 		playerList = new Player[2];
-		playerList[0] = new Player( 30, 20, Player.PACMAN );
-		playerList[1] = new Player( 30, 40, Player.MONSTER );
+		playerList[0] = new Player( 30, 20, Player.PACMAN, map );
+		playerList[1] = new Player( 30, 40, Player.MONSTER, map );
 		
 		// draw picture
 		frame.initGameMap(map);
@@ -67,6 +67,7 @@ public class GameMap {
 						 gridy == playerList[j].y && 
 						 playerList[j].type == Player.PACMAN ){
 						// TODO Monster eat Pacman
+						
 					}
 				}
 			}

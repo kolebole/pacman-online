@@ -13,6 +13,8 @@ public class Player {
 	public final static int SPEED[] = { 2, 3 };
 	public final static int SIZE = 20;
 	
+	public Grid[][] map;
+	
 	int x, y;
 	int gridx, gridy;
 	String iconSrc;
@@ -20,11 +22,12 @@ public class Player {
 	int direction;
 	JLabel image;
 	
-	Player( int x, int y, int type ) {
+	Player( int x, int y, int type, Grid[][] map ) {
 		this.x = x;
 		this.y = y;
 		this.type = type;
 		direction = KeyEvent.VK_RIGHT;
+		this.map = map;
 		updateGrid();
 	}
 	
@@ -57,14 +60,98 @@ public class Player {
 		
 	}
 	
-	public void updateGrid(){
+	public void updateGrid( ){
+		final double FLU = 0.9, FRD = 0.1, FNW = 0.5;
 		int offsetx	= x % SIZE,
 			offsety = y % SIZE;
+		int gt[][] = new int[2][2];
+		double xfactor, yfactor;
+		
 		gridx = x / SIZE;
 		gridy = y / SIZE;
-		if ( offsetx > SIZE * 0.5 )
+		//System.out.println(map);
+		gt[0][0] = map[gridx][gridy].content;
+		gt[1][0] = map[gridx+1][gridy].content;
+		gt[0][1] = map[gridx][gridy+1].content;
+		gt[1][1] = map[gridx+1][gridy+1].content;
+		
+		if ( gt[0][0] == Grid.WALL && gt[0][1] == Grid.WALL )
+			xfactor = FLU;
+		else if ( gt[1][0] == Grid.WALL && gt[1][1] == Grid.WALL )
+			xfactor = FRD;
+		else
+			xfactor = FNW;
+		
+		if ( gt[0][0] == Grid.WALL && gt[1][0] == Grid.WALL )
+			yfactor = FLU;
+		else if ( gt[0][1] == Grid.WALL && gt[1][1] == Grid.WALL )
+			yfactor = FRD;
+		else
+			yfactor = FNW;
+		
+		if ( gt[0][0] == Grid.WALL && 
+			 gt[1][0] != Grid.WALL && 
+			 gt[0][1] != Grid.WALL &&
+			 gt[1][1] != Grid.WALL ){
+			if ( offsetx > SIZE * FLU )
+				yfactor = FNW;
+			else 
+				yfactor = FLU;
+			
+			if ( offsety > SIZE * FLU )
+				xfactor = FNW;
+			else
+				xfactor = FLU;
+		}
+		
+		if ( gt[0][0] != Grid.WALL && 
+			 gt[1][0] == Grid.WALL && 
+			 gt[0][1] != Grid.WALL &&
+			 gt[1][1] != Grid.WALL ){
+			if ( offsetx > SIZE * FRD )
+				yfactor = FLU;
+			else 
+				yfactor = FNW;
+			
+			if ( offsety > SIZE * FLU )
+				xfactor = FNW;
+			else
+				xfactor = FRD;
+		}
+		
+		if ( gt[0][0] != Grid.WALL && 
+			 gt[1][0] != Grid.WALL && 
+			 gt[0][1] == Grid.WALL &&
+			 gt[1][1] != Grid.WALL ){
+			if ( offsetx > SIZE * FLU )
+				yfactor = FNW;
+			else 
+				yfactor = FRD;
+			
+			if ( offsety > SIZE * FRD )
+				xfactor = FLU;
+			else
+				xfactor = FNW;
+		}
+		
+		if ( gt[0][0] != Grid.WALL && 
+			 gt[1][0] != Grid.WALL && 
+			 gt[0][1] != Grid.WALL &&
+			 gt[1][1] == Grid.WALL ){
+			if ( offsetx > SIZE * FRD )
+				yfactor = FRD;
+			else 
+				yfactor = FNW;
+			
+			if ( offsety > SIZE * FRD )
+				xfactor = FRD;
+			else
+				xfactor = FNW;
+		}
+		
+		if ( offsetx > SIZE * xfactor )
 			gridx++;
-		if ( offsety > SIZE * 0.5 )
+		if ( offsety > SIZE * yfactor )
 			gridy++;
 	}
 }

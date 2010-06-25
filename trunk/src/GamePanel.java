@@ -24,11 +24,13 @@ public class GamePanel extends JPanel {
 		JLabel temp;
 		for ( i = 0 ; i < GameMap.HEIGHT ; i++ ){
 			for ( j = 0 ; j < GameMap.WIDTH ; j++ ){
-				temp = new JLabel( new ImageIcon(srcs[map[i][j].content-1]) );
-				temp.setLocation( map[i][j].x ,map[i][j].y );
-				temp.setSize( Player.SIZE, Player.SIZE );
-				//System.out.print(map[i][j].content + " ");
-				//add(temp);
+				if ( map[i][j].content > 0 ) {
+					temp = new JLabel( new ImageIcon(srcs[map[i][j].content-1]) );
+					temp.setLocation( map[i][j].x ,map[i][j].y );
+					temp.setSize( Player.SIZE, Player.SIZE );
+					add(temp);
+					map[i][j].setImage( temp );
+				}
 			}
 			//System.out.println();
 		}

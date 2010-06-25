@@ -6,12 +6,13 @@ import javax.swing.*;
 /* File: PacmanOnline.java
  * Start: 2010/06/07
  * Modification: 2010/06/25
- * Description: 主程式進入點
+ * Description: main entrance of this program.
  */
-public class PacmanOnline {
+public class PacmanOnline implements Constants {
 	public static PacFrame inst;
 	public static GameMap map;
 	public static Timer movingTimer;
+	
 	
 	/**
 	 * @param args

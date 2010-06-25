@@ -1,6 +1,10 @@
 import java.io.*;
 
-
+/* File: GameMap.java
+ * Start: 2010/06/21
+ * Modification: 2010/06/25
+ * Description: 載入資料地圖
+ */
 public class GameMap {
 	public static int WIDTH = 35;
 	public static int HEIGHT = 25;

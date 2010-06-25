@@ -1,7 +1,11 @@
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-
+/* File: DirectionListener.java
+ * Start: 2010/06/25
+ * Modification: 2010/06/25
+ * Description: Active when arrow key is pressed to change direction of controlled player.
+ */
 public class DirectionListener implements KeyListener {
 	PacFrame frame = PacmanOnline.inst;
 	Player[] playerList = PacmanOnline.map.playerList;

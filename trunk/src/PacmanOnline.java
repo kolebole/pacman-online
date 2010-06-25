@@ -5,8 +5,8 @@ import javax.swing.*;
 
 /* File: PacmanOnline.java
  * Start: 2010/06/07
- * Modification: 2010/06/XX
- * Description: Sample code for coding style.
+ * Modification: 2010/06/25
+ * Description: 主程式進入點
  */
 public class PacmanOnline {
 	public static PacFrame inst;

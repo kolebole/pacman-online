@@ -40,6 +40,12 @@ public class PacFrame extends JFrame {
 		gamePanel.placePlayer( playerList );
 	}
 	
+	public void movePlayer( Player[] playerList ){
+		for ( int i = 0 ; i < playerList.length ; i++ ){
+			gamePanel.movePlayer( playerList[i] );
+		}
+	}
+	
 	private void initGUI() {
 		try {
 			setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

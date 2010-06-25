@@ -1,14 +1,18 @@
+/* File: template.java
+ * Start: 2010/06/07
+ * Modification: 2010/06/25
+ * Description: The bottom-right JPanel for connection establishment.
+ */
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.net.*;
 
-public class ConnectPanel extends JPanel implements ActionListener {
+public class ConnectPanel extends JPanel implements Constants, ActionListener {
 	JPanel nickPanel, clientPanel, serverPanel, csPanel, finalPanel;
 	JTextField nickField, addrField;
 	JButton clientButton, serverButton, finalButton;
-	/*** This game uses the constant port port 4233 ***/
-	public static final int port = 4233;
 	
 	/* Network相關的東西：到最後可能獨立出去 */
 	Socket cs, cons;  // client socket, connected socket
@@ -97,9 +101,14 @@ public class ConnectPanel extends JPanel implements ActionListener {
 		/* Server: Create a game */
 		if (src == serverButton) {			
 			try {
-				/* new a ServerThread to do the I/O blocking job */
-				new ServerThread(nickField, addrField, serverButton);
-				
+				/* new a ServerThread to do the I/O blocking jobs */
+				new ServerThread();
+
+				/* disable other textfields or buttons */
+				nickField.setEnabled(false);
+				addrField.setEnabled(false);
+				clientButton.setEnabled(false);
+				serverButton.setEnabled(false);
 			} catch (Exception e) {
 				Utility.error(e);
 			}
@@ -113,7 +122,12 @@ public class ConnectPanel extends JPanel implements ActionListener {
 				System.out.println("Client: Connect to " + addr + " ...");
 				/* new a Socket and connect at the same time */
 				cs = new Socket(addr, port);
-				System.out.println("Connection succeeded.");
+				if (cs.isConnected()) {
+					System.out.println("Connection succeeded.");
+				}
+				else {
+					System.out.println("Connection failed.");
+				}
 				nickField.setEnabled(false);
 				addrField.setEnabled(false);
 				clientButton.setEnabled(false);

@@ -9,6 +9,7 @@ public class Player {
 	public final static int SIZE = 20;
 	
 	int x, y;
+	int gridx, gridy;
 	String iconSrc;
 	int type;
 	int direction;
@@ -19,5 +20,17 @@ public class Player {
 		this.y = y;
 		this.type = type;
 		direction = KeyEvent.VK_LEFT;
+		updateGrid();
+	}
+	
+	public void updateGrid(){
+		int offsetx	= x % SIZE,
+			offsety = y % SIZE;
+		gridx = x / SIZE;
+		gridy = y / SIZE;
+		if ( offsetx > SIZE * 0.5 )
+			gridx++;
+		if ( offsety > SIZE * 0.5 )
+			gridy++;
 	}
 }

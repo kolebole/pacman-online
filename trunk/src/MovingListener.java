@@ -11,12 +11,13 @@ public class MovingListener implements ActionListener {
 		// TODO Auto-generated method stub
 		for ( int i = 0 ; i < map.playerList.length ; i++ ){
 			moving( map.playerList[i] );
+			map.playerList[i].updateGrid();
 		}
 		frame.movePlayer(map.playerList);
 
 	}
 	
-	public void moving( Player player ){
+	private void moving( Player player ){
 		int x = player.x,
 			y = player.y;
 		switch( player.direction ){

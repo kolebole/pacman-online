@@ -6,12 +6,11 @@ import java.io.*;
  * Description: 載入資料地圖
  */
 public class GameMap {
-	public static int WIDTH = 35;
-	public static int HEIGHT = 25;
-	int size = 20;
+	public final static int WIDTH = 35;
+	public final static int HEIGHT = 25;
 	Grid[][] map;
 	Player[] playerList;
-	//Because of this line, we can't put GameMap before PacFrame.
+	//Because of next line, we can't put GameMap before PacFrame.
 	PacFrame frame = PacmanOnline.inst;
 	GameMap () throws IOException{
 		int i, j;
@@ -21,16 +20,56 @@ public class GameMap {
 		for ( i = 0 ; i < HEIGHT ; i++ ){
 			line = buffer.readLine().toCharArray();
 			for ( j = 0 ; j < WIDTH ; j++ ){
-				map[i][j] = new Grid( line[j]-'0', j*size, i*size );
+				map[i][j] = new Grid( line[j]-'0', j*Player.SIZE, i*Player.SIZE );
 			}
 		}
 		
 		playerList = new Player[2];
-		playerList[0] = new Player( 35, 40, Player.PACMAN );
-		playerList[1] = new Player( 60, 90, Player.PACMAN );
+		playerList[0] = new Player( 30, 20, Player.PACMAN );
+		playerList[1] = new Player( 30, 40, Player.MONSTER );
 		
 		// draw picture
 		frame.initGameMap(map);
 		frame.placePlayer(playerList);
+	}
+	
+	public void checkTouch(){
+		int i, j, gridx, gridy;
+		for ( i = 0 ; i < playerList.length ; i++ ){
+			gridx = playerList[i].gridy;
+			gridy = playerList[i].gridx;
+			switch ( map[gridx][gridy].content ){
+			case Grid.NONE:
+				// do nothing
+				break;
+			case Grid.CREDIT:
+				if ( playerList[i].type == Player.PACMAN ){
+					// TODO pacman get the credit
+					map[gridx][gridy].content = Grid.NONE;
+					map[gridx][gridy].image.setVisible(false);
+				}else if ( playerList[i].type == Player.MONSTER ){
+					// do nothing
+				}else {
+					// error
+				}
+				break;
+			case Grid.WALL:
+				// TODO can't move forward
+				playerList[i].move(true);
+				playerList[i].updateGrid();
+				break;
+			default:
+				// error
+			}
+			if ( playerList[i].type == Player.MONSTER ) {
+				for ( j = 0 ; j < playerList.length ; j++ ){
+					if ( gridx == playerList[j].x && 
+						 gridy == playerList[j].y && 
+						 playerList[j].type == Player.PACMAN ){
+						// TODO Monster eat Pacman
+					}
+				}
+			}
+		}
 	}
 }

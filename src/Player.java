@@ -8,8 +8,9 @@ import javax.swing.JLabel;
  * Description: All data that a player have. Include offset, image icon, and current direction
  */
 public class Player {
-	public static int PACMAN = 0,
-					  MONSTER = 1;
+	public final static int PACMAN = 0,
+					  		MONSTER = 1;
+	public final static int SPEED[] = { 2, 3 };
 	public final static int SIZE = 20;
 	
 	int x, y;
@@ -23,8 +24,37 @@ public class Player {
 		this.x = x;
 		this.y = y;
 		this.type = type;
-		direction = KeyEvent.VK_LEFT;
+		direction = KeyEvent.VK_RIGHT;
 		updateGrid();
+	}
+	
+	public void move( boolean back ){
+		int speed = back ? -Player.SPEED[type] : Player.SPEED[type] ;
+		switch( direction ){
+		case KeyEvent.VK_UP:
+			y = y - speed;
+			if ( y < 0)
+				y = 0;
+			break;
+		case KeyEvent.VK_DOWN:
+			y = y + speed;
+			if ( y > PacFrame.GAME_HEIGHT - Player.SIZE )
+				y = PacFrame.GAME_HEIGHT - Player.SIZE;
+			break;
+		case KeyEvent.VK_LEFT:
+			x = x - speed;
+			if ( x < 0)
+				x = 0;
+			break;
+		case KeyEvent.VK_RIGHT:
+			x = x + speed;
+			if ( x > PacFrame.GAME_WIDTH - Player.SIZE )
+				x = PacFrame.GAME_WIDTH - Player.SIZE;
+			break;
+		default:
+			System.out.println("Direction is " + direction );
+		}
+		
 	}
 	
 	public void updateGrid(){

@@ -98,7 +98,7 @@ public class ConnectPanel extends JPanel implements ActionListener {
 		if (src == serverButton) {			
 			try {
 				/* new a ServerThread to do the I/O blocking job */
-				new ServerThread(addrField, serverButton);
+				new ServerThread(nickField, addrField, serverButton);
 				
 			} catch (Exception e) {
 				Utility.error(e);
@@ -108,9 +108,13 @@ public class ConnectPanel extends JPanel implements ActionListener {
 		else if (src == clientButton) {
 			addr = addrField.getText();
 			try {
-				System.out.println("Client: Connect to " + addr + ":" + port + " ...");
+				/* default address is "localhost" */
+				if (addr == "") addr = "localhost";
+				System.out.println("Client: Connect to " + addr + " ...");
 				/* new a Socket and connect at the same time */
 				cs = new Socket(addr, port);
+				System.out.println("Connection succeeded.");
+				nickField.setEnabled(false);
 				addrField.setEnabled(false);
 				clientButton.setEnabled(false);
 				serverButton.setEnabled(false);				

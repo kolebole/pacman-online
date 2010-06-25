@@ -11,8 +11,6 @@ public class ConnectPanel extends JPanel implements ActionListener {
 	public static final int port = 4233;
 	
 	/* Network相關的東西：到最後可能獨立出去 */
-	ServerSocket ss;
-	//DatagramSocket ss;
 	Socket cs, cons;  // client socket, connected socket
 	String addr;
 	
@@ -99,17 +97,8 @@ public class ConnectPanel extends JPanel implements ActionListener {
 		/* Server: Create a game */
 		if (src == serverButton) {			
 			try {
-				ss = new ServerSocket(port);
-				System.out.println("Server: Listen on port " + port + " ...");
-				/* disable other buttons */
-				addrField.setEnabled(false);
-				clientButton.setEnabled(false);
-				serverButton.setEnabled(false);
-				cons = ss.accept();
-				System.out.println("Server: Socket accepted");
-				System.out.println("Server: Client from " + cons.getInetAddress() + ":" + cons.getPort());
-				
-				
+				/* new a ServerThread to do the I/O blocking job */
+				new ServerThread(addrField, serverButton);
 				
 			} catch (Exception e) {
 				Utility.error(e);

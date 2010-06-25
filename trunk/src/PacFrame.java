@@ -10,16 +10,12 @@ import javax.swing.*;
  * Modification: 2010/06/25
  * Description: Main window.
  */
-public class PacFrame extends JFrame {
-	public JTextField msgField;
-	public GamePanel gamePanel;
+public class PacFrame extends JFrame implements Constants {
+	public static JTextField msgField;
+	public static GamePanel gamePanel;
+	public static PlayerPanel pacmanPanel, monsterPanel; 
+	public static ConnectPanel RSPanel;
 	
-	/* Define some size constants */
-	private final int FRAME_WIDTH = 1000;
-	private final int FRAME_HEIGHT = 650;
-	public static final int GAME_WIDTH = 700;
-	public static final int GAME_HEIGHT = 500;
-		
 	public PacFrame() {
 		super("Pacman Online");
 		initGUI();
@@ -63,9 +59,9 @@ public class PacFrame extends JFrame {
 
 		/*** New the 4 panel objects and add them to the big panels ***/
 		gamePanel = new GamePanel();
-		PlayerPanel pacmanPanel = new PlayerPanel( 0, 4 ),
-					monsterPanel = new PlayerPanel( 1, 4 );
-		ConnectPanel RSPanel = new ConnectPanel();
+		pacmanPanel = new PlayerPanel( 0, 4 );
+		monsterPanel = new PlayerPanel( 1, 4 );
+		RSPanel = new ConnectPanel();
 
 
 		/* left part */

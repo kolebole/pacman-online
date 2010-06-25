@@ -1,4 +1,4 @@
-/* File: template.java
+/* File: ConnectPanel.java
  * Start: 2010/06/07
  * Modification: 2010/06/25
  * Description: The bottom-right JPanel for connection establishment.
@@ -7,12 +7,14 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.io.*;
 import java.net.*;
 
 public class ConnectPanel extends JPanel implements Constants, ActionListener {
 	JPanel nickPanel, clientPanel, serverPanel, csPanel, finalPanel;
-	JTextField nickField, addrField;
-	JButton clientButton, serverButton, finalButton;
+	public static JTextField nickField;
+	public static JTextField addrField;
+	public static JButton clientButton, serverButton, finalButton;
 	
 	/* Network相關的東西：到最後可能獨立出去 */
 	Socket cs, cons;  // client socket, connected socket
@@ -97,6 +99,13 @@ public class ConnectPanel extends JPanel implements Constants, ActionListener {
 	}
 	
 	public void actionPerformed(ActionEvent evt) {
+		/* Check for empty nickname */
+		if (nickField.getText().equals("")) {
+			JOptionPane.showMessageDialog(this.getParent(), "You must type a nickname!", 
+					"Error", JOptionPane.INFORMATION_MESSAGE);
+			return;
+		}
+		
 		JButton src = (JButton)evt.getSource();
 		/* Server: Create a game */
 		if (src == serverButton) {			
@@ -104,11 +113,6 @@ public class ConnectPanel extends JPanel implements Constants, ActionListener {
 				/* new a ServerThread to do the I/O blocking jobs */
 				new ServerThread();
 
-				/* disable other textfields or buttons */
-				nickField.setEnabled(false);
-				addrField.setEnabled(false);
-				clientButton.setEnabled(false);
-				serverButton.setEnabled(false);
 			} catch (Exception e) {
 				Utility.error(e);
 			}
@@ -116,25 +120,11 @@ public class ConnectPanel extends JPanel implements Constants, ActionListener {
 		/* Client: Connect to a server */
 		else if (src == clientButton) {
 			addr = addrField.getText();
-			try {
-				/* default address is "localhost" */
-				if (addr == "") addr = "localhost";
-				System.out.println("Client: Connect to " + addr + " ...");
-				/* new a Socket and connect at the same time */
-				cs = new Socket(addr, port);
-				if (cs.isConnected()) {
-					System.out.println("Connection succeeded.");
-				}
-				else {
-					System.out.println("Connection failed.");
-				}
-				nickField.setEnabled(false);
-				addrField.setEnabled(false);
-				clientButton.setEnabled(false);
-				serverButton.setEnabled(false);				
-			} catch (Exception e) {
-				Utility.error(e);
+			/* default address is "localhost" */
+			if (addr.equals("")) {
+				addr = "localhost";
 			}
+			new ClientThread(this, addr);
 		}
 	}
 }

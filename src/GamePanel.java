@@ -22,8 +22,8 @@ public class GamePanel extends JPanel {
 	public void initMap( Grid[][] map ) {
 		int i, j;
 		JLabel temp;
-		for ( i = 0 ; i < GameMap.HEIGHT ; i++ ){
-			for ( j = 0 ; j < GameMap.WIDTH ; j++ ){
+		for ( i = 0 ; i < GameMap.WIDTH ; i++ ){
+			for ( j = 0 ; j < GameMap.HEIGHT ; j++ ){
 				if ( map[i][j].content > 0 ) {
 					temp = new JLabel( new ImageIcon(srcs[map[i][j].content-1]) );
 					temp.setLocation( map[i][j].x ,map[i][j].y );

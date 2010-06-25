@@ -5,14 +5,15 @@ import java.net.*;
 
 public class ConnectPanel extends JPanel implements ActionListener {
 	JPanel nickPanel, clientPanel, serverPanel, csPanel, finalPanel;
-	JTextField nickField, addrField, cPortField, sPortField;
+	JTextField nickField, addrField;
 	JButton clientButton, serverButton, finalButton;
+	/*** This game uses the constant port port 4233 ***/
+	public static final int port = 4233;
 	
 	/* Network相關的東西：到最後可能獨立出去 */
 	ServerSocket ss;
 	//DatagramSocket ss;
 	Socket cs, cons;  // client socket, connected socket
-	int sPort, cPort;
 	String addr;
 	
 	
@@ -55,11 +56,8 @@ public class ConnectPanel extends JPanel implements ActionListener {
 		clientPanel.add(addrField, gbc2);
 		gbc1.gridx = 0;
 		gbc1.gridy = 1;
-		clientPanel.add(new JLabel("Port", SwingConstants.RIGHT), gbc1);
 		gbc2.gridx = 1;
 		gbc2.gridy = 1;
-		cPortField = new JTextField(10);
-		clientPanel.add(cPortField, gbc2);
 		gbc1.gridx = 1;
 		gbc1.gridy = 2;
 		clientButton = new JButton("Connect");
@@ -73,11 +71,8 @@ public class ConnectPanel extends JPanel implements ActionListener {
 		
 		gbc1.gridx = 0;
 		gbc1.gridy = 0;
-		serverPanel.add(new JLabel("Port", SwingConstants.RIGHT), gbc1);
 		gbc2.gridx = 1;
 		gbc2.gridy = 0;
-		sPortField = new JTextField(10);
-		serverPanel.add(sPortField, gbc2);
 		gbc1.gridx = 1;
 		gbc1.gridy = 1;
 		serverButton = new JButton(" Create ");
@@ -103,14 +98,11 @@ public class ConnectPanel extends JPanel implements ActionListener {
 		JButton src = (JButton)evt.getSource();
 		/* Server: Create a game */
 		if (src == serverButton) {			
-			sPort = Integer.parseInt(sPortField.getText());
 			try {
-				ss = new ServerSocket(sPort);
-				System.out.println("Server: Listen on port " + sPort + " ...");
+				ss = new ServerSocket(port);
+				System.out.println("Server: Listen on port " + port + " ...");
 				/* disable other buttons */
 				addrField.setEnabled(false);
-				cPortField.setEnabled(false);
-				sPortField.setEnabled(false);
 				clientButton.setEnabled(false);
 				serverButton.setEnabled(false);
 				cons = ss.accept();
@@ -126,14 +118,11 @@ public class ConnectPanel extends JPanel implements ActionListener {
 		/* Client: Connect to a server */
 		else if (src == clientButton) {
 			addr = addrField.getText();
-			cPort = Integer.parseInt(cPortField.getText());
 			try {
-				System.out.println("Client: Connect to " + addr + ":" + cPort + " ...");
+				System.out.println("Client: Connect to " + addr + ":" + port + " ...");
 				/* new a Socket and connect at the same time */
-				cs = new Socket(addr, cPort);
+				cs = new Socket(addr, port);
 				addrField.setEnabled(false);
-				cPortField.setEnabled(false);
-				sPortField.setEnabled(false);
 				clientButton.setEnabled(false);
 				serverButton.setEnabled(false);				
 			} catch (Exception e) {

@@ -10,7 +10,7 @@ import javax.swing.*;
 public class GamePanel extends JPanel {
 	String[] srcs = {
 		"pics/wall.jpeg",
-		"pics/credit.jpeg",
+		"pics/credit.gif",
 		"pics/pac.jpeg"
 	};
 

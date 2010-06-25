@@ -2,7 +2,11 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.JLabel;
 
-
+/* File: Player.java
+ * Start: 2010/06/21
+ * Modification: 2010/06/25
+ * Description: All data that a player have. Include offset, image icon, and current direction
+ */
 public class Player {
 	public static int PACMAN = 0,
 					  MONSTER = 1;

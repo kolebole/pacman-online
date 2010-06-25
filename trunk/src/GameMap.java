@@ -16,11 +16,11 @@ public class GameMap {
 		int i, j;
 		BufferedReader buffer = new BufferedReader( new FileReader( "resouce/test.map" ) );
 		char[] line;
-		map = new Grid[HEIGHT][WIDTH];
+		map = new Grid[WIDTH][HEIGHT];
 		for ( i = 0 ; i < HEIGHT ; i++ ){
 			line = buffer.readLine().toCharArray();
 			for ( j = 0 ; j < WIDTH ; j++ ){
-				map[i][j] = new Grid( line[j]-'0', j*Player.SIZE, i*Player.SIZE );
+				map[j][i] = new Grid( line[j]-'0', j*Player.SIZE, i*Player.SIZE );
 			}
 		}
 		
@@ -36,8 +36,8 @@ public class GameMap {
 	public void checkTouch(){
 		int i, j, gridx, gridy;
 		for ( i = 0 ; i < playerList.length ; i++ ){
-			gridx = playerList[i].gridy;
-			gridy = playerList[i].gridx;
+			gridx = playerList[i].gridx;
+			gridy = playerList[i].gridy;
 			switch ( map[gridx][gridy].content ){
 			case Grid.NONE:
 				// do nothing

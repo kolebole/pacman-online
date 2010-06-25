@@ -2,7 +2,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 
-public class MoveListener implements KeyListener {
+public class DirectionListener implements KeyListener {
 	PacFrame frame = PacmanOnline.inst;
 	Player[] playerList = PacmanOnline.map.playerList;
 	
@@ -13,19 +13,15 @@ public class MoveListener implements KeyListener {
 		switch( keyCode ){
 		case KeyEvent.VK_UP:
 			playerList[0].direction = KeyEvent.VK_UP;
-			playerList[0].y--;
 			break;
 		case KeyEvent.VK_DOWN:
 			playerList[0].direction = KeyEvent.VK_DOWN;
-			playerList[0].y++;
 			break;
 		case KeyEvent.VK_LEFT:
 			playerList[0].direction = KeyEvent.VK_LEFT;
-			playerList[0].x--;
 			break;
 		case KeyEvent.VK_RIGHT:
 			playerList[0].direction = KeyEvent.VK_RIGHT;
-			playerList[0].x++;
 			break;
 		default:
 			System.out.println("KeyCode is " + keyCode );

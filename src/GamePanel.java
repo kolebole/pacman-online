@@ -26,7 +26,7 @@ public class GamePanel extends JPanel {
 			for ( j = 0 ; j < GameMap.WIDTH ; j++ ){
 				temp = new JLabel( new ImageIcon(srcs[map[i][j].content-1]) );
 				temp.setLocation( map[i][j].x ,map[i][j].y );
-				temp.setSize( 20, 20 );
+				temp.setSize( Player.SIZE, Player.SIZE );
 				//System.out.print(map[i][j].content + " ");
 				//add(temp);
 			}
@@ -40,7 +40,7 @@ public class GamePanel extends JPanel {
 		for ( i = 0 ; i < playerList.length ; i++ ){
 			temp = new JLabel( new ImageIcon(srcs[2]) );
 			temp.setLocation(playerList[i].x, playerList[i].y);
-			temp.setSize( 20, 20 );
+			temp.setSize( Player.SIZE, Player.SIZE );
 			add( temp );
 			playerList[i].image = temp;
 		}

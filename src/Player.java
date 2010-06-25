@@ -6,6 +6,7 @@ import javax.swing.JLabel;
 public class Player {
 	public static int PACMAN = 0,
 					  MONSTER = 1;
+	public final static int SIZE = 20;
 	
 	int x, y;
 	String iconSrc;

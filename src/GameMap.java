@@ -7,6 +7,7 @@ public class GameMap {
 	int size = 20;
 	Grid[][] map;
 	Player[] playerList;
+	//Because of this line, we can't put GameMap before PacFrame.
 	PacFrame frame = PacmanOnline.inst;
 	GameMap () throws IOException{
 		int i, j;

@@ -11,6 +11,8 @@ import javax.swing.*;
 public class PacmanOnline {
 	public static PacFrame inst;
 	public static GameMap map;
+	public static Timer movingTimer;
+	
 	/**
 	 * @param args
 	 * @throws IOException 
@@ -23,6 +25,8 @@ public class PacmanOnline {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				inst = new PacFrame();
+				inst.setLocationRelativeTo(null);
+				inst.setVisible(true);
 				
 				try {
 					map = new GameMap();
@@ -30,12 +34,13 @@ public class PacmanOnline {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				inst.gamePanel.addKeyListener(new MoveListener());
+				inst.gamePanel.addKeyListener(new DirectionListener());
 				KeyListener[] kls = inst.getKeyListeners();
 				System.out.println(kls);
 				
-				inst.setLocationRelativeTo(null);
-				inst.setVisible(true);
+				movingTimer = new Timer( 100, new MovingListener() );
+				movingTimer.start();
+				
 			}
 		});
 		

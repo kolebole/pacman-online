@@ -47,7 +47,6 @@ public class ServerThread implements Constants, Messages, Runnable, ActionListen
 			allowJoin = true;
 			ConnectPanel.lockButton.setEnabled(true);
 			numPlayers = 1;
-			System.out.println("Number of players: " + numPlayers);
 			/* wait for client to join */
 			if (allowJoin && numPlayers < MAX_PLAYERS) {
 				waitForClients();
@@ -76,7 +75,8 @@ public class ServerThread implements Constants, Messages, Runnable, ActionListen
 						cout.print(DISALLOW_JOIN);
 						cout.flush();
 						cs.close();
-						return;
+						System.out.println("Server: close socket.");
+						continue; // wait for a new client
 					}
 					/* Check for room full */
 					if (numPlayers == MAX_PLAYERS) {
@@ -84,12 +84,13 @@ public class ServerThread implements Constants, Messages, Runnable, ActionListen
 						cout.print(ROOM_FULL);
 						cout.flush();
 						cs.close();
-						return;
+						System.out.println("Server: close socket.");
+						continue; // wait for a new client
 					}
 					
 					numPlayers++;
 					PacFrame.msgField.setText("[Notice] Player " + numPlayers + " from " + cs.getInetAddress() + ":" + cs.getPort());
-					/* If the room is now full, notify after 2 seconds */
+					/* If the room is now full, notify after 3 seconds */
 					if (numPlayers == MAX_PLAYERS) {
 						Timer timer = new Timer(TIMER_ROOMFULL, new ActionListener() {
 							public void actionPerformed(ActionEvent evt) {

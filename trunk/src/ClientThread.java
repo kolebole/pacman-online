@@ -58,18 +58,21 @@ public class ClientThread implements Constants, Messages, Runnable {
 					JOptionPane.showMessageDialog(panel.getParent(), "Host disllowed join.", 
 							"Warning", JOptionPane.WARNING_MESSAGE);
 					cs.close();
+					System.out.println("Client: close socket.");
 					return;
 				/* The room is already full */
 				case ROOM_FULL:
 					JOptionPane.showMessageDialog(panel.getParent(), "Room already full.", 
 							"Warning", JOptionPane.WARNING_MESSAGE);
 					cs.close();
+					System.out.println("Client: close socket.");
 					return;
 					
 				/* unknown state */
 				default:
 					Utility.unknown(panel.getParent().getParent());
 					cs.close();
+					System.out.println("Client: close socket.");
 					return;
 			}
 		} 

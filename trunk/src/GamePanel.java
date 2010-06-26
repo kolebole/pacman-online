@@ -1,5 +1,8 @@
 import java.awt.*;
+import java.awt.image.*;
+
 import javax.swing.*;
+
 
 /* File: GamePanel.java
  * Start: 2010/06/15
@@ -8,11 +11,12 @@ import javax.swing.*;
  */
 
 public class GamePanel extends JPanel {
+	ImageObserver imageObservers[];
 	String[] srcs = {
-		"pics/wall.jpeg",
-		"pics/credit.gif",
-		"pics/pac.jpeg"
-	};
+			"pics/wall.jpeg",
+			"pics/bean.gif",
+			"pics/power.gif"
+		};
 
 	GamePanel() {
 		GUI();
@@ -40,10 +44,15 @@ public class GamePanel extends JPanel {
 		int i;
 		JLabel temp;
 		for ( i = 0 ; i < playerList.length ; i++ ){
-			temp = new JLabel( new ImageIcon(srcs[2]) );
+			temp = playerList[i].RIGHT;
 			temp.setLocation(playerList[i].x, playerList[i].y);
 			temp.setSize( Player.SIZE, Player.SIZE );
-			add( temp );
+			add(playerList[i].LEFT);
+			add(playerList[i].RIGHT);
+			add(playerList[i].UP);
+			add(playerList[i].DOWN);
+			temp.setVisible(true);
+			add(temp);
 			playerList[i].image = temp;
 		}
 	}

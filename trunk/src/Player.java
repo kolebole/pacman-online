@@ -1,5 +1,8 @@
+import java.awt.Image;
 import java.awt.event.KeyEvent;
+import java.awt.image.ImageObserver;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 /* File: Player.java
@@ -20,15 +23,50 @@ public class Player {
 	String iconSrc;
 	int type;
 	int direction;
+
+	JLabel LEFT;// 	= new JLabel( new ImageIcon( srcs[0]) );
+	JLabel RIGHT;// 	= new JLabel( new ImageIcon( srcs[1]) );
+	JLabel UP;// 		= new JLabel( new ImageIcon( srcs[2]) );
+	JLabel DOWN;// 	= new JLabel( new ImageIcon( srcs[3]) );
+	
 	JLabel image;
 	
-	Player( int x, int y, int type, Grid[][] map ) {
+	Player( int x, int y, int type, Grid[][] map, String[] srcs ) {
+		LEFT 	= new JLabel( new ImageIcon ( srcs[0] ));
+		LEFT.setSize( Player.SIZE, Player.SIZE );
+		RIGHT 	= new JLabel( new ImageIcon ( srcs[1] ));
+		RIGHT.setSize( Player.SIZE, Player.SIZE );
+		UP 		= new JLabel( new ImageIcon ( srcs[2] ));
+		UP.setSize( Player.SIZE, Player.SIZE );
+		DOWN 	= new JLabel( new ImageIcon ( srcs[3] ));
+		DOWN.setSize( Player.SIZE, Player.SIZE );
 		this.x = x;
 		this.y = y;
 		this.type = type;
 		direction = KeyEvent.VK_RIGHT;
 		this.map = map;
 		updateGrid();
+	}
+	
+	public void changeDir(int Direction){
+		image.setVisible(false);
+		switch(Direction){
+			case KeyEvent.VK_UP:
+				image = UP;
+				break;
+			case KeyEvent.VK_DOWN:
+				image = DOWN;
+				break;
+			case KeyEvent.VK_LEFT:
+				image = LEFT;
+				break;
+			case KeyEvent.VK_RIGHT:
+				image = RIGHT;
+				break;
+			default:
+				image = null;
+		}
+		image.setVisible(true);
 	}
 	
 	public void move( boolean back ){

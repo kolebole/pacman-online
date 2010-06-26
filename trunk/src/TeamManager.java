@@ -35,8 +35,35 @@ public class TeamManager implements Constants, ActionListener {
 		/* Random selection */
 		char randTeam = (char)random.nextInt(2);
 		int randPic = random.nextInt(MAX_TEAM_PLAYERS);
+		selected[randTeam][randPic] = true;		
+		/* Append a Vector element */
 		vector.add(new VectorData(nickname, socket, randTeam, randPic));
-		selected[randTeam][randPic] = true;
+		notifyTeamSelection();
+	}
+	
+	public void insertGuest(String nickname, Socket cs) {
+		/* Random selection of an un-repeated icon */
+		char randTeam;
+		int randPic;
+		do {
+			randTeam = (char)random.nextInt(2);
+			randPic = random.nextInt(MAX_TEAM_PLAYERS);
+		}
+		while (selected[randTeam][randPic] == true);
+		selected[randTeam][randPic] = true;		
+		/* Append a Vector element */
+		vector.add(new VectorData(nickname, cs, randTeam, randPic));
+		notifyTeamSelection();
+		
+	}
+	
+	/* Clear nickname fields at the playerPanel */
+	public void clearPlayerPanel() {
+		for (int i = 0; i < 2; i++) {
+			for (int j = 0; j < MAX_TEAM_PLAYERS; j++) {
+				PacFrame.playerPanel[i].nickList[j].setText(String.format("%1$-" + MAX_NICKNAME_LENGTH + "s", ""));				
+			}
+		}		
 	}
 	
 	/* Notify the team selection status */	
@@ -46,21 +73,15 @@ public class TeamManager implements Constants, ActionListener {
 		/* Notify server */
 		for (int i = 0; i < vector.size(); i++) {
 			VectorData element = vector.get(i);
-			PacFrame.playerPanel[element.team].nickList[element.picIndex].setText(element.nickname);
-			
+			PacFrame.playerPanel[element.team].nickList[element.picIndex].setText(
+				String.format("%1$-" + MAX_NICKNAME_LENGTH + "s", element.nickname));			
 		}
 		
 		/* Notify each clients */
 		/* 哭哭 */
 	}
 	
-	public void clearPlayerPanel() {
-		for (int i = 0; i < 2; i++) {
-			for (int j = 0; j < MAX_TEAM_PLAYERS; j++) {
-				PacFrame.playerPanel[i].nickList[j].setText(NICKNAME_SPACE);				
-			}
-		}		
-	}
+
 	
 	/* Listen on the (2 * MAX_TEAM_PLAYERS) icon JButtons */
 	public void actionPerformed(ActionEvent evt) {

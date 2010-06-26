@@ -7,10 +7,12 @@
 public interface Constants {
 	/*** Game-related ***/
 	/* maximum total number of players */
-	public static final int MAX_TOTAL_PLAYERS = 2;
+	public static final int MAX_TOTAL_PLAYERS = 8;
 	/* maximum number of players on each team */
 	public static final int MAX_TEAM_PLAYERS = 4;
-	/* time to wait before showing room full */
+	/* maximum nickname length */
+	public static final int MAX_NICKNAME_LENGTH = 13;
+	/* Time to wait before showing room full */
 	public static final int TIMER_ROOMFULL = 3000;
 	/* Team id */
 	public static final char PACMANS = 0;
@@ -23,8 +25,8 @@ public interface Constants {
 	/* The game panel */
 	public static final int GAME_WIDTH = 700;
 	public static final int GAME_HEIGHT = 500;
-	/* The playerPanel[] */
-	String NICKNAME_SPACE = "                         ";
+	/* The playerPanel[]: nickname width for String.format() */
+	//public static final int NICKNAME_WIDTH = 13;
 	
 	/*** Network-related ***/
 	/* This game uses the constant port port 4233 */

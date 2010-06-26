@@ -97,9 +97,10 @@ public class ConnectPanel extends JPanel implements Constants, ActionListener {
 					"Warning", JOptionPane.WARNING_MESSAGE);
 			return;
 		}
-		/* RULE: Nicknames should have length <= 13 and should not contain ';' */
-		else if (nickname.length() > 13 || nickname.contains(";")) {
-			JOptionPane.showMessageDialog(this.getParent(), "Nicknames should have lengths <= 13 and contain no ';'", 
+		/* RULE: Nicknames should have length <= MAX_NICKNAME_LENGTH */
+		else if (nickname.length() > MAX_NICKNAME_LENGTH) {
+			JOptionPane.showMessageDialog(this.getParent(), 
+					"Nicknames should have lengths <= " + MAX_NICKNAME_LENGTH, 
 					"Warning", JOptionPane.WARNING_MESSAGE);
 			return;			
 		}

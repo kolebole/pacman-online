@@ -4,7 +4,7 @@ import java.awt.event.*;
 import java.io.*;
 /* File: ServerThread.java
  * Start: 2010/06/25
- * Modification: 2010/06/26
+ * Modification: 2010/06/27
  * Description: Server thread for receiving/sending messages from/to clients.
  *              This thread is to avoid I/O blocking.
  */
@@ -20,6 +20,7 @@ public class ServerThread implements Constants, Messages, Runnable, ActionListen
 	public boolean allowJoin;
 	InputStream cin = null;
 	PrintWriter cout = null;
+	BufferedReader bf = null;
 	/* synchronization lock */
 	public String roomLock = "I'll lock the room.";
 	/* Team manager before starting the game */
@@ -50,13 +51,12 @@ public class ServerThread implements Constants, Messages, Runnable, ActionListen
 			PacFrame.msgField.setText("[Notice] You have created a room.");
 			System.out.println("Server: Listen on port " + PORT + " ...");
 			
-			/* Create a TeamManager with an empty Hashtable */
+			/* Create a TeamManager with an empty Vector */
 			numPlayers = 1;
 			tm = new TeamManager();
 			/* Insert a record of the server (host) */
 			nickname = ConnectPanel.nickField.getText();
 			tm.insertHost(nickname);
-			tm.notifyTeamSelection();
 			
 			/* wait for client to join */
 			if (allowJoin && numPlayers < MAX_TOTAL_PLAYERS) {
@@ -82,7 +82,7 @@ public class ServerThread implements Constants, Messages, Runnable, ActionListen
 					/* Check for allowJoin */
 					if (!allowJoin) {
 						System.out.println("The room is now allowed for join.");
-						cout.print(DISALLOW_JOIN);
+						cout.print("" + START_COMMAND + DISALLOW_JOIN);
 						cout.flush();
 						cs.close();
 						continue; // wait for a new client
@@ -90,7 +90,7 @@ public class ServerThread implements Constants, Messages, Runnable, ActionListen
 					/* Check for room full */
 					if (numPlayers == MAX_TOTAL_PLAYERS) {
 						System.out.println("The room is full. (" + MAX_TOTAL_PLAYERS + " people)");
-						cout.print(ROOM_FULL);
+						cout.print("" + START_COMMAND + ROOM_FULL);
 						cout.flush();
 						cs.close();
 						continue; // wait for a new client
@@ -118,9 +118,11 @@ public class ServerThread implements Constants, Messages, Runnable, ActionListen
 				if (msg != START_MESSAGE) {
 					Utility.unknown(panel);
 				}
-				BufferedReader bf = new BufferedReader(new InputStreamReader(cin));
-				String str = bf.readLine();
-
+				bf = new BufferedReader(new InputStreamReader(cin));
+				String nickname = bf.readLine();
+				System.out.println(nickname);
+				tm.insertGuest(nickname, cs);
+				
 			}
 			
 		}

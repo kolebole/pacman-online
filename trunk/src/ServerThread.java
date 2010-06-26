@@ -11,8 +11,8 @@ import java.io.*;
 
 public class ServerThread implements Constants, Messages, Runnable, ActionListener {
 	JPanel panel;
-	ServerSocket ss;
-	Socket cs;
+	ServerSocket ss = null;
+	Socket cs = null;
 	String nickname; // server's (host's) nickname
 	/* current number of players */
 	public int numPlayers;

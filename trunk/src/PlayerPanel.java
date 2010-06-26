@@ -42,7 +42,7 @@ public class PlayerPanel extends JPanel implements Constants {
 			}
 			picList[i].addActionListener(tm);
 			        
-			nickList[i] = new JLabel(String.format("%1$-" + MAX_NICKNAME_LENGTH + "s", ""), SwingConstants.LEFT);
+			nickList[i] = new JLabel(String.format("%1$-" + NICKNAME_WIDTH + "s", ""), SwingConstants.RIGHT);
 			nickList[i].setFont(new Font("Courier New", Font.BOLD, 16));
 			gbc.gridx = 0;
 			gbc.gridy = i;

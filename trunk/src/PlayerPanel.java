@@ -31,7 +31,7 @@ public class PlayerPanel extends JPanel implements Constants {
 		for ( i = 0 ; i < listLen ; i++ ){
 			if (panelType == PACMANS) {
 				picList[i] = new JButton(new ImageIcon(pacs[i][1]));
-				picList[i].setBackground(Color.BLUE);
+				picList[i].setBackground(Color.PINK);
 			}
 			else {
 				picList[i] = new JButton(new ImageIcon(mons[i][3]));

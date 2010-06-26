@@ -12,6 +12,9 @@ public interface Constants {
 	public static final int MAX_TEAM_PLAYERS = 4;
 	/* time to wait before showing room full */
 	public static final int TIMER_ROOMFULL = 3000;
+	/* Team id */
+	public static final char PACMANS = 0;
+	public static final char MONSTERS = 1;
 	
 	/*** GUI-related ***/
 	/* The whole frame (window) */

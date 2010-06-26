@@ -16,8 +16,6 @@ public class ConnectPanel extends JPanel implements Constants, ActionListener {
 	public static JTextField addrField;
 	public static JButton clientButton, serverButton, lockButton, finalButton;
 
-	
-	
 	ConnectPanel() {
 		/* The GUI */
 		GUI();
@@ -93,10 +91,17 @@ public class ConnectPanel extends JPanel implements Constants, ActionListener {
 	
 	public void actionPerformed(ActionEvent evt) {
 		/* Check for empty nickname */
-		if (nickField.getText().equals("")) {
+		String nickname = nickField.getText();
+		if (nickname.equals("")) {
 			JOptionPane.showMessageDialog(this.getParent(), "You must type a nickname!", 
 					"Warning", JOptionPane.WARNING_MESSAGE);
 			return;
+		}
+		/* RULE: Nicknames should have length <= 13 and should not contain ';' */
+		else if (nickname.length() > 13 || nickname.contains(";")) {
+			JOptionPane.showMessageDialog(this.getParent(), "Nicknames should have lengths <= 13 and contain no ';'", 
+					"Warning", JOptionPane.WARNING_MESSAGE);
+			return;			
 		}
 		
 		JButton src = (JButton)evt.getSource();

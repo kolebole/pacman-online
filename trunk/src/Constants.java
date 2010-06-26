@@ -1,6 +1,6 @@
 /* File: Constants.java
  * Start: 2010/06/25
- * Modification: 2010/06/XX
+ * Modification: 2010/06/26
  * Description: Constants used in this game.
  */
 
@@ -8,6 +8,8 @@ public interface Constants {
 	/*** Game-related ***/
 	/* maximum allowable number of players */
 	public static final int MAX_PLAYERS = 2;
+	/* time to wait before showing room full */
+	public static final int TIMER_ROOMFULL = 3000;
 	
 	/*** GUI-related ***/
 	/* The whole frame (window) */

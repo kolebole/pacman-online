@@ -88,13 +88,16 @@ public class ServerThread implements Constants, Messages, Runnable, ActionListen
 					}
 					
 					numPlayers++;
-					System.out.println("Server: Client from " + cs.getInetAddress() + ":" + cs.getPort());
-					System.out.println("Number of players: " + numPlayers);
-					/* Notify if the room is now full */
+					PacFrame.msgField.setText("[Notice] Player " + numPlayers + " from " + cs.getInetAddress() + ":" + cs.getPort());
+					/* If the room is now full, notify after 2 seconds */
 					if (numPlayers == MAX_PLAYERS) {
-						PacFrame.msgField.setText("[Notice] The room is now full (" + MAX_PLAYERS + " people");
-					}
-					
+						Timer timer = new Timer(TIMER_ROOMFULL, new ActionListener() {
+							public void actionPerformed(ActionEvent evt) {
+								PacFrame.msgField.setText("[Notice] The room is now full (" + MAX_PLAYERS + " people)");	
+							}
+						});
+						timer.start();
+					}	
 					
 					/* If join OK => Send a message to the client */
 					cout.print(IM_ALIVE);

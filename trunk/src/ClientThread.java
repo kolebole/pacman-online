@@ -47,7 +47,7 @@ public class ClientThread implements Constants, Messages, Runnable {
 			switch (msg) {
 				/* Join OK */
 				case IM_ALIVE:
-					PacFrame.msgField.setText("You have joined the room.");
+					PacFrame.msgField.setText("[Notice] You have joined the room.");
 					ConnectPanel.nickField.setEnabled(false);
 					ConnectPanel.addrField.setEnabled(false);
 					ConnectPanel.clientButton.setEnabled(false);

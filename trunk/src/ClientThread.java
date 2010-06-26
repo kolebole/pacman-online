@@ -56,17 +56,20 @@ public class ClientThread implements Constants, Messages, Runnable {
 				/* Host disallows join */
 				case DISALLOW_JOIN:
 					JOptionPane.showMessageDialog(panel.getParent(), "Host disllowed join.", 
-							"Warning", JOptionPane.WARNING_MESSAGE);					
+							"Warning", JOptionPane.WARNING_MESSAGE);
+					cs.close();
 					return;
 				/* The room is already full */
 				case ROOM_FULL:
 					JOptionPane.showMessageDialog(panel.getParent(), "Room already full.", 
-							"Warning", JOptionPane.WARNING_MESSAGE);					
+							"Warning", JOptionPane.WARNING_MESSAGE);
+					cs.close();
 					return;
 					
 				/* unknown state */
 				default:
 					Utility.unknown(panel.getParent().getParent());
+					cs.close();
 					return;
 			}
 		} 

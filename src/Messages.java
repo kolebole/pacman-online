@@ -7,7 +7,6 @@
 public interface Messages {
 	public static final char START_COMMAND = '/';
 	public static final char START_MESSAGE = '\\';
-	public static final char END_MESSAGE = ';';
 	public static final char IM_ALIVE = 0;
 	public static final char DISALLOW_JOIN = 1;
 	public static final char ROOM_FULL = 2;

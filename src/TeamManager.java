@@ -41,7 +41,6 @@ public class TeamManager implements Constants, ActionListener {
 	
 	/* Notify the team selection status */	
 	public void notifyTeamSelection() {
-		//System.out.println("vector size = " + vector.size());
 		/* Clear playerPanel */
 		clearPlayerPanel();
 		/* Notify server */
@@ -75,7 +74,6 @@ public class TeamManager implements Constants, ActionListener {
 						System.out.println("Not repeated");
 						
 						/**** For now, only supports for the host ****/
-						System.out.println(playerIndex);
 						VectorData element = vector.get(playerIndex);
 						/* Clear previous selection */
 						selected[element.team][element.picIndex] = false;

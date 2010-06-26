@@ -10,6 +10,7 @@ import java.io.*;
  */
 
 public class ServerThread implements Constants, Messages, Runnable, ActionListener {
+	JPanel panel;
 	ServerSocket ss;
 	Socket cs;
 	String nickname; // server's (host's) nickname
@@ -25,7 +26,8 @@ public class ServerThread implements Constants, Messages, Runnable, ActionListen
 	public TeamManager tm;
 	
 	/* constructor */
-	ServerThread() {
+	ServerThread(JPanel panel) {
+		this.panel = panel;
 		Thread thread = new Thread(this);
 		thread.start();
 	}
@@ -64,7 +66,6 @@ public class ServerThread implements Constants, Messages, Runnable, ActionListen
 		catch (Exception e) {
 			Utility.error(e);
 		}
-
 	}
 	
 	public void waitForClients() {	
@@ -83,6 +84,7 @@ public class ServerThread implements Constants, Messages, Runnable, ActionListen
 						System.out.println("The room is now allowed for join.");
 						cout.print(DISALLOW_JOIN);
 						cout.flush();
+						cs.close();
 						continue; // wait for a new client
 					}
 					/* Check for room full */
@@ -90,6 +92,7 @@ public class ServerThread implements Constants, Messages, Runnable, ActionListen
 						System.out.println("The room is full. (" + MAX_TOTAL_PLAYERS + " people)");
 						cout.print(ROOM_FULL);
 						cout.flush();
+						cs.close();
 						continue; // wait for a new client
 					}
 					
@@ -99,17 +102,25 @@ public class ServerThread implements Constants, Messages, Runnable, ActionListen
 					if (numPlayers == MAX_TOTAL_PLAYERS) {
 						Timer timer = new Timer(TIMER_ROOMFULL, new ActionListener() {
 							public void actionPerformed(ActionEvent evt) {
-								PacFrame.msgField.setText("[Notice] The room is now full (" + MAX_TOTAL_PLAYERS + " people)");	
+								PacFrame.msgField.setText("[Notice] The room is now full. (" + MAX_TOTAL_PLAYERS + " people)");	
 							}
 						});
 						timer.start();
 					}	
-					
-					/* If join OK => Send a message to the client */
-					cout.print(IM_ALIVE);
-					cout.flush();
-					
 				} // end of synchronized()
+					
+				/* Now the join is OK => Send a message to the client */
+				cout.print("" + START_COMMAND + IM_ALIVE);
+				cout.flush();
+				
+				/* Receive the client's nickname and randomly select an icon for them */
+				int msg = cin.read();
+				if (msg != START_MESSAGE) {
+					Utility.unknown(panel);
+				}
+				BufferedReader bf = new BufferedReader(new InputStreamReader(cin));
+				String str = bf.readLine();
+
 			}
 			
 		}

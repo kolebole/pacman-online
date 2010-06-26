@@ -16,6 +16,7 @@ public class Player {
 	public final static int SPEED[] = { 2, 3 };
 	public final static int SIZE = 20;
 	
+	public Player[] playerList;
 	public Grid[][] map;
 	
 	int x, y;
@@ -23,6 +24,7 @@ public class Player {
 	String iconSrc;
 	int type;
 	int direction;
+	int newDirect;
 
 	JLabel LEFT;// 	= new JLabel( new ImageIcon( srcs[0]) );
 	JLabel RIGHT;// 	= new JLabel( new ImageIcon( srcs[1]) );
@@ -43,7 +45,7 @@ public class Player {
 		this.x = x;
 		this.y = y;
 		this.type = type;
-		direction = KeyEvent.VK_RIGHT;
+		direction = newDirect = KeyEvent.VK_RIGHT;
 		this.map = map;
 		updateGrid();
 	}
@@ -83,9 +85,24 @@ public class Player {
 		image.setVisible(true);
 	}
 	
-	public void move( boolean back ){
+	public void move(){
+		testMove(true, false);
+		if ( isTouchWall() ) {
+			// Test move back
+			testMove(true, true);
+			// keep old direction
+			testMove(false, false);
+						
+		}else if( direction != newDirect ){
+			direction = newDirect;
+		}
+		
+	}
+	
+	public void testMove( boolean test, boolean back ){
 		int speed = back ? -Player.SPEED[type] : Player.SPEED[type] ;
-		switch( direction ){
+		int d = test ? newDirect : direction;
+		switch( d ){
 		case KeyEvent.VK_UP:
 			y = y - speed;
 			if ( y < 0)
@@ -109,11 +126,12 @@ public class Player {
 		default:
 			System.out.println("Direction is " + direction );
 		}
+		updateGrid();
 		
 	}
 	
 	public void updateGrid( ){
-		final double FLU = 0.99, FRD = 1-FLU, FNW = 0.5;
+		final double FLU = 0.90, FRD = 1-FLU, FNW = 0.5;
 		int offsetx	= x % SIZE,
 			offsety = y % SIZE;
 		int gt[][] = new int[2][2];
@@ -206,4 +224,50 @@ public class Player {
 		if ( offsety > SIZE * yfactor )
 			gridy++;
 	}
+	
+	public void addRef( Player[] playerList ){
+		this.playerList = playerList;
+	}
+	
+	public boolean isTouchWall(){
+		
+		return map[gridx][gridy].content == Grid.WALL;
+	}
+	
+	public void checkTouch () {
+		switch ( map[gridx][gridy].content ){
+		case Grid.NONE:
+			// do nothing
+			break;
+		case Grid.BEAN:
+			if ( type == PACMAN ){
+				// TODO pacman get the credit
+				map[gridx][gridy].content = Grid.NONE;
+				map[gridx][gridy].image.setVisible(false);
+			}else if ( type == MONSTER ){
+				// do nothing
+			}else {
+				// error
+			}
+			break;
+		case Grid.WALL:
+			// TODO can't move forward
+			testMove(false, true);
+			break;
+		default:
+			// error
+		}
+		if ( type == MONSTER ) {
+			for ( int j = 0 ; j < playerList.length ; j++ ){
+				if ( gridx == playerList[j].gridx && 
+					 gridy == playerList[j].gridy && 
+					 playerList[j].type == Player.PACMAN ){
+					// TODO Monster eat Pacman
+						
+				}
+			}
+		}
+	}
+	
+	
 }

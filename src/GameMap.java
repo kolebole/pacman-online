@@ -33,50 +33,14 @@ public class GameMap implements Constants {
 		playerList[5] = new Player( 40, 80, Player.MONSTER, map, mons[1] );
 		playerList[6] = new Player( 50, 90, Player.MONSTER, map, mons[2] );
 		playerList[7] = new Player( 60, 80, Player.MONSTER, map, mons[3] );
+		for ( i = 0 ; i < playerList.length ; i++ ){
+			playerList[i].addRef(playerList);
+		}
+		
 		
 		// draw picture
 		frame.initGameMap(map);
 		frame.placePlayer(playerList);
 	}
 	
-	public void checkTouch(){
-		int i, j, gridx, gridy;
-		for ( i = 0 ; i < playerList.length ; i++ ){
-			gridx = playerList[i].gridx;
-			gridy = playerList[i].gridy;
-			switch ( map[gridx][gridy].content ){
-			case Grid.NONE:
-				// do nothing
-				break;
-			case Grid.BEAN:
-				if ( playerList[i].type == Player.PACMAN ){
-					// TODO pacman get the credit
-					map[gridx][gridy].content = Grid.NONE;
-					map[gridx][gridy].image.setVisible(false);
-				}else if ( playerList[i].type == Player.MONSTER ){
-					// do nothing
-				}else {
-					// error
-				}
-				break;
-			case Grid.WALL:
-				// TODO can't move forward
-				playerList[i].move(true);
-				playerList[i].updateGrid();
-				break;
-			default:
-				// error
-			}
-			if ( playerList[i].type == Player.MONSTER ) {
-				for ( j = 0 ; j < playerList.length ; j++ ){
-					if ( gridx == playerList[j].x && 
-						 gridy == playerList[j].y && 
-						 playerList[j].type == Player.PACMAN ){
-						// TODO Monster eat Pacman
-						
-					}
-				}
-			}
-		}
-	}
 }

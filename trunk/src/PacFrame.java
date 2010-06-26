@@ -52,6 +52,8 @@ public class PacFrame extends JFrame implements Constants {
 			        gamePanel.requestFocusInWindow();
 			    }
 			});
+			// temp get focus on nickField
+			ConnectPanel.nickField.requestFocusInWindow();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

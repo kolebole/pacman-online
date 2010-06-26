@@ -1,6 +1,7 @@
 import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.Timer;
 
 /* File: Player.java
  * Start: 2010/06/21
@@ -22,6 +23,7 @@ public class Player {
 	int type;
 	int direction;
 	int newDirect;
+	int counter;
 
 	JLabel LEFT;// 	= new JLabel( new ImageIcon( srcs[0]) );
 	JLabel RIGHT;// 	= new JLabel( new ImageIcon( srcs[1]) );
@@ -45,6 +47,8 @@ public class Player {
 		direction = newDirect = KeyEvent.VK_RIGHT;
 		this.map = map;
 		updateGrid();
+		
+		
 	}
 	
 	public void changeDir(int Direction){
@@ -75,7 +79,7 @@ public class Player {
 			case KeyEvent.VK_D:
 				image = RIGHT;
 				break;
-				////////////////////
+				////////////////////s
 			default:
 				image = null;
 		}
@@ -88,18 +92,18 @@ public class Player {
 			// Test move back
 			testMove(true, true);
 			// keep old direction
-			testMove(false, false);
-						
+			testMove(false, false);				
 		}else if( direction != newDirect ){
 			direction = newDirect;
 			changeDir(direction);
 		}
-		
+				
 	}
 	
 	public void testMove( boolean test, boolean back ){
-		int speed = back ? -Player.SPEED[type] : Player.SPEED[type] ;
+		int speed = back ? -SPEED[type] : SPEED[type] ;
 		int d = test ? newDirect : direction;
+		
 		switch( d ){
 		case KeyEvent.VK_UP:
 			y = y - speed;

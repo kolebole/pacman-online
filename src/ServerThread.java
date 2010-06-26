@@ -1,6 +1,5 @@
 import java.net.*;
 import javax.swing.*;
-
 import java.awt.event.*;
 import java.io.*;
 /* File: ServerThread.java
@@ -13,13 +12,17 @@ import java.io.*;
 public class ServerThread implements Constants, Messages, Runnable, ActionListener {
 	ServerSocket ss;
 	Socket cs;
+	String nickname; // server's (host's) nickname
 	/* current number of players */
 	public int numPlayers;
 	/* allow other players to join */
 	public boolean allowJoin;
 	InputStream cin = null;
 	PrintWriter cout = null;
+	/* synchronization lock */
 	public String roomLock = "I'll lock the room.";
+	/* Team manager before starting the game */
+	public TeamManager tm;
 	
 	/* constructor */
 	ServerThread() {
@@ -39,16 +42,21 @@ public class ServerThread implements Constants, Messages, Runnable, ActionListen
 			ConnectPanel.clientButton.setEnabled(false);
 			ConnectPanel.serverButton.setEnabled(false);
 			/* Enable "Lock Room" and add ActionListener */
+			allowJoin = true;
 			ConnectPanel.lockButton.setEnabled(true);
 			ConnectPanel.lockButton.addActionListener(this);
 			PacFrame.msgField.setText("[Notice] You have created a room.");
-
 			System.out.println("Server: Listen on port " + PORT + " ...");
-			allowJoin = true;
-			ConnectPanel.lockButton.setEnabled(true);
+			
+			/* Create a TeamManager with an empty Hashtable */
 			numPlayers = 1;
+			tm = new TeamManager();
+			/* Insert a record of the server (host) */
+			nickname = ConnectPanel.nickField.getText();
+			tm.insertHost(nickname);
+			
 			/* wait for client to join */
-			if (allowJoin && numPlayers < MAX_PLAYERS) {
+			if (allowJoin && numPlayers < MAX_TOTAL_PLAYERS) {
 				waitForClients();
 			}
 		}
@@ -74,27 +82,23 @@ public class ServerThread implements Constants, Messages, Runnable, ActionListen
 						System.out.println("The room is now allowed for join.");
 						cout.print(DISALLOW_JOIN);
 						cout.flush();
-						//cs.close();
-						//System.out.println("Server: close socket.");
 						continue; // wait for a new client
 					}
 					/* Check for room full */
-					if (numPlayers == MAX_PLAYERS) {
-						System.out.println("The room is full. (" + MAX_PLAYERS + " people)");
+					if (numPlayers == MAX_TOTAL_PLAYERS) {
+						System.out.println("The room is full. (" + MAX_TOTAL_PLAYERS + " people)");
 						cout.print(ROOM_FULL);
 						cout.flush();
-						//cs.close();
-						//System.out.println("Server: close socket.");
 						continue; // wait for a new client
 					}
 					
 					numPlayers++;
 					PacFrame.msgField.setText("[Notice] Player " + numPlayers + " from " + cs.getInetAddress() + ":" + cs.getPort());
 					/* If the room is now full, notify after 3 seconds */
-					if (numPlayers == MAX_PLAYERS) {
+					if (numPlayers == MAX_TOTAL_PLAYERS) {
 						Timer timer = new Timer(TIMER_ROOMFULL, new ActionListener() {
 							public void actionPerformed(ActionEvent evt) {
-								PacFrame.msgField.setText("[Notice] The room is now full (" + MAX_PLAYERS + " people)");	
+								PacFrame.msgField.setText("[Notice] The room is now full (" + MAX_TOTAL_PLAYERS + " people)");	
 							}
 						});
 						timer.start();

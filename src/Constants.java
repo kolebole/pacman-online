@@ -1,13 +1,15 @@
 /* File: Constants.java
  * Start: 2010/06/25
  * Modification: 2010/06/26
- * Description: Constants used in this game.
+ * Description: Constants and parameters used in this game.
  */
 
 public interface Constants {
 	/*** Game-related ***/
-	/* maximum allowable number of players */
-	public static final int MAX_PLAYERS = 2;
+	/* maximum total number of players */
+	public static final int MAX_TOTAL_PLAYERS = 2;
+	/* maximum number of players on each team */
+	public static final int MAX_TEAM_PLAYERS = 4;
 	/* time to wait before showing room full */
 	public static final int TIMER_ROOMFULL = 3000;
 	
@@ -28,6 +30,7 @@ public interface Constants {
 	public static final int GAME_TIMEOUT = 2000;
 	
 	/*** Picture Sources ***/
+	public static final int MAX_PIC_INDEX = 3;
 	/* For pac/mon UP/DOWN/LEFT/RIGHT pics */
 	String[][] pacs = {
 		{

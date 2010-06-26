@@ -59,8 +59,8 @@ public class PacFrame extends JFrame implements Constants {
 
 		/*** New the 4 panel objects and add them to the big panels ***/
 		gamePanel = new GamePanel();
-		pacmanPanel = new PlayerPanel( 0, 4 );
-		monsterPanel = new PlayerPanel( 1, 4 );
+		pacmanPanel = new PlayerPanel( 0, MAX_TEAM_PLAYERS );
+		monsterPanel = new PlayerPanel( 1, MAX_TEAM_PLAYERS );
 		RSPanel = new ConnectPanel();
 
 

@@ -1,20 +1,24 @@
+/* File: PlayerPanel.java
+ * Start: 2010/06/07
+ * Modification: 2010/06/26
+ * Description: Panel for listing players of one team (Pacmans or Monsters).
+ */
 import java.awt.*;
-
 import javax.swing.*;
 
 
-public class PlayerPanel extends JPanel {
-	JLabel[] pictureList;
+public class PlayerPanel extends JPanel implements Constants {
+	JButton[] picList;
 	JLabel[] nickList;
 	int listLen;
-	int panelType;
+	char panelType; // false: pacmans, true: monsters
 	String[] titles = {
 			"Pacman List",
 			"Monster List"
 	};
-	public PlayerPanel( int type, int num ){
+	public PlayerPanel( char type, int num ){
 		super(new GridBagLayout());
-		pictureList = new JLabel[num];
+		picList = new JButton[num];
 		nickList = new JLabel[num];
 		listLen = num;
 		panelType = type;
@@ -25,12 +29,17 @@ public class PlayerPanel extends JPanel {
 		int i;
 		GridBagConstraints gbc = new GridBagConstraints();
 		for ( i = 0 ; i < listLen ; i++ ){
-			pictureList[i] = new JLabel("pic"+i);
+			if (panelType == PACMANS) {
+				picList[i] = new JButton(new ImageIcon(pacs[i][1]));
+			}
+			else {
+				picList[i] = new JButton(new ImageIcon(mons[i][3]));
+			}
 			nickList[i] = new JLabel("Player #"+i, SwingConstants.RIGHT);//+", your nickname will show here.");
 			gbc.gridx = 0;
 			gbc.gridy = i;
 			gbc.weightx = 0.5;
-			this.add(new JButton("pic"+i), gbc );
+			this.add(picList[i], gbc );
 			
 			gbc.gridx = 2;
 			gbc.gridwidth = 2;

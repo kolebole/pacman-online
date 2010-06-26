@@ -16,7 +16,7 @@ public class DirectionListener implements KeyListener {
 		int keyCode = e.getKeyCode();
 		switch( keyCode ){
 		case KeyEvent.VK_UP:
-			playerList[0].direction = KeyEvent.VK_UP;
+			playerList[0].newDirect = KeyEvent.VK_UP;
 			playerList[0].changeDir(KeyEvent.VK_UP);
 /*			playerList[1].direction = KeyEvent.VK_UP;
 			playerList[1].changeDir(KeyEvent.VK_UP);
@@ -26,7 +26,7 @@ public class DirectionListener implements KeyListener {
 			playerList[3].changeDir(KeyEvent.VK_UP);*/
 			break;
 		case KeyEvent.VK_DOWN:
-			playerList[0].direction = KeyEvent.VK_DOWN;
+			playerList[0].newDirect = KeyEvent.VK_DOWN;
 			playerList[0].changeDir(KeyEvent.VK_DOWN);
 /*			playerList[1].direction = KeyEvent.VK_DOWN;
 			playerList[1].changeDir(KeyEvent.VK_DOWN);
@@ -36,7 +36,7 @@ public class DirectionListener implements KeyListener {
 			playerList[3].changeDir(KeyEvent.VK_DOWN);*/
 			break;
 		case KeyEvent.VK_LEFT:
-			playerList[0].direction = KeyEvent.VK_LEFT;
+			playerList[0].newDirect = KeyEvent.VK_LEFT;
 			playerList[0].changeDir(KeyEvent.VK_LEFT);
 /*			playerList[1].direction = KeyEvent.VK_LEFT;
 			playerList[1].changeDir(KeyEvent.VK_LEFT);
@@ -46,7 +46,7 @@ public class DirectionListener implements KeyListener {
 			playerList[3].changeDir(KeyEvent.VK_LEFT);*/
 			break;
 		case KeyEvent.VK_RIGHT:
-			playerList[0].direction = KeyEvent.VK_RIGHT;
+			playerList[0].newDirect = KeyEvent.VK_RIGHT;
 			playerList[0].changeDir(KeyEvent.VK_RIGHT);
 /*			playerList[1].direction = KeyEvent.VK_RIGHT;
 			playerList[1].changeDir(KeyEvent.VK_RIGHT);
@@ -102,7 +102,7 @@ public class DirectionListener implements KeyListener {
 		}
 		System.out.println("Player move to: " + playerList[0].x + ", " + playerList[0].y);
 		System.out.println("Player move to: " + playerList[0].gridx + ", " + playerList[0].gridy);
-		frame.movePlayer(playerList);
+		//frame.movePlayer(playerList);
 	}
 
 	@Override

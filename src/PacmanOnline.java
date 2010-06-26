@@ -28,6 +28,8 @@ public class PacmanOnline implements Constants {
 				inst = new PacFrame();
 				inst.setLocationRelativeTo(null);
 				inst.setVisible(true);
+				ConnectPanel.nickField.requestFocusInWindow();
+
 				
 				try {
 					map = new GameMap();

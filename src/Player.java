@@ -1,7 +1,4 @@
-import java.awt.Image;
 import java.awt.event.KeyEvent;
-import java.awt.image.ImageObserver;
-
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
@@ -13,7 +10,7 @@ import javax.swing.JLabel;
 public class Player {
 	public final static int PACMAN = 0,
 					  		MONSTER = 1;
-	public final static int SPEED[] = { 2, 3 };
+	public final static int SPEED[] = { 2, 2 };
 	public final static int SIZE = 20;
 	
 	public Player[] playerList;
@@ -132,7 +129,7 @@ public class Player {
 	}
 	
 	public void updateGrid( ){
-		final double FLU = 0.90, FRD = 1-FLU, FNW = 0.5;
+		final double FLU = 0.9, FRD = 1-FLU, FNW = 0.5;
 		int offsetx	= x % SIZE,
 			offsety = y % SIZE;
 		int gt[][] = new int[2][2];

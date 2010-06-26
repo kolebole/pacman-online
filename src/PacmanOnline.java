@@ -41,7 +41,7 @@ public class PacmanOnline implements Constants {
 				KeyListener[] kls = inst.getKeyListeners();
 				System.out.println(kls);
 				
-				movingTimer = new Timer( 20, new MovingListener() );
+				movingTimer = new Timer( 40, new MovingListener() );
 				movingTimer.start();
 				
 			}

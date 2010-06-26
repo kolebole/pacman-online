@@ -17,7 +17,6 @@ public class DirectionListener implements KeyListener {
 		switch( keyCode ){
 		case KeyEvent.VK_UP:
 			playerList[0].newDirect = KeyEvent.VK_UP;
-			playerList[0].changeDir(KeyEvent.VK_UP);
 /*			playerList[1].direction = KeyEvent.VK_UP;
 			playerList[1].changeDir(KeyEvent.VK_UP);
 			playerList[2].direction = KeyEvent.VK_UP;
@@ -27,7 +26,6 @@ public class DirectionListener implements KeyListener {
 			break;
 		case KeyEvent.VK_DOWN:
 			playerList[0].newDirect = KeyEvent.VK_DOWN;
-			playerList[0].changeDir(KeyEvent.VK_DOWN);
 /*			playerList[1].direction = KeyEvent.VK_DOWN;
 			playerList[1].changeDir(KeyEvent.VK_DOWN);
 			playerList[2].direction = KeyEvent.VK_DOWN;
@@ -37,7 +35,6 @@ public class DirectionListener implements KeyListener {
 			break;
 		case KeyEvent.VK_LEFT:
 			playerList[0].newDirect = KeyEvent.VK_LEFT;
-			playerList[0].changeDir(KeyEvent.VK_LEFT);
 /*			playerList[1].direction = KeyEvent.VK_LEFT;
 			playerList[1].changeDir(KeyEvent.VK_LEFT);
 			playerList[2].direction = KeyEvent.VK_LEFT;
@@ -47,7 +44,6 @@ public class DirectionListener implements KeyListener {
 			break;
 		case KeyEvent.VK_RIGHT:
 			playerList[0].newDirect = KeyEvent.VK_RIGHT;
-			playerList[0].changeDir(KeyEvent.VK_RIGHT);
 /*			playerList[1].direction = KeyEvent.VK_RIGHT;
 			playerList[1].changeDir(KeyEvent.VK_RIGHT);
 			playerList[2].direction = KeyEvent.VK_RIGHT;
@@ -57,8 +53,7 @@ public class DirectionListener implements KeyListener {
 			break;
 			///////////////////////////////////////////
 		case KeyEvent.VK_W:
-			playerList[4].direction = KeyEvent.VK_UP;
-			playerList[4].changeDir(KeyEvent.VK_W);
+			playerList[4].newDirect = KeyEvent.VK_UP;
 /*			playerList[5].direction = KeyEvent.VK_UP;
 			playerList[5].changeDir(KeyEvent.VK_W);
 			playerList[6].direction = KeyEvent.VK_UP;
@@ -67,8 +62,7 @@ public class DirectionListener implements KeyListener {
 			playerList[7].changeDir(KeyEvent.VK_W);*/
 			break;
 		case KeyEvent.VK_S:
-			playerList[4].direction = KeyEvent.VK_DOWN;
-			playerList[4].changeDir(KeyEvent.VK_S);
+			playerList[4].newDirect = KeyEvent.VK_DOWN;
 /*			playerList[5].direction = KeyEvent.VK_DOWN;
 			playerList[5].changeDir(KeyEvent.VK_S);
 			playerList[6].direction = KeyEvent.VK_DOWN;
@@ -77,8 +71,7 @@ public class DirectionListener implements KeyListener {
 			playerList[7].changeDir(KeyEvent.VK_S);*/
 			break;
 		case KeyEvent.VK_A:
-			playerList[4].direction = KeyEvent.VK_LEFT;
-			playerList[4].changeDir(KeyEvent.VK_A);
+			playerList[4].newDirect = KeyEvent.VK_LEFT;
 /*			playerList[5].direction = KeyEvent.VK_LEFT;
 			playerList[5].changeDir(KeyEvent.VK_A);
 			playerList[6].direction = KeyEvent.VK_LEFT;
@@ -87,8 +80,7 @@ public class DirectionListener implements KeyListener {
 			playerList[7].changeDir(KeyEvent.VK_A);*/
 			break;
 		case KeyEvent.VK_D:
-			playerList[4].direction = KeyEvent.VK_RIGHT;
-			playerList[4].changeDir(KeyEvent.VK_D);
+			playerList[4].newDirect = KeyEvent.VK_RIGHT;
 /*			playerList[5].direction = KeyEvent.VK_RIGHT;
 			playerList[5].changeDir(KeyEvent.VK_D);
 			playerList[6].direction = KeyEvent.VK_RIGHT;

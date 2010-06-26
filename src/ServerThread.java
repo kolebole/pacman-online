@@ -1,19 +1,25 @@
 import java.net.*;
 import javax.swing.*;
+
+import java.awt.event.*;
 import java.io.*;
 /* File: ServerThread.java
  * Start: 2010/06/25
- * Modification: 2010/06/XX
+ * Modification: 2010/06/26
  * Description: Server thread for receiving/sending messages from/to clients.
  *              This thread is to avoid I/O blocking.
  */
 
-public class ServerThread implements Constants, Messages, Runnable {
+public class ServerThread implements Constants, Messages, Runnable, ActionListener {
 	ServerSocket ss;
 	Socket cs;
+	/* current number of players */
 	public int numPlayers;
+	/* allow other players to join */
+	public boolean allowJoin;
 	InputStream cin = null;
 	PrintWriter cout = null;
+	public String roomLock = "I'll lock the room.";
 	
 	/* constructor */
 	ServerThread() {
@@ -27,40 +33,100 @@ public class ServerThread implements Constants, Messages, Runnable {
 		System.out.println("Server: create a thread.");
 		try {
 			ss = new ServerSocket(PORT);
-			/* disable other textfields or buttons */
+			/* Disable other textfields or buttons */
 			ConnectPanel.nickField.setEnabled(false);
 			ConnectPanel.addrField.setEnabled(false);
 			ConnectPanel.clientButton.setEnabled(false);
 			ConnectPanel.serverButton.setEnabled(false);
+			/* Enable "Lock Room" and add ActionListener */
+			ConnectPanel.lockButton.setEnabled(true);
+			ConnectPanel.lockButton.addActionListener(this);
+			PacFrame.msgField.setText("[Notice] You have created a room.");
 
 			System.out.println("Server: Listen on port " + PORT + " ...");
+			allowJoin = true;
+			ConnectPanel.lockButton.setEnabled(true);
 			numPlayers = 1;
 			System.out.println("Number of players: " + numPlayers);
+			/* wait for client to join */
+			if (allowJoin && numPlayers < MAX_PLAYERS) {
+				waitForClients();
+			}
+		}
+		catch (Exception e) {
+			Utility.error(e);
+		}
 
-			/* Always wait for clients when ... # of players < 8 ?? */
-			while (numPlayers < MAX_PLAYERS) {
+	}
+	
+	public void waitForClients() {	
+		/* Always wait for clients to join */
+		try {
+			while (true) {
 				cs = ss.accept();
-				numPlayers++;
-				System.out.println("Server: Client from " + cs.getInetAddress() + ":" + cs.getPort());
-				System.out.println("Number of players: " + numPlayers);
-				
-				/* getInputStream() and getOutputStream() */
-				
+				/* getInputStream() and getOutputStream() */				
 				cin = cs.getInputStream();
 				cout = new PrintWriter(cs.getOutputStream());
 				
-				/* Send a message to the client */
-				cout.print(IM_ALIVE);
-				cout.flush();
+				/*** critical section ***/
+				synchronized (roomLock) {
+					/* Check for allowJoin */
+					if (!allowJoin) {
+						System.out.println("The room is now allowed for join.");
+						cout.print(DISALLOW_JOIN);
+						cout.flush();
+						cs.close();
+						return;
+					}
+					/* Check for room full */
+					if (numPlayers == MAX_PLAYERS) {
+						System.out.println("The room is full. (" + MAX_PLAYERS + " people");
+						cout.print(ROOM_FULL);
+						cout.flush();
+						cs.close();
+						return;
+					}
+					
+					numPlayers++;
+					System.out.println("Server: Client from " + cs.getInetAddress() + ":" + cs.getPort());
+					System.out.println("Number of players: " + numPlayers);
+					/* Notify if the room is now full */
+					if (numPlayers == MAX_PLAYERS) {
+						PacFrame.msgField.setText("[Notice] The room is now full (" + MAX_PLAYERS + " people");
+					}
+					
+					
+					/* If join OK => Send a message to the client */
+					cout.print(IM_ALIVE);
+					cout.flush();
+					
+				} // end of synchronized()
 			}
-			System.out.println("The room is full !");
-
+			
 		}
 		catch (Exception e) {
 			Utility.error(e.toString());
 		}
-		
-		
 	}
-
+	
+	public void actionPerformed(ActionEvent evt) {
+		JButton src = (JButton)evt.getSource();
+		
+		/* Lock / Unlock the room */
+		if (src == ConnectPanel.lockButton) {
+			/*** critical section ***/
+			synchronized (roomLock) {
+				if (allowJoin) {
+					allowJoin = false;
+					PacFrame.msgField.setText("[Notice] The host has locked the room.");
+					ConnectPanel.lockButton.setText("Unlock Room");
+				}
+				else {
+					allowJoin = true;
+					PacFrame.msgField.setText("[Notice] The host has unlocked the room.");
+					ConnectPanel.lockButton.setText(" Lock Room ");
+				}
+			}
+		}
+	}
 }

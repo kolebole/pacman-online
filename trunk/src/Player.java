@@ -95,6 +95,7 @@ public class Player {
 						
 		}else if( direction != newDirect ){
 			direction = newDirect;
+			changeDir(direction);
 		}
 		
 	}

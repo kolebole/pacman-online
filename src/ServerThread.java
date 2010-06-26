@@ -80,7 +80,7 @@ public class ServerThread implements Constants, Messages, Runnable, ActionListen
 					}
 					/* Check for room full */
 					if (numPlayers == MAX_PLAYERS) {
-						System.out.println("The room is full. (" + MAX_PLAYERS + " people");
+						System.out.println("The room is full. (" + MAX_PLAYERS + " people)");
 						cout.print(ROOM_FULL);
 						cout.flush();
 						cs.close();

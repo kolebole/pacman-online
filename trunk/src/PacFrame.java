@@ -1,6 +1,10 @@
 
 
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.*;
 
@@ -42,6 +46,12 @@ public class PacFrame extends JFrame implements Constants {
 			setSize(FRAME_WIDTH, FRAME_HEIGHT);
 			setResizable(false);
 			createGUI();
+			/* Focus on game panel when window focused */
+			addWindowFocusListener(new WindowAdapter() {
+			    public void windowGainedFocus(WindowEvent e) {
+			        gamePanel.requestFocusInWindow();
+			    }
+			});
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -63,6 +73,16 @@ public class PacFrame extends JFrame implements Constants {
 		monsterPanel = new PlayerPanel( (char)1, MAX_TEAM_PLAYERS );
 		RSPanel = new ConnectPanel();
 
+		
+		
+		/* Adding MouseListener for game panel */
+		gamePanel.addMouseListener(new MouseAdapter() { 
+	          public void mousePressed(MouseEvent me) { 
+	              gamePanel.requestFocusInWindow();
+	          } 
+	    });
+		
+		
 
 		/* left part */
 		LPanel.add(gamePanel, "North");

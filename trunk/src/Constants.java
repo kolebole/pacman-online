@@ -32,7 +32,7 @@ public interface Constants {
 	/* Timeout for client connection */
 	public static final int CONN_TIMEOUT = 3000;
 	/* Timeout in a game play */
-	public static final int GAME_TIMEOUT = 2000;
+	public static final int GAME_TIMEOUT = 2000;	
 	
 	/*** Picture Sources ***/
 	public static final int MAX_PIC_INDEX = 3;

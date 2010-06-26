@@ -109,7 +109,7 @@ public class ConnectPanel extends JPanel implements Constants, ActionListener {
 		if (src == serverButton) {			
 			try {
 				/* new a ServerThread to do the I/O blocking jobs */
-				new ServerThread();
+				new ServerThread(this);
 
 			} catch (Exception e) {
 				Utility.error(e);

@@ -35,10 +35,12 @@ public class PlayerPanel extends JPanel implements Constants {
 			else {
 				picList[i] = new JButton(new ImageIcon(mons[i][3]));
 			}
-			nickList[i] = new JLabel("Player #"+i, SwingConstants.RIGHT);//+", your nickname will show here.");
+			nickList[i] = new JLabel("                         ", SwingConstants.CENTER);
+			nickList[i].setFont(new Font("Arial", Font.PLAIN, 18));
 			gbc.gridx = 0;
 			gbc.gridy = i;
-			gbc.weightx = 0.5;
+			gbc.gridwidth = 1;
+			//gbc.weightx = 1;
 			this.add(picList[i], gbc );
 			
 			gbc.gridx = 2;

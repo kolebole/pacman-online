@@ -6,22 +6,27 @@
 import java.net.*;
 import java.util.*;
 
-public class TeamManager {
-	Hashtable<String, HashData> ht;
+public class TeamManager implements Constants {
+	Vector<VectorData> vector;
 	
 	TeamManager() {
-		ht = new Hashtable<String, HashData>();
+		vector = new Vector<VectorData>();
 	}
 	
 	public void insertHost(String nickname) {
 		/* Use an empty socket to represent server (host) */
 		Socket socket = new Socket();
-		ht.put(nickname, new HashData(socket, true, 2));
+		vector.add(new VectorData(nickname, socket, MONSTERS, 2));
 	}
 	
 	/* Notify the team selection status */	
 	public void notifyTeamSelection() {
+		//System.out.println("vector size = " + vector.size());
 		/* Notify server */
+		for (int i = 0; i < vector.size(); i++) {
+			PacFrame.playerPanel[vector.get(i).team].nickList[vector.get(i).picIndex].setText(vector.get(i).nickname);
+			
+		}
 		
 		/* Notify each clients */
 	}

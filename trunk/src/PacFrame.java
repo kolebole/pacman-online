@@ -17,7 +17,7 @@ import javax.swing.*;
 public class PacFrame extends JFrame implements Constants {
 	public static JTextField msgField;
 	public static GamePanel gamePanel;
-	public static PlayerPanel pacmanPanel, monsterPanel; 
+	public static PlayerPanel[] playerPanel; // size 2
 	public static ConnectPanel RSPanel;
 	
 	public PacFrame() {
@@ -69,8 +69,9 @@ public class PacFrame extends JFrame implements Constants {
 
 		/*** New the 4 panel objects and add them to the big panels ***/
 		gamePanel = new GamePanel();
-		pacmanPanel = new PlayerPanel( (char)0, MAX_TEAM_PLAYERS );
-		monsterPanel = new PlayerPanel( (char)1, MAX_TEAM_PLAYERS );
+		playerPanel = new PlayerPanel[2];
+		playerPanel[0] = new PlayerPanel( (char)0, MAX_TEAM_PLAYERS );
+		playerPanel[1] = new PlayerPanel( (char)1, MAX_TEAM_PLAYERS );
 		RSPanel = new ConnectPanel();
 
 		
@@ -99,8 +100,8 @@ public class PacFrame extends JFrame implements Constants {
 
 		/* right part */
 
-		RPanel.add(pacmanPanel, "North");
-		RPanel.add(monsterPanel, "Center");
+		RPanel.add(playerPanel[0], "North");
+		RPanel.add(playerPanel[1], "Center");
 		RPanel.add(RSPanel, "South");
 	}
 }

@@ -54,6 +54,7 @@ public class ServerThread implements Constants, Messages, Runnable, ActionListen
 			/* Insert a record of the server (host) */
 			nickname = ConnectPanel.nickField.getText();
 			tm.insertHost(nickname);
+			tm.notifyTeamSelection();
 			
 			/* wait for client to join */
 			if (allowJoin && numPlayers < MAX_TOTAL_PLAYERS) {

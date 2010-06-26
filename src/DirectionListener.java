@@ -17,15 +17,19 @@ public class DirectionListener implements KeyListener {
 		switch( keyCode ){
 		case KeyEvent.VK_UP:
 			playerList[0].direction = KeyEvent.VK_UP;
+			playerList[0].changeDir(KeyEvent.VK_UP);
 			break;
 		case KeyEvent.VK_DOWN:
 			playerList[0].direction = KeyEvent.VK_DOWN;
+			playerList[0].changeDir(KeyEvent.VK_DOWN);
 			break;
 		case KeyEvent.VK_LEFT:
 			playerList[0].direction = KeyEvent.VK_LEFT;
+			playerList[0].changeDir(KeyEvent.VK_LEFT);
 			break;
 		case KeyEvent.VK_RIGHT:
 			playerList[0].direction = KeyEvent.VK_RIGHT;
+			playerList[0].changeDir(KeyEvent.VK_RIGHT);
 			break;
 		default:
 			System.out.println("KeyCode is " + keyCode );

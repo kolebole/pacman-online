@@ -25,5 +25,28 @@ public interface Constants {
 	/* Timeout in a game play */
 	public static final int GAME_TIMEOUT = 2000;
 	
-
+	/*** Picture Sources ***/
+	/* For pac/mon UP/DOWN/LEFT/RIGHT pics */
+	String[][] pacs = {
+		{
+			"pics/pac_LEFT.png",
+			"pics/pac_RIGHT.png",
+			"pics/pac_UP.png",
+			"pics/pac_DOWN.png"
+		},
+		{},
+		{},
+		{}
+	};
+	String[][] mons = {
+		{
+			"pics/mon_LEFT.png",
+			"pics/mon_RIGHT.png",
+			"pics/mon_UP.png",
+			"pics/mon_DOWN.png"
+		},
+		{},
+		{},
+		{}
+	};
 }

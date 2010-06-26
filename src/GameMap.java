@@ -5,7 +5,7 @@ import java.io.*;
  * Modification: 2010/06/25
  * Description: 載入資料地圖
  */
-public class GameMap {
+public class GameMap implements Constants {
 	public final static int WIDTH = 35;
 	public final static int HEIGHT = 25;
 	Grid[][] map;
@@ -25,8 +25,8 @@ public class GameMap {
 		}
 		
 		playerList = new Player[2];
-		playerList[0] = new Player( 30, 20, Player.PACMAN, map );
-		playerList[1] = new Player( 30, 40, Player.MONSTER, map );
+		playerList[0] = new Player( 30, 20, Player.PACMAN, map , pacs[0] );
+		playerList[1] = new Player( 30, 40, Player.MONSTER, map, mons[0] );
 		
 		// draw picture
 		frame.initGameMap(map);
@@ -42,7 +42,7 @@ public class GameMap {
 			case Grid.NONE:
 				// do nothing
 				break;
-			case Grid.CREDIT:
+			case Grid.BEAN:
 				if ( playerList[i].type == Player.PACMAN ){
 					// TODO pacman get the credit
 					map[gridx][gridy].content = Grid.NONE;

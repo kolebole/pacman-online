@@ -9,7 +9,7 @@ import javax.swing.JLabel;
 public class Grid {
 	static final int NONE = 0,
 			         WALL = 1,
-			         CREDIT = 2;
+			         BEAN = 2;
 	int content;
 	int x;
 	int y;

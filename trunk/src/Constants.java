@@ -23,6 +23,8 @@ public interface Constants {
 	/* The game panel */
 	public static final int GAME_WIDTH = 700;
 	public static final int GAME_HEIGHT = 500;
+	/* The playerPanel[] */
+	String NICKNAME_SPACE = "                         ";
 	
 	/*** Network-related ***/
 	/* This game uses the constant port port 4233 */

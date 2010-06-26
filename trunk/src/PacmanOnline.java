@@ -28,7 +28,7 @@ public class PacmanOnline implements Constants {
 				inst = new PacFrame();
 				inst.setLocationRelativeTo(null);
 				inst.setVisible(true);
-				ConnectPanel.nickField.requestFocusInWindow();
+				inst.RSPanel.nickField.requestFocusInWindow();
 
 				
 				try {

@@ -16,6 +16,8 @@ public class PlayerPanel extends JPanel implements Constants {
 			"Pacman List",
 			"Monster List"
 	};
+	TeamManager tm;
+	
 	public PlayerPanel( char type, int num ){
 		super(new GridBagLayout());
 		picList = new JButton[num];
@@ -28,6 +30,7 @@ public class PlayerPanel extends JPanel implements Constants {
 	private void GUI(){
 		int i;
 		GridBagConstraints gbc = new GridBagConstraints();
+		tm = new TeamManager();
 		for ( i = 0 ; i < listLen ; i++ ){
 			if (panelType == PACMANS) {
 				picList[i] = new JButton(new ImageIcon(pacs[i][1]));
@@ -37,7 +40,9 @@ public class PlayerPanel extends JPanel implements Constants {
 				picList[i] = new JButton(new ImageIcon(mons[i][3]));
 				picList[i].setBackground(Color.DARK_GRAY);
 			}
-			nickList[i] = new JLabel("                         ", SwingConstants.CENTER);
+			picList[i].addActionListener(tm);
+			        
+			nickList[i] = new JLabel(NICKNAME_SPACE, SwingConstants.CENTER);
 			nickList[i].setFont(new Font("Arial", Font.PLAIN, 18));
 			gbc.gridx = 0;
 			gbc.gridy = i;

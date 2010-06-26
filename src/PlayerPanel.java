@@ -31,9 +31,11 @@ public class PlayerPanel extends JPanel implements Constants {
 		for ( i = 0 ; i < listLen ; i++ ){
 			if (panelType == PACMANS) {
 				picList[i] = new JButton(new ImageIcon(pacs[i][1]));
+				picList[i].setBackground(Color.BLUE);
 			}
 			else {
 				picList[i] = new JButton(new ImageIcon(mons[i][3]));
+				picList[i].setBackground(Color.DARK_GRAY);
 			}
 			nickList[i] = new JLabel("                         ", SwingConstants.CENTER);
 			nickList[i].setFont(new Font("Arial", Font.PLAIN, 18));

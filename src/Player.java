@@ -63,6 +63,20 @@ public class Player {
 			case KeyEvent.VK_RIGHT:
 				image = RIGHT;
 				break;
+				////////////////////
+			case KeyEvent.VK_W:
+				image = UP;
+				break;
+			case KeyEvent.VK_S:
+				image = DOWN;
+				break;
+			case KeyEvent.VK_A:
+				image = LEFT;
+				break;
+			case KeyEvent.VK_D:
+				image = RIGHT;
+				break;
+				////////////////////
 			default:
 				image = null;
 		}

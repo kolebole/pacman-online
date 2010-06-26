@@ -31,24 +31,54 @@ public interface Constants {
 	/* For pac/mon UP/DOWN/LEFT/RIGHT pics */
 	String[][] pacs = {
 		{
-			"pics/pac_LEFT.png",
-			"pics/pac_RIGHT.png",
-			"pics/pac_UP.png",
-			"pics/pac_DOWN.png"
+			"pics/pac_LEFT_1.png",
+			"pics/pac_RIGHT_1.png",
+			"pics/pac_UP_1.png",
+			"pics/pac_DOWN_1.png"
 		},
-		{},
-		{},
-		{}
+		{
+			"pics/pac_LEFT_2.png",
+			"pics/pac_RIGHT_2.png",
+			"pics/pac_UP_2.png",
+			"pics/pac_DOWN_2.png"
+		},
+		{
+			"pics/pac_LEFT_3.png",
+			"pics/pac_RIGHT_3.png",
+			"pics/pac_UP_3.png",
+			"pics/pac_DOWN_3.png"
+		},
+		{
+			"pics/pac_LEFT_4.png",
+			"pics/pac_RIGHT_4.png",
+			"pics/pac_UP_4.png",
+			"pics/pac_DOWN_4.png"
+		}
 	};
 	String[][] mons = {
 		{
-			"pics/mon_LEFT.png",
-			"pics/mon_RIGHT.png",
-			"pics/mon_UP.png",
-			"pics/mon_DOWN.png"
+			"pics/mon_LEFT_1.png",
+			"pics/mon_RIGHT_1.png",
+			"pics/mon_UP_1.png",
+			"pics/mon_DOWN_1.png"
 		},
-		{},
-		{},
-		{}
+		{
+			"pics/mon_LEFT_2.png",
+			"pics/mon_RIGHT_2.png",
+			"pics/mon_UP_2.png",
+			"pics/mon_DOWN_2.png"
+		},
+		{
+			"pics/mon_LEFT_3.png",
+			"pics/mon_RIGHT_3.png",
+			"pics/mon_UP_3.png",
+			"pics/mon_DOWN_3.png"
+		},
+		{
+			"pics/mon_LEFT_4.png",
+			"pics/mon_RIGHT_4.png",
+			"pics/mon_UP_4.png",
+			"pics/mon_DOWN_4.png"
+		}
 	};
 }

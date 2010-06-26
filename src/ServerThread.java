@@ -74,8 +74,8 @@ public class ServerThread implements Constants, Messages, Runnable, ActionListen
 						System.out.println("The room is now allowed for join.");
 						cout.print(DISALLOW_JOIN);
 						cout.flush();
-						cs.close();
-						System.out.println("Server: close socket.");
+						//cs.close();
+						//System.out.println("Server: close socket.");
 						continue; // wait for a new client
 					}
 					/* Check for room full */
@@ -83,8 +83,8 @@ public class ServerThread implements Constants, Messages, Runnable, ActionListen
 						System.out.println("The room is full. (" + MAX_PLAYERS + " people)");
 						cout.print(ROOM_FULL);
 						cout.flush();
-						cs.close();
-						System.out.println("Server: close socket.");
+						//cs.close();
+						//System.out.println("Server: close socket.");
 						continue; // wait for a new client
 					}
 					

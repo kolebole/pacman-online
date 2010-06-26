@@ -14,11 +14,8 @@ public class ConnectPanel extends JPanel implements Constants, ActionListener {
 	JPanel nickPanel, clientPanel, serverPanel, csPanel, finalPanel;
 	public static JTextField nickField;
 	public static JTextField addrField;
-	public static JButton clientButton, serverButton, finalButton;
-	
-	/* Network相關的東西：到最後可能獨立出去 */
-	Socket cs, cons;  // client socket, connected socket
-	String addr;
+	public static JButton clientButton, serverButton, lockButton, finalButton;
+
 	
 	
 	ConnectPanel() {
@@ -58,29 +55,25 @@ public class ConnectPanel extends JPanel implements Constants, ActionListener {
 		gbc2.gridy = 0;
 		addrField = new JTextField(10);
 		clientPanel.add(addrField, gbc2);
-		gbc1.gridx = 0;
-		gbc1.gridy = 1;
-		gbc2.gridx = 1;
-		gbc2.gridy = 1;
 		gbc1.gridx = 1;
-		gbc1.gridy = 2;
+		gbc1.gridy = 1;
 		clientButton = new JButton("Connect");
 		clientPanel.add(clientButton, gbc1);
-
 		
 		/* Server */
-		serverPanel = new JPanel(new GridBagLayout());		
+		serverPanel = new JPanel(new GridBagLayout());
 		serverPanel.setBorder(BorderFactory.createTitledBorder("Server"));
 		csPanel.add(serverPanel, "South");
 		
-		gbc1.gridx = 0;
+		gbc1.gridx = 1;
 		gbc1.gridy = 0;
-		gbc2.gridx = 1;
-		gbc2.gridy = 0;
+		serverButton = new JButton("  Create  ");
+		serverPanel.add(serverButton, gbc1);
 		gbc1.gridx = 1;
 		gbc1.gridy = 1;
-		serverButton = new JButton(" Create ");
-		serverPanel.add(serverButton, gbc1);
+		lockButton = new JButton(" Lock Room ");
+		lockButton.setEnabled(false);
+		serverPanel.add(lockButton, gbc1);
 		
 		/* Ready / Start Game */
 		finalPanel = new JPanel();
@@ -102,7 +95,7 @@ public class ConnectPanel extends JPanel implements Constants, ActionListener {
 		/* Check for empty nickname */
 		if (nickField.getText().equals("")) {
 			JOptionPane.showMessageDialog(this.getParent(), "You must type a nickname!", 
-					"Error", JOptionPane.INFORMATION_MESSAGE);
+					"Warning", JOptionPane.WARNING_MESSAGE);
 			return;
 		}
 		
@@ -119,7 +112,7 @@ public class ConnectPanel extends JPanel implements Constants, ActionListener {
 		}
 		/* Client: Connect to a server */
 		else if (src == clientButton) {
-			addr = addrField.getText();
+			String addr = addrField.getText();
 			/* default address is "localhost" */
 			if (addr.equals("")) {
 				addr = "localhost";

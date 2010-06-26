@@ -44,21 +44,34 @@ public class ClientThread implements Constants, Messages, Runnable {
 				msg = cin.read();
 				System.out.println("step 3");				
 			
-			if (msg == IM_ALIVE) {
-				System.out.println("Connection succeeded");
+			switch (msg) {
+				/* Join OK */
+				case IM_ALIVE:
+					PacFrame.msgField.setText("You have joined the room.");
+					ConnectPanel.nickField.setEnabled(false);
+					ConnectPanel.addrField.setEnabled(false);
+					ConnectPanel.clientButton.setEnabled(false);
+					ConnectPanel.serverButton.setEnabled(false);
+					break;
+				/* Host disallows join */
+				case DISALLOW_JOIN:
+					JOptionPane.showMessageDialog(panel.getParent(), "Host disllowed join.", 
+							"Warning", JOptionPane.WARNING_MESSAGE);					
+					return;
+				/* The room is already full */
+				case ROOM_FULL:
+					JOptionPane.showMessageDialog(panel.getParent(), "Room already full.", 
+							"Warning", JOptionPane.WARNING_MESSAGE);					
+					return;
+					
+				/* unknown state */
+				default:
+					Utility.unknown(panel.getParent().getParent());
+					return;
 			}
-			else {
-				Utility.unknown(panel.getParent().getParent());
-			}
-			
-			ConnectPanel.nickField.setEnabled(false);
-			ConnectPanel.addrField.setEnabled(false);
-			ConnectPanel.clientButton.setEnabled(false);
-			ConnectPanel.serverButton.setEnabled(false);
-		
 		} 
 		catch (SocketTimeoutException e) {
-			JOptionPane.showMessageDialog(panel.getParent(), "Connection failed.", 
+			JOptionPane.showMessageDialog(panel.getParent(), "Connection timeout.", 
 					"Error", JOptionPane.ERROR_MESSAGE);
 			return;
 		}

@@ -61,7 +61,7 @@ public class TeamManager implements Constants, ActionListener {
 	public void clearPlayerPanel() {
 		for (int i = 0; i < 2; i++) {
 			for (int j = 0; j < MAX_TEAM_PLAYERS; j++) {
-				PacFrame.playerPanel[i].nickList[j].setText(String.format("%1$-" + MAX_NICKNAME_LENGTH + "s", ""));				
+				PacFrame.playerPanel[i].nickList[j].setText(String.format("%1$-" + NICKNAME_WIDTH + "s", ""));				
 			}
 		}		
 	}
@@ -74,7 +74,7 @@ public class TeamManager implements Constants, ActionListener {
 		for (int i = 0; i < vector.size(); i++) {
 			VectorData element = vector.get(i);
 			PacFrame.playerPanel[element.team].nickList[element.picIndex].setText(
-				String.format("%1$-" + MAX_NICKNAME_LENGTH + "s", element.nickname));			
+				String.format("%1$-" + NICKNAME_WIDTH+ "s", element.nickname));			
 		}
 		
 		/* Notify each clients */
@@ -85,8 +85,11 @@ public class TeamManager implements Constants, ActionListener {
 	
 	/* Listen on the (2 * MAX_TEAM_PLAYERS) icon JButtons */
 	public void actionPerformed(ActionEvent evt) {
+		/* Don't do anything before a connection is established 
+		 * In principle, nickField should be enabled before connection. */
+		if (ConnectPanel.nickField.isEnabled()) return;
+		
 		nickname = ConnectPanel.nickField.getText();
-
 		for (char i = PACMANS; i < 2; i++) {
 			for (int j = 0; j < MAX_TEAM_PLAYERS; j++) {
 				if (evt.getSource() == PacFrame.playerPanel[i].picList[j]) {

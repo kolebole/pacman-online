@@ -26,7 +26,7 @@ public interface Constants {
 	public static final int GAME_WIDTH = 700;
 	public static final int GAME_HEIGHT = 500;
 	/* The playerPanel[]: nickname width for String.format() */
-	//public static final int NICKNAME_WIDTH = 13;
+	public static final int NICKNAME_WIDTH = 15;
 	
 	/*** Network-related ***/
 	/* This game uses the constant port port 4233 */

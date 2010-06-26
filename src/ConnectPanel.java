@@ -123,7 +123,12 @@ public class ConnectPanel extends JPanel implements Constants, ActionListener {
 			if (addr.equals("")) {
 				addr = "localhost";
 			}
-			new ClientThread(this, addr);
+			try {
+				new ClientThread(this, addr);
+			}
+			catch (Exception e) {
+				Utility.error(e);
+			}
 		}
 	}
 }

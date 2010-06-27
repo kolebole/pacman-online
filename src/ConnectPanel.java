@@ -145,14 +145,15 @@ public class ConnectPanel extends JPanel implements Constants, ActionListener {
 			if(PacmanOnline.isServer){
 				PacmanOnline.inst.gamePanel.addKeyListener(new DirectionListener());
 				
-				PacmanOnline.movingTimer = new Timer( 40, new MovingListener() );
+				PacmanOnline.movingTimer = new Timer( MOVING_TIMER_PERIOD, new MovingListener() );
 				PacmanOnline.movingTimer.start();
 				// ryanlei: comment this
 				//finalButton.setEnabled(false);
 				PacmanOnline.isReady=true;
 			}else{
 				//////////////////////////////////////////
-				PacmanOnline.movingTimer = new Timer( 40, new MovingListener() );
+				/* Client will not need this, all the moving depend on server. */
+				PacmanOnline.movingTimer = new Timer( MOVING_TIMER_PERIOD, new MovingListener() );
 				PacmanOnline.movingTimer.start();
 				//////////////////////////////////////////
 				// ryanlei: comment this

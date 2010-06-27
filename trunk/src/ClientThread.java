@@ -16,8 +16,9 @@ public class ClientThread implements Constants, Messages, Runnable, KeyListener 
 	String addr;  // server address
 	Socket cs;
 	boolean killThread; // safer way to terminate a thread
-	InputStream cin;
-	PrintStream cout;
+	InputStream cin = null;
+	PrintStream cout = null;
+	BufferedReader bf = null;
 	String nickname;
 	TeamManager tm;
 	
@@ -62,6 +63,34 @@ public class ClientThread implements Constants, Messages, Runnable, KeyListener 
 		}
 		
 		PacmanOnline.inst.gamePanel.addKeyListener(this);
+		// try receiving server's messages
+		bf = new BufferedReader(new InputStreamReader(cin));
+		String str = "";
+		while(true){
+			try {
+				str = bf.readLine();
+				int keyCode = Integer.parseInt(str);
+				switch( keyCode ){
+					case KeyEvent.VK_UP:
+						PacmanOnline.map.playerList[4].newDirect=(KeyEvent.VK_UP);
+						break;
+					case KeyEvent.VK_DOWN:
+						PacmanOnline.map.playerList[4].newDirect=(KeyEvent.VK_DOWN);
+						break;
+					case KeyEvent.VK_LEFT:
+						PacmanOnline.map.playerList[4].newDirect=(KeyEvent.VK_LEFT);
+						break;
+					case KeyEvent.VK_RIGHT:
+						PacmanOnline.map.playerList[4].newDirect=(KeyEvent.VK_RIGHT);
+						break;	
+					default:
+						System.out.println("KeyCode is " + keyCode );
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		
 	}
 		

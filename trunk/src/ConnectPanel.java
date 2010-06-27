@@ -146,7 +146,10 @@ public class ConnectPanel extends JPanel implements Constants, ActionListener {
 				finalButton.setEnabled(false);
 				PacmanOnline.isReady=true;
 			}else{
-				
+				//////////////////////////////////////////
+				PacmanOnline.movingTimer = new Timer( 40, new MovingListener() );
+				PacmanOnline.movingTimer.start();
+				//////////////////////////////////////////
 				finalButton.setEnabled(false);
 				PacmanOnline.isReady=true;
 			}

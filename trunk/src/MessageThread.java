@@ -79,6 +79,9 @@ public class MessageThread implements Runnable, Messages {
 					default:
 						System.out.println("KeyCode is " + keyCode );
 				}
+				// Testing sending back to client
+				cout.println(keyCode);
+				cout.flush();
 			}
 			catch (Exception e) {
 				Utility.error(e);

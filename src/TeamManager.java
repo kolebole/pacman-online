@@ -105,6 +105,7 @@ public class TeamManager implements Constants, ActionListener {
 						vector.set(playerIndex, new VectorData(element.nickname, element.socket, i, j));
 						selected[i][j] = true;
 						notifyTeamSelection();
+						PacmanOnline.inst.gamePanel.requestFocusInWindow();
 						return;
 					}
 					else {

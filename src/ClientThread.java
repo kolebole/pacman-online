@@ -99,6 +99,7 @@ public class ClientThread implements Constants, Messages, Runnable, KeyListener 
 					ConnectPanel.addrField.setEnabled(false);
 					ConnectPanel.clientButton.setEnabled(false);
 					ConnectPanel.serverButton.setEnabled(false);
+					ConnectPanel.finalButton.setEnabled(true);
 					break;
 				/* Host disallows join */
 				case DISALLOW_JOIN:

@@ -118,7 +118,8 @@ public class ConnectPanel extends JPanel implements Constants, ActionListener {
 				Utility.error(e);
 			}
 			PacmanOnline.isServer=true;
-			finalButton.setEnabled(true);
+			// ryanlei: comment this
+			//finalButton.setEnabled(true);
 		}
 		/* Client: Connect to a server */
 		else if (src == clientButton) {
@@ -135,22 +136,27 @@ public class ConnectPanel extends JPanel implements Constants, ActionListener {
 				Utility.error(e);
 			}
 			PacmanOnline.isServer=false;
+			// ryanlei: comment this
 			//finalButton.setEnabled(true);
 			
-		}else if (src == finalButton) {
+		}
+		/*** ryanlei: I suggest this branch be migrated to both clientThread and serverThread ***/
+		else if (src == finalButton) {
 			if(PacmanOnline.isServer){
 				PacmanOnline.inst.gamePanel.addKeyListener(new DirectionListener());
 				
 				PacmanOnline.movingTimer = new Timer( 40, new MovingListener() );
 				PacmanOnline.movingTimer.start();
-				finalButton.setEnabled(false);
+				// ryanlei: comment this
+				//finalButton.setEnabled(false);
 				PacmanOnline.isReady=true;
 			}else{
 				//////////////////////////////////////////
 				PacmanOnline.movingTimer = new Timer( 40, new MovingListener() );
 				PacmanOnline.movingTimer.start();
 				//////////////////////////////////////////
-				finalButton.setEnabled(false);
+				// ryanlei: comment this
+				//finalButton.setEnabled(false);
 				PacmanOnline.isReady=true;
 			}
 		}

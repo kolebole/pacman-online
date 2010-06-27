@@ -1,5 +1,4 @@
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 import java.io.*;
 import java.net.*;
 import javax.swing.*;
@@ -11,7 +10,7 @@ import javax.swing.*;
  *              This thread is to avoid I/O blocking.
  */
 
-public class ClientThread implements Constants, Messages, Runnable, KeyListener {
+public class ClientThread implements Constants, Messages, Runnable, KeyListener, ActionListener {
 	JPanel panel;
 	String addr;  // server address
 	Socket cs;
@@ -21,6 +20,7 @@ public class ClientThread implements Constants, Messages, Runnable, KeyListener 
 	BufferedReader bf = null;
 	String nickname;
 	TeamManager tm;
+	JButton finalButton;
 	
 	/* constructor */
 	ClientThread(JPanel panel, String addr) {
@@ -35,6 +35,22 @@ public class ClientThread implements Constants, Messages, Runnable, KeyListener 
 	@Override
 	public void run() {
 		System.out.println("Client: Create a thread");
+		System.out.println("Client: Connect to " + addr + " ...");
+		try {
+			/* Create a socket and connect at the same time.
+			 * This may take long to respond if the user mistypes the address.
+			 */
+			cs = new Socket(addr, PORT);
+			System.out.println("step 1");			
+			/* Initialize cin, cout, bf using the socket */
+			cin = cs.getInputStream();
+			bf = new BufferedReader (new InputStreamReader(cin));
+			cout = new PrintStream(cs.getOutputStream());			
+		}
+		catch (Exception e)  {
+			Utility.error(e);
+		}
+
 		/*** Check for connection success ***/
 		checkConnection();
 		if (killThread == true) {
@@ -43,7 +59,6 @@ public class ClientThread implements Constants, Messages, Runnable, KeyListener 
 		/* Send your nickname to the server and let the server randomly select an icon */
 		try {
 			nickname = ConnectPanel.nickField.getText();
-			cout = new PrintStream(cs.getOutputStream());
 			cout.println("" + START_MESSAGE + nickname);
 			cout.flush();
 			
@@ -52,9 +67,11 @@ public class ClientThread implements Constants, Messages, Runnable, KeyListener 
 			Utility.error(e);
 		}
 		/* Enable the "Ready" button and add an ActionListener */
-		ConnectPanel.finalButton.setEnabled(true);
-		tm = new TeamManager();
-		ConnectPanel.finalButton.addActionListener(tm);
+		finalButton = ConnectPanel.finalButton;
+		finalButton.setEnabled(true);
+		// Now the ActionListener becomes "this" instead of a TeamManager
+		//tm = new TeamManager();
+		finalButton.addActionListener(this);
 		
 		
 		/* For Rex and Vincent to fill in */
@@ -64,7 +81,6 @@ public class ClientThread implements Constants, Messages, Runnable, KeyListener 
 		
 		PacmanOnline.inst.gamePanel.addKeyListener(this);
 		// try receiving server's messages
-		bf = new BufferedReader(new InputStreamReader(cin));
 		// set the controlled character
 		char team = TeamManager.vector.get(0).team;
 		int number = TeamManager.vector.get(0).picIndex;
@@ -100,14 +116,6 @@ public class ClientThread implements Constants, Messages, Runnable, KeyListener 
 		
 	public void checkConnection() {
 		try {
-			System.out.println("Client: Connect to " + addr + " ...");
-			cs = new Socket(addr, PORT);
-			System.out.println("step 1");			
-			System.out.println("Socket created (Server connected)"); 
-			
-			//cs.setSoTimeout(CONN_TIMEOUT);
-			cin = cs.getInputStream();
-			System.out.println("step 2");
 			int msg = -1;
 			/*** IMPORTANT: set the timeout before read() ***/
 			cs.setSoTimeout(CONN_TIMEOUT);
@@ -120,7 +128,7 @@ public class ClientThread implements Constants, Messages, Runnable, KeyListener 
 				killThread = true;
 				return;
 			}
-			System.out.println("step 3");				
+			System.out.println("step 2");				
 
 			/* Read second message */
 			msg = cin.read();
@@ -205,7 +213,29 @@ public class ClientThread implements Constants, Messages, Runnable, KeyListener 
 			System.out.println("KeyCode is " + keyCode );
 		}
 	}
-
+	
+	@Override
+	/* Listen on the "Ready" button */
+	public void actionPerformed(ActionEvent evt) {
+		if (evt.getSource() == finalButton) {
+			if (finalButton.getText().equals("Ready")) {
+				/* Send an "IM_READY" message to server */
+				cout.print("" + START_COMMAND + IM_READY);
+				cout.flush();
+				finalButton.setText("Regret");
+			}
+			else if (finalButton.getText().equals("Regret")) {
+				/* Send an "IM_NOT_READY" message to server */
+				cout.print("" + START_COMMAND + IM_NOT_READY);
+				cout.flush();
+				finalButton.setText("Ready");				
+			}
+			else {
+				Utility.unknown(panel);
+			}
+		}
+	}
+	
 	@Override
 	public void keyReleased(KeyEvent arg0) {
 		// TODO Auto-generated method stub

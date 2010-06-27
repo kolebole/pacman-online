@@ -1,4 +1,5 @@
 import java.net.*;
+
 import javax.swing.*;
 import java.awt.event.*;
 import java.io.*;
@@ -10,12 +11,16 @@ import java.io.*;
  */
 
 public class ServerThread implements Constants, Messages, Runnable, ActionListener {
+	/* GUI components referenced from PacFrame */
 	JPanel panel;
+	JTextField msgField;
 	ServerSocket ss;
 	Socket cs;
 	String nickname; // server's (host's) nickname
 	/* current number of players */
-	public int numPlayers;
+	public static int numPlayers;
+	/* current number of ready players */
+	public static int numReady;
 	/* allow other players to join */
 	public boolean allowJoin;
 	InputStream cin = null;
@@ -28,6 +33,7 @@ public class ServerThread implements Constants, Messages, Runnable, ActionListen
 	/* constructor */
 	ServerThread(JPanel panel) {
 		this.panel = panel;
+		this.msgField = PacFrame.msgField;
 		Thread thread = new Thread(this);
 		thread.start();
 	}
@@ -49,11 +55,13 @@ public class ServerThread implements Constants, Messages, Runnable, ActionListen
 			ConnectPanel.lockButton.addActionListener(this);
 			PacFrame.msgField.setText("[Notice] You have created a room.");
 			System.out.println("Server: Listen on port " + PORT + " ...");
-			/* Change "Ready" to "Start" */
+			/* Change "Ready" to "Start" and add ActionListener */
 			ConnectPanel.finalButton.setText("Start");
+			ConnectPanel.finalButton.addActionListener(this);
 			
 			/* Create a TeamManager with an empty Vector */
 			numPlayers = 1;
+			numReady = 0;
 			tm = new TeamManager();
 			/* Insert a record of the server (host) */
 			nickname = ConnectPanel.nickField.getText();
@@ -101,10 +109,6 @@ public class ServerThread implements Constants, Messages, Runnable, ActionListen
 					numPlayers++;
 					/* Show the client's join */
 					PacFrame.msgField.setText("[Notice] Player " + numPlayers + " from " + cs.getInetAddress() + ":" + cs.getPort());
-					/* and enable it when numPlayers >= 2 */
-					//if (numPlayers >= 2) {
-						//ConnectPanel.finalButton.setEnabled(true);
-					//}
 					 
 					/* If the room is now full, notify after 3 seconds */
 					if (numPlayers == MAX_TOTAL_PLAYERS) {
@@ -147,15 +151,21 @@ public class ServerThread implements Constants, Messages, Runnable, ActionListen
 			synchronized (roomLock) {
 				if (allowJoin) {
 					allowJoin = false;
-					PacFrame.msgField.setText("[Notice] The host has locked the room.");
+					msgField.setText("[Notice] The host has locked the room.");
 					ConnectPanel.lockButton.setText("Unlock Room");
 				}
 				else {
 					allowJoin = true;
-					PacFrame.msgField.setText("[Notice] The host has unlocked the room.");
+					msgField.setText("[Notice] The host has unlocked the room.");
 					ConnectPanel.lockButton.setText(" Lock Room ");
 				}
 			}
 		}
+		/* Start the game (enabled when all clients are ready) */
+		else if (src == ConnectPanel.finalButton) {
+			msgField.setText("[Notice] The game has started !!");
+			/* Play the sound: help me please. */
+		}
 	}
+	
 }

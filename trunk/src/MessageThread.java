@@ -68,10 +68,16 @@ public class MessageThread implements Runnable, Messages {
 							case IM_READY:
 								System.out.println("Server: " + nickname + " is ready.");
 								msgField.setText("[Notice] " + nickname + " is ready.");
+								ServerThread.numReady += 1;
+								System.out.println("Server: numReady = " + ServerThread.numReady);
+								checkAllReady();
 								break;
 							case IM_NOT_READY:
 								System.out.println("Server: " + nickname + " is not ready.");
 								msgField.setText("[Notice] " + nickname + " is not ready.");
+								ServerThread.numReady -= 1;
+								System.out.println("Server: numReady = " + ServerThread.numReady);
+								checkAllReady();
 								break;
 							default: 
 								System.out.println("Server: Other command.");
@@ -131,6 +137,19 @@ public class MessageThread implements Runnable, Messages {
 				Utility.error(e);
 			}
 		}		
+	}
+
+	/* Check if all clients are ready */
+	public void checkAllReady() {
+		if (ServerThread.numReady == ServerThread.numPlayers - 1) {
+			System.out.println("All clients are ready.");
+			/* Enable the "Start" button */
+			ConnectPanel.finalButton.setEnabled(true);
+		}
+		else {
+			ConnectPanel.finalButton.setEnabled(false);
+		}
+		
 	}
 
 }

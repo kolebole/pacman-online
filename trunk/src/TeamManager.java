@@ -78,7 +78,7 @@ public class TeamManager implements Constants, ActionListener {
 		}
 		
 		/* Notify each clients */
-		/* 哭哭 */
+		/* 哭哭 >"< */
 	}
 	
 
@@ -105,7 +105,7 @@ public class TeamManager implements Constants, ActionListener {
 						vector.set(playerIndex, new VectorData(element.nickname, element.socket, i, j));
 						selected[i][j] = true;
 						notifyTeamSelection();
-						
+						return;
 					}
 					else {
 						return;

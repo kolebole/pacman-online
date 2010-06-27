@@ -19,6 +19,7 @@ public class ClientThread implements Constants, Messages, Runnable, KeyListener 
 	InputStream cin;
 	PrintStream cout;
 	String nickname;
+	TeamManager tm;
 	
 	/* constructor */
 	ClientThread(JPanel panel, String addr) {
@@ -49,6 +50,11 @@ public class ClientThread implements Constants, Messages, Runnable, KeyListener 
 		catch (Exception e) {
 			Utility.error(e);
 		}
+		/* Enable the "Ready" button and add an ActionListener */
+		ConnectPanel.finalButton.setEnabled(true);
+		tm = new TeamManager();
+		ConnectPanel.finalButton.addActionListener(tm);
+		
 		
 		/* For Rex and Vincent to fill in */
 		while(!PacmanOnline.isReady){

@@ -49,6 +49,8 @@ public class ServerThread implements Constants, Messages, Runnable, ActionListen
 			ConnectPanel.lockButton.addActionListener(this);
 			PacFrame.msgField.setText("[Notice] You have created a room.");
 			System.out.println("Server: Listen on port " + PORT + " ...");
+			/* Change "Ready" to "Start" */
+			ConnectPanel.finalButton.setText("Start");
 			
 			/* Create a TeamManager with an empty Hashtable */
 			numPlayers = 1;
@@ -58,7 +60,7 @@ public class ServerThread implements Constants, Messages, Runnable, ActionListen
 			tm.insertHost(nickname);
 			tm.notifyTeamSelection();
 			
-			/* wait for client to join */
+			/* wait for client to join (blocking) */
 			if (allowJoin && numPlayers < MAX_TOTAL_PLAYERS) {
 				waitForClients();
 			}
@@ -98,6 +100,11 @@ public class ServerThread implements Constants, Messages, Runnable, ActionListen
 					
 					numPlayers++;
 					PacFrame.msgField.setText("[Notice] Player " + numPlayers + " from " + cs.getInetAddress() + ":" + cs.getPort());
+					/* and enable it when numPlayers >= 2 */
+					//if (numPlayers >= 2) {
+						//ConnectPanel.finalButton.setEnabled(true);
+					//}
+					 
 					/* If the room is now full, notify after 3 seconds */
 					if (numPlayers == MAX_TOTAL_PLAYERS) {
 						Timer timer = new Timer(TIMER_ROOMFULL, new ActionListener() {

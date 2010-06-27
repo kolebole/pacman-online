@@ -105,6 +105,7 @@ public class TeamManager implements Constants, ActionListener {
 						vector.set(playerIndex, new VectorData(element.nickname, element.socket, i, j));
 						selected[i][j] = true;
 						notifyTeamSelection();
+						/* Let gamePanel get the Foucs */ 
 						PacmanOnline.inst.gamePanel.requestFocusInWindow();
 						return;
 					}
@@ -114,5 +115,6 @@ public class TeamManager implements Constants, ActionListener {
 				}
 			}
 		}
+		
 	}
 }

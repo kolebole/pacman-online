@@ -135,7 +135,7 @@ public class ConnectPanel extends JPanel implements Constants, ActionListener {
 				Utility.error(e);
 			}
 			PacmanOnline.isServer=false;
-			finalButton.setEnabled(true);
+			//finalButton.setEnabled(true);
 			
 		}else if (src == finalButton) {
 			if(PacmanOnline.isServer){

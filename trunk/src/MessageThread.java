@@ -6,6 +6,7 @@
  */
 import java.awt.event.*;
 import java.net.*;
+import java.util.Date;
 import java.io.*;
 import javax.swing.*;
 
@@ -193,7 +194,7 @@ public class MessageThread implements Runnable, Messages {
 		
 	}
 
-	/* Send a message (variable msg) to the client through socket */
+	/* Send a message to the client through socket */
 	public void send() {
 		if (msgHeader == START_COMMAND) {
 			cout.print("" + msgHeader + command);
@@ -205,4 +206,38 @@ public class MessageThread implements Runnable, Messages {
 			Utility.unknown(panel);
 		}		
 	}
+	
+	/* Receive and respond to a command/message from the client through socket */
+	public void recvAndRespond() {
+		try {
+			char header = (char)cin.read();
+			if (header == START_COMMAND) {
+				/* Respond to command */
+				respondCommand((char)cin.read());
+			}
+			else if (header == START_MESSAGE) {
+				// fill in the blank
+				
+			}
+			else {
+				Utility.unknown(panel);
+			}			
+		}
+		catch (Exception e) {
+			Utility.error(e);
+		}
+	}
+	
+	/* Respond to a command */
+	public void respondCommand(char command) {
+		switch (command) {
+			case IM_ALIVE:
+				System.out.println(nickname + " is alive @ " + new Date().toString());
+				break;
+			default:
+				System.out.println("Some other command.");
+		}
+		send();
+	}
+
 }

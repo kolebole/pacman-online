@@ -165,6 +165,8 @@ public class ServerThread implements Constants, Messages, Runnable, ActionListen
 		else if (src == ConnectPanel.finalButton) {
 			msgField.setText("[Notice] The game has started !!");
 			/* Play the sound: help me please. */
+			Utility.playSound("resource/pacman_start.wav");
+			
 		}
 	}
 	

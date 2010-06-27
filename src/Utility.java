@@ -5,9 +5,9 @@
  */
 
 import java.awt.*;
-import java.net.URL;
-
 import javax.swing.*;
+import java.io.*;
+import javax.sound.sampled.*;
 
 class Utility {
 	/* Print an exception */ 
@@ -26,14 +26,26 @@ class Utility {
 				"Fatal Error", JOptionPane.ERROR_MESSAGE);
 	}
 
-	/* Get codebase (The current directory?) */
-	public static URL getCodeBase() {
-		URL codeBase = null;
+	/* Play an .wav audio file 
+	 * Example: http://tinyurl.com/2cqs44x
+	 * */
+	public static void playSound(String path) {
 		try {
-			codeBase = new URL( "file:" + System.getProperty( "user.dir" ) + "/" );
+			AudioInputStream sound = AudioSystem.getAudioInputStream(new File(path));
+			DataLine.Info info = new DataLine.Info(Clip.class, sound.getFormat());
+			Clip clip = (Clip) AudioSystem.getLine(info);
+			System.out.println("audio 1");
+			// load into memory
+			clip.open(sound);
+			System.out.println("audio 2");
+			// play the sound
+			clip.start();			
+			System.out.println("audio 3");
 		}
-		catch ( Exception e ) {}
-		return codeBase;
-	}		
+		catch (Exception e) {
+			Utility.error(e);
+		}
+	}
+	
 
 }

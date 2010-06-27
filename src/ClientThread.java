@@ -21,7 +21,7 @@ public class ClientThread implements Constants, Messages, Runnable, KeyListener,
 	String nickname;
 	TeamManager tm;
 	JButton finalButton;
-	int lastKeyCode = MOVERIGHT;
+	char lastKeyCode = MOVERIGHT;
 	
 	/* constructor */
 	ClientThread(JPanel panel, String addr) {
@@ -94,7 +94,7 @@ public class ClientThread implements Constants, Messages, Runnable, KeyListener,
 					case SET_PLAYER_POSITION:
 						
 						// Send last move after receiving server's messages
-						cout.print(""+START_COMMAND+MOVEUP);
+						cout.print(""+START_COMMAND+lastKeyCode);
 						cout.flush();
 						break;
 					/*case MOVEUP:

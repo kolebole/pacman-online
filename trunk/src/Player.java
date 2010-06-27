@@ -265,10 +265,27 @@ public class Player {
 					 gridy == playerList[j].gridy && 
 					 playerList[j].type == Player.PACMAN ){
 					// TODO Monster eat Pacman
-						
+					// Pacman disappears from where it been eaten and
+					// appears at the respawn area.
+					playerList[j].setPosition( 20, 20 );
 				}
 			}
 		}
+	}
+	
+	public void setPosition( int x, int y ){
+		this.x = x;
+		this.y = y;
+		updateGrid();
+		moveImage();
+	}
+	
+	public boolean isTouchPlayer( Player player ){
+		return gridx == player.gridx && gridy == player.gridy;
+	}
+	
+	public void moveImage( ){
+		image.setLocation( x, y );
 	}
 	
 	

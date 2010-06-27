@@ -58,7 +58,7 @@ public class GamePanel extends JPanel {
 	}
 	
 	public void movePlayer( Player player ){
-		player.image.setLocation( player.x, player.y );
+		player.moveImage();
 	}
 	
 	private void GUI() {

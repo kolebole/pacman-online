@@ -28,6 +28,9 @@ public interface Constants {
 	/* The playerPanel[]: nickname width for String.format() */
 	public static final int NICKNAME_WIDTH = 15;
 	
+	/* Period used by Auto Moving Timer */ 
+	public static final int MOVING_TIMER_PERIOD = 40;
+	
 	/*** Network-related ***/
 	/* This game uses the constant port port 4233 */
 	public static final int PORT = 4233;

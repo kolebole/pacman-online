@@ -14,7 +14,7 @@ public class GameMap implements Constants {
 	PacFrame frame = PacmanOnline.inst;
 	GameMap () throws IOException{
 		int i, j;
-		BufferedReader buffer = new BufferedReader( new FileReader( "resouce/test.map" ) );
+		BufferedReader buffer = new BufferedReader( new FileReader( "resource/test.map" ) );
 		char[] line;
 		map = new Grid[WIDTH][HEIGHT];
 		for ( i = 0 ; i < HEIGHT ; i++ ){

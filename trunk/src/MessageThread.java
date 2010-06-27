@@ -18,12 +18,20 @@ public class MessageThread implements Runnable, Messages {
 	BufferedReader bf = null;
 	PrintStream cout = null;
 	JTextField msgField;
+	/* Message to be sent to client. Default: (START_COMMAND, IM_ALIVE) */
+	public char msgHeader, command;
+	public String message;
+	
+	
 	
 	MessageThread(Socket socket, TeamManager tm, JPanel panel) {
 		this.socket = socket;
 		this.tm = tm;
 		this.panel = panel;
 		msgField = PacFrame.msgField;
+		/* default message combination */
+		msgHeader = START_COMMAND;
+		command = IM_ALIVE;
 		Thread thread = new Thread(this);
 		thread.start();
 	}
@@ -43,12 +51,14 @@ public class MessageThread implements Runnable, Messages {
 			cout.flush();
 	
 			/* Receive the client's nickname and randomly select an icon for them */
-			int msg = cin.read();
-			if (msg != START_MESSAGE) {
-				Utility.unknown(panel);
-			}
+			Utility.checkStartMessage(cin.read(), panel);
 			nickname = bf.readLine();
-			tm.insertGuest(nickname, socket);						
+			tm.insertGuest(nickname, socket);
+			
+			/* Tell the client its playIndex */
+			char clientIndex = (char)(TeamManager.vector.size() - 1);
+			cout.print("" + START_COMMAND + (YOU_ARE_ZERO + clientIndex));
+			
 		}
 		catch (Exception e) {
 			Utility.error(e);
@@ -183,4 +193,16 @@ public class MessageThread implements Runnable, Messages {
 		
 	}
 
+	/* Send a message (variable msg) to the client through socket */
+	public void send() {
+		if (msgHeader == START_COMMAND) {
+			cout.print("" + msgHeader + command);
+		}
+		else if (msgHeader == START_MESSAGE) {
+			cout.println("" + msgHeader + message);
+		}
+		else {
+			Utility.unknown(panel);
+		}		
+	}
 }

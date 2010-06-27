@@ -7,6 +7,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+
 import java.io.*;
 import java.net.*;
 
@@ -15,9 +16,7 @@ public class ConnectPanel extends JPanel implements Constants, ActionListener {
 	public static JTextField nickField;
 	public static JTextField addrField;
 	public static JButton clientButton, serverButton, lockButton, finalButton;
-	//////////////////////////////////////
-	ServerThread sT;
-	ClientThread cT;
+
 
 	ConnectPanel() {
 		/* The GUI */
@@ -100,9 +99,10 @@ public class ConnectPanel extends JPanel implements Constants, ActionListener {
 					"Warning", JOptionPane.WARNING_MESSAGE);
 			return;
 		}
-		/* RULE: Nicknames should have length <= 13 and should not contain ';' */
-		else if (nickname.length() > 13 || nickname.contains(";")) {
-			JOptionPane.showMessageDialog(this.getParent(), "Nicknames should have lengths <= 13 and contain no ';'", 
+		/* RULE: Nicknames should have length <= MAX_NICKNAME_LENGTH */
+		else if (nickname.length() > MAX_NICKNAME_LENGTH) {
+			JOptionPane.showMessageDialog(this.getParent(), 
+					"Nicknames should have lengths <= " + MAX_NICKNAME_LENGTH, 
 					"Warning", JOptionPane.WARNING_MESSAGE);
 			return;			
 		}
@@ -112,7 +112,7 @@ public class ConnectPanel extends JPanel implements Constants, ActionListener {
 		if (src == serverButton) {			
 			try {
 				/* new a ServerThread to do the I/O blocking jobs */
-				sT = new ServerThread(this);
+				new ServerThread(this);
 
 			} catch (Exception e) {
 				Utility.error(e);
@@ -128,15 +128,27 @@ public class ConnectPanel extends JPanel implements Constants, ActionListener {
 				addr = "localhost";
 			}
 			
-			cT = new ClientThread(this, addr);
+			try {
+				new ClientThread(this, addr);
+			}
+			catch (Exception e) {
+				Utility.error(e);
+			}
 			PacmanOnline.isServer=false;
 			finalButton.setEnabled(true);
 			
 		}else if (src == finalButton) {
 			if(PacmanOnline.isServer){
+				PacmanOnline.inst.gamePanel.addKeyListener(new DirectionListener());
 				
+				PacmanOnline.movingTimer = new Timer( 40, new MovingListener() );
+				PacmanOnline.movingTimer.start();
+				finalButton.setEnabled(false);
+				PacmanOnline.isReady=true;
 			}else{
 				
+				finalButton.setEnabled(false);
+				PacmanOnline.isReady=true;
 			}
 		}
 	}

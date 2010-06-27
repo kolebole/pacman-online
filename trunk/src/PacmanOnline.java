@@ -13,6 +13,8 @@ public class PacmanOnline implements Constants {
 	public static GameMap map;
 	public static Timer movingTimer;
 	
+	public static boolean isServer = false;
+	public static boolean isReady = false;
 	
 	/**
 	 * @param args
@@ -37,12 +39,7 @@ public class PacmanOnline implements Constants {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				inst.gamePanel.addKeyListener(new DirectionListener());
-				KeyListener[] kls = inst.getKeyListeners();
-				System.out.println(kls);
 				
-				movingTimer = new Timer( 40, new MovingListener() );
-				movingTimer.start();
 				
 			}
 		});

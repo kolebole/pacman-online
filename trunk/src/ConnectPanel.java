@@ -15,6 +15,9 @@ public class ConnectPanel extends JPanel implements Constants, ActionListener {
 	public static JTextField nickField;
 	public static JTextField addrField;
 	public static JButton clientButton, serverButton, lockButton, finalButton;
+	//////////////////////////////////////
+	ServerThread sT;
+	ClientThread cT;
 
 	ConnectPanel() {
 		/* The GUI */
@@ -97,10 +100,9 @@ public class ConnectPanel extends JPanel implements Constants, ActionListener {
 					"Warning", JOptionPane.WARNING_MESSAGE);
 			return;
 		}
-		/* RULE: Nicknames should have length <= MAX_NICKNAME_LENGTH */
-		else if (nickname.length() > MAX_NICKNAME_LENGTH) {
-			JOptionPane.showMessageDialog(this.getParent(), 
-					"Nicknames should have lengths <= " + MAX_NICKNAME_LENGTH, 
+		/* RULE: Nicknames should have length <= 13 and should not contain ';' */
+		else if (nickname.length() > 13 || nickname.contains(";")) {
+			JOptionPane.showMessageDialog(this.getParent(), "Nicknames should have lengths <= 13 and contain no ';'", 
 					"Warning", JOptionPane.WARNING_MESSAGE);
 			return;			
 		}
@@ -110,11 +112,13 @@ public class ConnectPanel extends JPanel implements Constants, ActionListener {
 		if (src == serverButton) {			
 			try {
 				/* new a ServerThread to do the I/O blocking jobs */
-				new ServerThread(this);
+				sT = new ServerThread(this);
 
 			} catch (Exception e) {
 				Utility.error(e);
 			}
+			PacmanOnline.isServer=true;
+			finalButton.setEnabled(true);
 		}
 		/* Client: Connect to a server */
 		else if (src == clientButton) {
@@ -123,11 +127,16 @@ public class ConnectPanel extends JPanel implements Constants, ActionListener {
 			if (addr.equals("")) {
 				addr = "localhost";
 			}
-			try {
-				new ClientThread(this, addr);
-			}
-			catch (Exception e) {
-				Utility.error(e);
+			
+			cT = new ClientThread(this, addr);
+			PacmanOnline.isServer=false;
+			finalButton.setEnabled(true);
+			
+		}else if (src == finalButton) {
+			if(PacmanOnline.isServer){
+				
+			}else{
+				
 			}
 		}
 	}

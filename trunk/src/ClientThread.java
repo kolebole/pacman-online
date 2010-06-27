@@ -1,3 +1,5 @@
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.*;
 import java.net.*;
 import javax.swing.*;
@@ -9,7 +11,7 @@ import javax.swing.*;
  *              This thread is to avoid I/O blocking.
  */
 
-public class ClientThread implements Constants, Messages, Runnable {
+public class ClientThread implements Constants, Messages, Runnable, KeyListener {
 	JPanel panel;
 	String addr;  // server address
 	Socket cs;
@@ -49,11 +51,11 @@ public class ClientThread implements Constants, Messages, Runnable {
 		}
 		
 		/* For Rex and Vincent to fill in */
-		while (true) {
-			
-			
+		while(!PacmanOnline.isReady){
 			
 		}
+		
+		PacmanOnline.inst.gamePanel.addKeyListener(this);
 		
 	}
 		
@@ -135,5 +137,43 @@ public class ClientThread implements Constants, Messages, Runnable {
 		catch (Exception e) {
 			Utility.error(e);
 		}
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		int keyCode = e.getKeyCode();
+		switch( keyCode ){
+		case KeyEvent.VK_UP:
+			cout.println(KeyEvent.VK_UP);
+			cout.flush();
+			break;
+		case KeyEvent.VK_DOWN:
+			cout.println(KeyEvent.VK_DOWN);
+			cout.flush();
+			break;
+		case KeyEvent.VK_LEFT:
+			cout.println(KeyEvent.VK_LEFT);
+			cout.flush();
+			break;
+		case KeyEvent.VK_RIGHT:
+			cout.println(KeyEvent.VK_RIGHT);
+			cout.flush();
+			break;
+		default:
+			System.out.println("KeyCode is " + keyCode );
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 }

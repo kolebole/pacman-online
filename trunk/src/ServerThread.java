@@ -4,15 +4,15 @@ import java.awt.event.*;
 import java.io.*;
 /* File: ServerThread.java
  * Start: 2010/06/25
- * Modification: 2010/06/27
+ * Modification: 2010/06/26
  * Description: Server thread for receiving/sending messages from/to clients.
  *              This thread is to avoid I/O blocking.
  */
 
 public class ServerThread implements Constants, Messages, Runnable, ActionListener {
 	JPanel panel;
-	ServerSocket ss = null;
-	Socket cs = null;
+	ServerSocket ss;
+	Socket cs;
 	String nickname; // server's (host's) nickname
 	/* current number of players */
 	public int numPlayers;
@@ -20,7 +20,6 @@ public class ServerThread implements Constants, Messages, Runnable, ActionListen
 	public boolean allowJoin;
 	InputStream cin = null;
 	PrintWriter cout = null;
-	BufferedReader bf = null;
 	/* synchronization lock */
 	public String roomLock = "I'll lock the room.";
 	/* Team manager before starting the game */
@@ -51,12 +50,13 @@ public class ServerThread implements Constants, Messages, Runnable, ActionListen
 			PacFrame.msgField.setText("[Notice] You have created a room.");
 			System.out.println("Server: Listen on port " + PORT + " ...");
 			
-			/* Create a TeamManager with an empty Vector */
+			/* Create a TeamManager with an empty Hashtable */
 			numPlayers = 1;
 			tm = new TeamManager();
 			/* Insert a record of the server (host) */
 			nickname = ConnectPanel.nickField.getText();
 			tm.insertHost(nickname);
+			tm.notifyTeamSelection();
 			
 			/* wait for client to join */
 			if (allowJoin && numPlayers < MAX_TOTAL_PLAYERS) {
@@ -82,7 +82,7 @@ public class ServerThread implements Constants, Messages, Runnable, ActionListen
 					/* Check for allowJoin */
 					if (!allowJoin) {
 						System.out.println("The room is now allowed for join.");
-						cout.print("" + START_COMMAND + DISALLOW_JOIN);
+						cout.print(DISALLOW_JOIN);
 						cout.flush();
 						cs.close();
 						continue; // wait for a new client
@@ -90,7 +90,7 @@ public class ServerThread implements Constants, Messages, Runnable, ActionListen
 					/* Check for room full */
 					if (numPlayers == MAX_TOTAL_PLAYERS) {
 						System.out.println("The room is full. (" + MAX_TOTAL_PLAYERS + " people)");
-						cout.print("" + START_COMMAND + ROOM_FULL);
+						cout.print(ROOM_FULL);
 						cout.flush();
 						cs.close();
 						continue; // wait for a new client
@@ -118,11 +118,40 @@ public class ServerThread implements Constants, Messages, Runnable, ActionListen
 				if (msg != START_MESSAGE) {
 					Utility.unknown(panel);
 				}
-				bf = new BufferedReader(new InputStreamReader(cin));
-				String nickname = bf.readLine();
-				System.out.println(nickname);
-				tm.insertGuest(nickname, cs);
+				BufferedReader bf = new BufferedReader(new InputStreamReader(cin));
+				String str = bf.readLine();
 				
+				
+				
+				////////////////////////////
+				while(true){
+					str = bf.readLine();
+					int keyCode = Integer.parseInt(str);
+					switch( keyCode ){
+					case KeyEvent.VK_UP:
+						PacmanOnline.map.playerList[4].newDirect=(KeyEvent.VK_UP);
+						break;
+					case KeyEvent.VK_DOWN:
+						PacmanOnline.map.playerList[4].newDirect=(KeyEvent.VK_DOWN);
+						break;
+					case KeyEvent.VK_LEFT:
+						PacmanOnline.map.playerList[4].newDirect=(KeyEvent.VK_LEFT);
+						break;
+					case KeyEvent.VK_RIGHT:
+						PacmanOnline.map.playerList[4].newDirect=(KeyEvent.VK_RIGHT);
+						break;
+
+					default:
+						System.out.println("KeyCode is " + keyCode );
+					}
+				}
+				/*str = bf.readLine();
+				String tempStr="";
+				while(!str.isEmpty()){
+					tempStr+=str;
+					str=bf.readLine();
+				}
+				System.out.println(tempStr);*/
 			}
 			
 		}

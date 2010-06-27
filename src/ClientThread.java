@@ -21,6 +21,7 @@ public class ClientThread implements Constants, Messages, Runnable, KeyListener,
 	String nickname;
 	TeamManager tm;
 	JButton finalButton;
+	int lastKeyCode = MOVERIGHT;
 	
 	/* constructor */
 	ClientThread(JPanel panel, String addr) {
@@ -90,7 +91,13 @@ public class ClientThread implements Constants, Messages, Runnable, KeyListener,
 					Utility.unknown(panel);
 				msg = (char)cin.read();
 				switch( msg ){
-					case MOVEUP:
+					case SET_PLAYER_POSITION:
+						
+						// Send last move after receiving server's messages
+						cout.print(""+START_COMMAND+MOVEUP);
+						cout.flush();
+						break;
+					/*case MOVEUP:
 						PacmanOnline.map.playerList[4].newDirect = KeyEvent.VK_UP;
 						break;
 					case MOVEDOWN:
@@ -101,7 +108,7 @@ public class ClientThread implements Constants, Messages, Runnable, KeyListener,
 						break;
 					case MOVERIGHT:
 						PacmanOnline.map.playerList[4].newDirect = KeyEvent.VK_RIGHT;
-						break;	
+						break;*/	
 					default:
 						System.out.println("KeyCode is " + msg );
 				}
@@ -193,20 +200,24 @@ public class ClientThread implements Constants, Messages, Runnable, KeyListener,
 		System.out.println("Client Action: "+ keyCode);
 		switch( keyCode ){
 		case KeyEvent.VK_UP:
-			cout.print(""+START_COMMAND+MOVEUP);
-			cout.flush();
+			//cout.print(""+START_COMMAND+MOVEUP);
+			lastKeyCode=MOVEUP;
+			//cout.flush();
 			break;
 		case KeyEvent.VK_DOWN:
-			cout.print(""+START_COMMAND+MOVEDOWN);
-			cout.flush();
+			//cout.print(""+START_COMMAND+MOVEDOWN);
+			lastKeyCode=MOVEDOWN;
+			//cout.flush();
 			break;
 		case KeyEvent.VK_LEFT:
-			cout.print(""+START_COMMAND+MOVELEFT);
-			cout.flush();
+			//cout.print(""+START_COMMAND+MOVELEFT);
+			lastKeyCode=MOVELEFT;
+			//cout.flush();
 			break;
 		case KeyEvent.VK_RIGHT:
-			cout.print(""+START_COMMAND+MOVERIGHT);
-			cout.flush();
+			//cout.print(""+START_COMMAND+MOVERIGHT);
+			lastKeyCode=MOVERIGHT;
+			//cout.flush();
 			break;
 		default:
 			System.out.println("KeyCode is " + keyCode );

@@ -82,29 +82,28 @@ public class ClientThread implements Constants, Messages, Runnable, KeyListener,
 		PacmanOnline.inst.gamePanel.addKeyListener(this);
 		// try receiving server's messages
 		// set the controlled character
-		char team = TeamManager.vector.get(0).team;
-		int number = TeamManager.vector.get(0).picIndex;
-		Player player = PacmanOnline.map.playerList[team*4+number];
-		String str = "";
+		char msg;
 		while(true){
 			try {
-				str = bf.readLine();
-				int keyCode = Integer.parseInt(str);
-				switch( keyCode ){
-					case KeyEvent.VK_UP:
-						PacmanOnline.map.playerList[4].newDirect=(KeyEvent.VK_UP);
+				msg = (char)cin.read();
+				if ( msg != START_COMMAND )
+					Utility.unknown(panel);
+				msg = (char)cin.read();
+				switch( msg ){
+					case MOVEUP:
+						PacmanOnline.map.playerList[4].newDirect = KeyEvent.VK_UP;
 						break;
-					case KeyEvent.VK_DOWN:
-						PacmanOnline.map.playerList[4].newDirect=(KeyEvent.VK_DOWN);
+					case MOVEDOWN:
+						PacmanOnline.map.playerList[4].newDirect = KeyEvent.VK_DOWN;
 						break;
-					case KeyEvent.VK_LEFT:
-						PacmanOnline.map.playerList[4].newDirect=(KeyEvent.VK_LEFT);
+					case MOVELEFT:
+						PacmanOnline.map.playerList[4].newDirect = KeyEvent.VK_LEFT;
 						break;
-					case KeyEvent.VK_RIGHT:
-						PacmanOnline.map.playerList[4].newDirect=(KeyEvent.VK_RIGHT);
+					case MOVERIGHT:
+						PacmanOnline.map.playerList[4].newDirect = KeyEvent.VK_RIGHT;
 						break;	
 					default:
-						System.out.println("KeyCode is " + keyCode );
+						System.out.println("KeyCode is " + msg );
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -194,19 +193,19 @@ public class ClientThread implements Constants, Messages, Runnable, KeyListener,
 		System.out.println("Client Action: "+ keyCode);
 		switch( keyCode ){
 		case KeyEvent.VK_UP:
-			cout.println(KeyEvent.VK_UP);
+			cout.print(""+START_COMMAND+MOVEUP);
 			cout.flush();
 			break;
 		case KeyEvent.VK_DOWN:
-			cout.println(KeyEvent.VK_DOWN);
+			cout.print(""+START_COMMAND+MOVEDOWN);
 			cout.flush();
 			break;
 		case KeyEvent.VK_LEFT:
-			cout.println(KeyEvent.VK_LEFT);
+			cout.print(""+START_COMMAND+MOVELEFT);
 			cout.flush();
 			break;
 		case KeyEvent.VK_RIGHT:
-			cout.println(KeyEvent.VK_RIGHT);
+			cout.print(""+START_COMMAND+MOVERIGHT);
 			cout.flush();
 			break;
 		default:

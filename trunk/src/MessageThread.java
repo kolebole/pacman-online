@@ -79,6 +79,28 @@ public class MessageThread implements Runnable, Messages {
 								System.out.println("Server: numReady = " + ServerThread.numReady);
 								checkAllReady();
 								break;
+							/* control moving message */
+							case MOVEUP:
+								PacmanOnline.map.playerList[4].newDirect = KeyEvent.VK_UP;
+								cout.print(""+START_COMMAND+MOVEUP);
+								cout.flush();
+								break;
+							case MOVEDOWN:
+								PacmanOnline.map.playerList[4].newDirect = KeyEvent.VK_DOWN;
+								cout.print(""+START_COMMAND+MOVEDOWN);
+								cout.flush();
+								break;
+							case MOVELEFT:
+								PacmanOnline.map.playerList[4].newDirect = KeyEvent.VK_LEFT;
+								cout.print(""+START_COMMAND+MOVELEFT);
+								cout.flush();
+								break;
+							case MOVERIGHT:
+								PacmanOnline.map.playerList[4].newDirect = KeyEvent.VK_RIGHT;
+								cout.print(""+START_COMMAND+MOVERIGHT);
+								cout.flush();
+								break;
+							/* control moving message end */
 							default: 
 								System.out.println("Server: Other command.");
 						}
@@ -109,29 +131,38 @@ public class MessageThread implements Runnable, Messages {
 	
 	public void keyCodeHandler() {
 		////////////////////////////
+		char msg;
 		while(true){
 			try {
-				str = bf.readLine();
-				int keyCode = Integer.parseInt(str);
-				switch( keyCode ){
-					case KeyEvent.VK_UP:
+				msg = (char)cin.read();
+				if ( msg != START_COMMAND )
+					Utility.unknown(panel);
+				msg = (char)cin.read();
+				switch( msg ){
+					case MOVEUP:
 						PacmanOnline.map.playerList[4].newDirect=(KeyEvent.VK_UP);
+						cout.print(""+START_COMMAND+MOVEUP);
+						cout.flush();
 						break;
-					case KeyEvent.VK_DOWN:
+					case MOVEDOWN:
 						PacmanOnline.map.playerList[4].newDirect=(KeyEvent.VK_DOWN);
+						cout.print(""+START_COMMAND+MOVEDOWN);
+						cout.flush();
 						break;
-					case KeyEvent.VK_LEFT:
+					case MOVELEFT:
 						PacmanOnline.map.playerList[4].newDirect=(KeyEvent.VK_LEFT);
+						cout.print(""+START_COMMAND+MOVELEFT);
+						cout.flush();
 						break;
-					case KeyEvent.VK_RIGHT:
+					case MOVERIGHT:
 						PacmanOnline.map.playerList[4].newDirect=(KeyEvent.VK_RIGHT);
+						cout.print(""+START_COMMAND+MOVERIGHT);
+						cout.flush();
 						break;	
 					default:
-						System.out.println("KeyCode is " + keyCode );
+						System.out.println("KeyCode is " + msg );
 				}
-				// Testing sending back to client
-				cout.println(keyCode);
-				cout.flush();
+				
 			}
 			catch (Exception e) {
 				Utility.error(e);

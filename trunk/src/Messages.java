@@ -17,8 +17,10 @@ public interface Messages {
 	public static final char ROOM_FULL = 2;
 	/* I'm ready to start the game, sent by clients */
 	public static final char IM_READY = 3;
+	/* I regret being ready to start the game, sent by clients */
+	public static final char IM_NOT_READY = 4;
 	/* I'll start a game now, sent by the server */
-	public static final char START_GAME = 4;
+	public static final char START_GAME = 5;
 	
 	
 	

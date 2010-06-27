@@ -17,11 +17,13 @@ public class MessageThread implements Runnable, Messages {
 	InputStream cin = null;
 	BufferedReader bf = null;
 	PrintStream cout = null;
+	JTextField msgField;
 	
 	MessageThread(Socket socket, TeamManager tm, JPanel panel) {
 		this.socket = socket;
 		this.tm = tm;
 		this.panel = panel;
+		msgField = PacFrame.msgField;
 		Thread thread = new Thread(this);
 		thread.start();
 	}
@@ -45,15 +47,57 @@ public class MessageThread implements Runnable, Messages {
 			if (msg != START_MESSAGE) {
 				Utility.unknown(panel);
 			}
-			String nickname = bf.readLine();
+			nickname = bf.readLine();
 			tm.insertGuest(nickname, socket);						
 		}
 		catch (Exception e) {
 			Utility.error(e);
 		}
 		
+		/* Constantly receive messages from the client */
+		
+		while (true) {
+			try {
+				System.out.println("Server: read() 1.");
+				int msg1 = cin.read();
+				switch (msg1) {
+					case START_COMMAND:
+						System.out.println("Server: read() 2.");
+						int msg2 = cin.read();
+						switch (msg2) {
+							case IM_READY:
+								System.out.println("Server: " + nickname + " is ready.");
+								msgField.setText("[Notice] " + nickname + " is ready.");
+								break;
+							case IM_NOT_READY:
+								System.out.println("Server: " + nickname + " is not ready.");
+								msgField.setText("[Notice] " + nickname + " is not ready.");
+								break;
+							default: 
+								System.out.println("Server: Other command.");
+						}
+						break;
+						
+					case START_MESSAGE:
+						System.out.println("Server: START_MESSAGE. Not yet implemented.");
+						break;
+						
+					default:
+						Utility.unknown(panel);
+				}
+				
+				
+				
+				
+			}
+			catch (Exception e) {
+				Utility.error(e);
+			}
+			
+		}
+		
 		/*** call ketCodeHandler() (infinite) once by Rex and Vincent ***/
-		keyCodeHandler();
+		//keyCodeHandler();
 		
 	}
 	
@@ -61,7 +105,7 @@ public class MessageThread implements Runnable, Messages {
 		////////////////////////////
 		while(true){
 			try {
-				String str = bf.readLine();
+				str = bf.readLine();
 				int keyCode = Integer.parseInt(str);
 				switch( keyCode ){
 					case KeyEvent.VK_UP:

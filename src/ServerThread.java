@@ -4,8 +4,8 @@ import java.awt.event.*;
 import java.io.*;
 /* File: ServerThread.java
  * Start: 2010/06/25
- * Modification: 2010/06/26
- * Description: Server thread for receiving/sending messages from/to clients.
+ * Modification: 2010/06/27
+ * Description: Server thread for accepting client connections.
  *              This thread is to avoid I/O blocking.
  */
 
@@ -52,7 +52,7 @@ public class ServerThread implements Constants, Messages, Runnable, ActionListen
 			/* Change "Ready" to "Start" */
 			ConnectPanel.finalButton.setText("Start");
 			
-			/* Create a TeamManager with an empty Hashtable */
+			/* Create a TeamManager with an empty Vector */
 			numPlayers = 1;
 			tm = new TeamManager();
 			/* Insert a record of the server (host) */
@@ -60,9 +60,9 @@ public class ServerThread implements Constants, Messages, Runnable, ActionListen
 			tm.insertHost(nickname);
 			tm.notifyTeamSelection();
 			
-			/* wait for client to join (blocking) */
-			if (allowJoin && numPlayers < MAX_TOTAL_PLAYERS) {
-				waitForClients();
+			/* Always wait for client to join (blocking) */
+			if (allowJoin && numPlayers < MAX_TOTAL_PLAYERS) {				
+				waitForClients();  // blocking
 			}
 		}
 		catch (Exception e) {
@@ -83,8 +83,8 @@ public class ServerThread implements Constants, Messages, Runnable, ActionListen
 				synchronized (roomLock) {
 					/* Check for allowJoin */
 					if (!allowJoin) {
-						System.out.println("The room is now allowed for join.");
-						cout.print(DISALLOW_JOIN);
+						System.out.println("The room is not allowed for join.");
+						cout.print("" + START_COMMAND + DISALLOW_JOIN);
 						cout.flush();
 						cs.close();
 						continue; // wait for a new client
@@ -92,13 +92,14 @@ public class ServerThread implements Constants, Messages, Runnable, ActionListen
 					/* Check for room full */
 					if (numPlayers == MAX_TOTAL_PLAYERS) {
 						System.out.println("The room is full. (" + MAX_TOTAL_PLAYERS + " people)");
-						cout.print(ROOM_FULL);
+						cout.print("" + START_COMMAND + ROOM_FULL);
 						cout.flush();
 						cs.close();
 						continue; // wait for a new client
 					}
 					
 					numPlayers++;
+					/* Show the client's join */
 					PacFrame.msgField.setText("[Notice] Player " + numPlayers + " from " + cs.getInetAddress() + ":" + cs.getPort());
 					/* and enable it when numPlayers >= 2 */
 					//if (numPlayers >= 2) {
@@ -115,43 +116,13 @@ public class ServerThread implements Constants, Messages, Runnable, ActionListen
 						timer.start();
 					}	
 				} // end of synchronized()
-					
-				/* Now the join is OK => Send a message to the client */
-				cout.print("" + START_COMMAND + IM_ALIVE);
-				cout.flush();
-				
-				/* Receive the client's nickname and randomly select an icon for them */
-				int msg = cin.read();
-				if (msg != START_MESSAGE) {
-					Utility.unknown(panel);
-				}
-				BufferedReader bf = new BufferedReader(new InputStreamReader(cin));
-				String str = bf.readLine();
-				
-				
-				
-				////////////////////////////
-				while(true){
-					str = bf.readLine();
-					int keyCode = Integer.parseInt(str);
-					switch( keyCode ){
-					case KeyEvent.VK_UP:
-						PacmanOnline.map.playerList[4].newDirect=(KeyEvent.VK_UP);
-						break;
-					case KeyEvent.VK_DOWN:
-						PacmanOnline.map.playerList[4].newDirect=(KeyEvent.VK_DOWN);
-						break;
-					case KeyEvent.VK_LEFT:
-						PacmanOnline.map.playerList[4].newDirect=(KeyEvent.VK_LEFT);
-						break;
-					case KeyEvent.VK_RIGHT:
-						PacmanOnline.map.playerList[4].newDirect=(KeyEvent.VK_RIGHT);
-						break;
 
-					default:
-						System.out.println("KeyCode is " + keyCode );
-					}
-				}
+				/*** Now the join is OK => new a MessageThread to handle everything else ***/
+				new MessageThread(cs, tm, panel);
+
+				
+				
+				
 				/*str = bf.readLine();
 				String tempStr="";
 				while(!str.isEmpty()){

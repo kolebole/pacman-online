@@ -72,7 +72,7 @@ public class ClientThread implements Constants, Messages, Runnable, KeyListener 
 			System.out.println("step 1");			
 			System.out.println("Socket created (Server connected)"); 
 			
-			cs.setSoTimeout(CONN_TIMEOUT);
+			//cs.setSoTimeout(CONN_TIMEOUT);
 			cin = cs.getInputStream();
 			System.out.println("step 2");
 			int msg = -1;

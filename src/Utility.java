@@ -5,6 +5,8 @@
  */
 
 import java.awt.*;
+import java.net.URL;
+
 import javax.swing.*;
 
 class Utility {
@@ -23,4 +25,15 @@ class Utility {
 		JOptionPane.showMessageDialog(c, "Should NOT reach this state!!!",
 				"Fatal Error", JOptionPane.ERROR_MESSAGE);
 	}
+
+	/* Get codebase (The current directory?) */
+	public static URL getCodeBase() {
+		URL codeBase = null;
+		try {
+			codeBase = new URL( "file:" + System.getProperty( "user.dir" ) + "/" );
+		}
+		catch ( Exception e ) {}
+		return codeBase;
+	}		
+
 }

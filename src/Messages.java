@@ -1,3 +1,5 @@
+import java.awt.event.KeyEvent;
+
 /* File: Messages.java
  * Start: 2010/06/25
  * Modification: 2010/06/27
@@ -21,6 +23,11 @@ public interface Messages {
 	public static final char IM_NOT_READY = 4;
 	/* I'll start a game now, sent by the server */
 	public static final char START_GAME = 5;
+	/* Control character moving */
+	public static final char MOVEUP = 6;
+	public static final char MOVEDOWN = 7;
+	public static final char MOVELEFT = 8;
+	public static final char MOVERIGHT = 9;
 	
 	
 	

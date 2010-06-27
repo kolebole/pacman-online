@@ -9,7 +9,7 @@ import javax.swing.*;
 import java.io.*;
 import javax.sound.sampled.*;
 
-class Utility {
+class Utility implements Messages {
 	/* Print an exception */ 
 	public static void error(Exception e) {
 		System.err.println(e.toString());
@@ -44,6 +44,30 @@ class Utility {
 		}
 		catch (Exception e) {
 			Utility.error(e);
+		}
+	}
+	
+	/* Check whether the input is START_COMMAND */
+	public static boolean checkStartCommand(int msg, Container c) {
+		if (msg != START_COMMAND) {
+			JOptionPane.showMessageDialog(c, "Expecting \"START_COMMAND\"",
+					"Fatal Error", JOptionPane.ERROR_MESSAGE);			
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+	
+	/* Check whether the input is START_MESSAGE */
+	public static boolean checkStartMessage(int msg, Container c) {
+		if (msg != START_MESSAGE) {
+			JOptionPane.showMessageDialog(c, "Expecting \"START_MESSAGE\"",
+					"Fatal Error", JOptionPane.ERROR_MESSAGE);			
+			return false;
+		}
+		else {
+			return true;
 		}
 	}
 	

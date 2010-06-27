@@ -3,6 +3,7 @@ import java.net.*;
 import javax.swing.*;
 import java.awt.event.*;
 import java.io.*;
+import java.util.Vector;
 /* File: ServerThread.java
  * Start: 2010/06/25
  * Modification: 2010/06/27
@@ -14,6 +15,8 @@ public class ServerThread implements Constants, Messages, Runnable, ActionListen
 	/* GUI components referenced from PacFrame */
 	JPanel panel;
 	JTextField msgField;
+	JButton finalButton;
+	
 	ServerSocket ss;
 	Socket cs;
 	String nickname; // server's (host's) nickname
@@ -29,11 +32,15 @@ public class ServerThread implements Constants, Messages, Runnable, ActionListen
 	public String roomLock = "I'll lock the room.";
 	/* Team manager before starting the game */
 	public TeamManager tm;
+	/* Vector to collect all MessageThreads */
+	public static Vector<MessageThread> mtv;
 	
 	/* constructor */
 	ServerThread(JPanel panel) {
 		this.panel = panel;
 		this.msgField = PacFrame.msgField;
+		this.finalButton = ConnectPanel.finalButton;
+		mtv = new Vector<MessageThread>();
 		Thread thread = new Thread(this);
 		thread.start();
 	}
@@ -68,7 +75,10 @@ public class ServerThread implements Constants, Messages, Runnable, ActionListen
 			tm.insertHost(nickname);
 			tm.notifyTeamSelection();
 			
-			/* Always wait for client to join (blocking) */
+			/*** Start a SyncThread to maintain a server timer ***/
+			new SyncThread();
+			
+			/*** Always wait for client to join (blocking) ***/
 			if (allowJoin && numPlayers < MAX_TOTAL_PLAYERS) {				
 				waitForClients();  // blocking
 			}
@@ -122,18 +132,8 @@ public class ServerThread implements Constants, Messages, Runnable, ActionListen
 				} // end of synchronized()
 
 				/*** Now the join is OK => new a MessageThread to handle everything else ***/
-				new MessageThread(cs, tm, panel);
+				mtv.add(new MessageThread(cs, tm, panel));
 
-				
-				
-				
-				/*str = bf.readLine();
-				String tempStr="";
-				while(!str.isEmpty()){
-					tempStr+=str;
-					str=bf.readLine();
-				}
-				System.out.println(tempStr);*/
 			}
 			
 		}
@@ -162,8 +162,10 @@ public class ServerThread implements Constants, Messages, Runnable, ActionListen
 			}
 		}
 		/* Start the game (enabled when all clients are ready) */
-		else if (src == ConnectPanel.finalButton) {
+		else if (src == finalButton) {
 			msgField.setText("[Notice] The game has started !!");
+			finalButton.setEnabled(false);
+			
 			/* Play the sound: help me please. */
 			Utility.playSound("resource/pacman_start.wav");
 			

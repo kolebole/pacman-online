@@ -28,7 +28,15 @@ public interface Messages {
 	public static final char MOVEDOWN = 7;
 	public static final char MOVELEFT = 8;
 	public static final char MOVERIGHT = 9;
-	
+	/* Tell the client its playIndex (1~7). Server is 0. */
+	public static final char YOU_ARE_ZERO = 10;  // never really sent?
+	public static final char YOU_ARE_ONE = 11;
+	public static final char YOU_ARE_TWO = 12;
+	public static final char YOU_ARE_THREE = 13;
+	public static final char YOU_ARE_FOUR = 14;
+	public static final char YOU_ARE_FIVE = 15;
+	public static final char YOU_ARE_SIX = 16;
+	public static final char YOU_ARE_SEVEN = 17;
 	
 	
 }

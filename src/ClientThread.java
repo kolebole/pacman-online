@@ -65,6 +65,10 @@ public class ClientThread implements Constants, Messages, Runnable, KeyListener 
 		PacmanOnline.inst.gamePanel.addKeyListener(this);
 		// try receiving server's messages
 		bf = new BufferedReader(new InputStreamReader(cin));
+		// set the controlled character
+		char team = TeamManager.vector.get(0).team;
+		int number = TeamManager.vector.get(0).picIndex;
+		Player player = PacmanOnline.map.playerList[team*4+number];
 		String str = "";
 		while(true){
 			try {
@@ -88,7 +92,7 @@ public class ClientThread implements Constants, Messages, Runnable, KeyListener 
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				// e.printStackTrace();
 			}
 		}
 		
@@ -179,6 +183,7 @@ public class ClientThread implements Constants, Messages, Runnable, KeyListener 
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
 		int keyCode = e.getKeyCode();
+		System.out.println("Client Action: "+ keyCode);
 		switch( keyCode ){
 		case KeyEvent.VK_UP:
 			cout.println(KeyEvent.VK_UP);

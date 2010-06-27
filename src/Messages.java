@@ -23,7 +23,7 @@ public interface Messages {
 	public static final char IM_NOT_READY = 4;
 	/* I'll start a game now, sent by the server */
 	public static final char START_GAME = 5;
-	/* Control character moving */
+	/* Control character moving from client to server */
 	public static final char MOVEUP = 6;
 	public static final char MOVEDOWN = 7;
 	public static final char MOVELEFT = 8;
@@ -38,5 +38,17 @@ public interface Messages {
 	public static final char YOU_ARE_SIX = 16;
 	public static final char YOU_ARE_SEVEN = 17;
 	
+	/* Misc. Commands */
+	public static final char SET_NICKNAME =18;
+	
+	/* Character positions from server to client */
+	public static final char SET_PLAYER_POSITION = 19;
+
+	// format: "SET_PLAYER_POSITION, PLAYER_POSITION(player_index, x, y)\n"
+	
+	/* Eaten Beans positions from server to client */
+	public static final char SET_EATEN_POSITION = 20;
+	
+	// format: "SET_EATEN_POSITION, EATEN_POSITION(x, y)\n"
 	
 }

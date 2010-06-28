@@ -1,0 +1,6 @@
+1. 所有的畫面都顯示在同一個視窗裡，避免開關新視窗的問題。
+2. 畫圖的細節都是client自己處理，以免速度過慢。
+3. Client的按鈕不會直接反映在畫面上，而是需要送"按鍵"至server處理。 
+4. 用Thread處理所有的send、receive，以防blocking，
+5. 改用DatagramSocket、DatagramPacket，比TCP直觀。
+6. 可能用一字元的英文字母'A'~'Z'來編碼所有訊息。

@@ -1,0 +1,65 @@
+1). how to use "const" in Java program? (compare to #define in C/C++)
+	在Java中，沒有const和#define這個關鍵字，用的是final代表這個值是最終版本，不能再被改了。例如一開始的：
+		private final static int DEFAULT_PORT = 6789;
+	另外也可以使用一個interface把一些相關的常數給包起來，例如範例中的：
+	interface CMD_Constant
+	{      // 把所有共用常數集中在一個 interface 中是個不錯的用法
+    	public final int CMD_DATA  = -1;
+    	public final int CMD_QUIT  = 0;
+	    public final int CMD_MSG   = 1, CMD_LIST = 2;
+    	public final int CMD_QUERY = 3, CMD_NICK = 4;
+    	public final int CMD_HELP  = 999;
+    	public final String SECRET_NAME = "IloveGiGi IwantGiGi";
+	}
+	需要的時候implements整個interface就可以用了。
+
+2). how to use java.util.HashTable ?
+	在本程式中，HashTable onlineUsers用來快速[O(1)]存取使用者相關的資料，相當於一份「使用者名單資料」。
+	Java本身已經有一個好的hash function讓collision不會發生，所以不需要自己寫。
+	a. 要放入一筆資料，在範例中使用onlineUsers.put( name, this );，會把
+		key: 使用者暱稱name，和對應的value: 該ClientThread，放進table中。
+	b. 要查詢一筆資料，在範例中丟水球時使用onlineUsers.containsKey( name );，可查詢HashTable裡有沒有
+		以該name為key的資料，若沒有則回答「使用者XXX不在聊天室」，若有則真正執行丟水球(c.)。
+		Query使用者也是用containsKey( name ); 即可得到存在或不存在的答案。
+	c. 要取得一筆資料，在範例中丟水球時使用onlineUsers.get( name );，取得該ClientThread的reference，
+		然後呼叫該ClientThread的writeLine把水球訊息顯示在該user的output上。
+	d. 要刪除一筆資料，在範例中使用者離開時使用onlineUsers.remove( name );，就可把含以該name作為key的
+		ClientThread從HashTable中刪除。
+	e. 要對於所有資料跑for迴圈，可以配合Enumeration寫成：
+		for ( Enumeration e = onlineUsers.elements(); e.hasMoreElements();  ) {
+			// do something about e.nextElement();
+		}
+		其中elements()把整個HashTable的資料回傳成Enumeration的形式方便for使用，可以看成指向HashTable的頭。
+		e.hasMoreElements()檢查Enumeration裡是否還有資料，作為for迴圈的終止條件。
+		(ClientThread) e.nextElement()回傳下一筆ClientThread的參考，此時e指向下一筆資料。
+		在範例中要對於所有使用者做broadcast時就必須用到這種方法。
+
+3). how to deal with a chatroom user? how to deal with a client connection?
+	老師上課講過，這種Client-Server的Java程式最常運作的架構是：
+		ServerSocket呼叫accept()後會一直等待使用者連入。
+		一旦有使用者連入，回傳Socket以後，Server會new出一個Thread來專門處理該Client，
+		自己則繼續呼叫accept()等待下一位使用者連入。
+
+4). how to implement multi-rooms?
+	每一個room建立出一個thread來處理，還需要room自己的一個HashTable來處理該room使用者的相關動作。
+	
+5). how to implement the idea of "host of the room"? (第一位為室主, 讓室主有踢除聊天室成員的權力!)
+	4)做出來以後，第一個進入room裡的ClientThread，就把boolean isHost的值設成true，static boolean hasHost設成true，
+	保險起見可用synchronized來包。這樣就能確保只有第一個進入的人能當host。
+	踢除使用者，先檢查是否isHost，再用類似原本/QUIT指令的程序來踢人。
+	
+6). what else can we do about the chat room?
+	範例中有更改nickname的功能尚未實作。大致上只要把HashTable裡含有oldName key的資料remove，
+	再把ClientThread.myName改掉，最後再put一筆含有newName key的資料就可以了。
+	試著寫成功了，其實沒幾行，而且都是用現成的函式：
+	private void doNick(String cmd) {
+    	try {
+        	synchronized ( lock ) {
+            	onlineUsers.remove( myName );    /* 移除HashTable裡的舊資料 */
+        	} // synchronized critical section
+            
+            myName = askNickname();  /* 取得新暱稱，同時新增至HashTable */
+        } catch ( Exception e ) { }
+   	}
+   	用法：/NICK，再按照askNickname()的命令提示輸入新暱稱。
+   	

@@ -39,7 +39,7 @@ public interface Constants {
 	/* Timeout in a game play */
 	public static final int GAME_TIMEOUT = 2000;
 	/* Timer period for SyncThread */
-	public static final int SYNC_TIMER_PERIOD = 3000;  // for testing
+	public static final int SYNC_TIMER_PERIOD = 1500;  // for testing
 	
 	/*** Picture Sources ***/
 	public static final int MAX_PIC_INDEX = 3;

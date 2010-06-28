@@ -232,16 +232,18 @@ public class ClientThread implements Constants, Messages, Runnable, KeyListener,
 			default:
 				System.out.println("Some other command.");
 		}
-		//send();
+		send();
 	}
 	
 	/* Send a message to the server through socket */
 	public void send() {
 		if (msgHeader == START_COMMAND) {
 			cout.print("" + msgHeader + command);
+			cout.flush();
 		}
 		else if (msgHeader == START_MESSAGE) {
 			cout.println("" + msgHeader + message);
+			cout.flush();
 		}
 		else {
 			Utility.unknown(panel);

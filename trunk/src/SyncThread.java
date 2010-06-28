@@ -28,9 +28,9 @@ public class SyncThread implements Constants, Runnable, ActionListener {
 		/* Send an IM_ALIVE message to each MessageThread's socket */
 		for (MessageThread mt : ServerThread.mtv) {
 			mt.send();
-			//mt.recvAndRespond();
+			mt.recvAndRespond();
 		}
-		//System.out.println("sync: MessageThread.send() to all clients.");
+		System.out.println("sync: MessageThread.send() to all clients.");
 	}
 
 }

@@ -198,9 +198,11 @@ public class MessageThread implements Runnable, Messages {
 	public void send() {
 		if (msgHeader == START_COMMAND) {
 			cout.print("" + msgHeader + command);
+			cout.flush();
 		}
 		else if (msgHeader == START_MESSAGE) {
 			cout.println("" + msgHeader + message);
+			cout.flush();
 		}
 		else {
 			Utility.unknown(panel);
@@ -211,6 +213,7 @@ public class MessageThread implements Runnable, Messages {
 	public void recvAndRespond() {
 		try {
 			char header = (char)cin.read();
+			System.out.println(header);
 			if (header == START_COMMAND) {
 				/* Respond to command */
 				respondCommand((char)cin.read());

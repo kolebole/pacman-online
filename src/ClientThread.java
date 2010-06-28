@@ -2,11 +2,10 @@ import java.awt.event.*;
 import java.io.*;
 import java.net.*;
 import javax.swing.*;
-import java.util.Date;
 
 /* File: ClientThread.java
  * Start: 2010/06/25
- * Modification: 2010/06/28
+ * Modification: 2010/06/26
  * Description: Client thread for receiving/sending messages from/to the server.
  *              This thread is to avoid I/O blocking.
  */
@@ -22,21 +21,12 @@ public class ClientThread implements Constants, Messages, Runnable, KeyListener,
 	String nickname;
 	TeamManager tm;
 	JButton finalButton;
-	/* game-related variable */
-	int playerIndex;
-	/* Message to be sent to client. Default: (START_COMMAND, IM_ALIVE) */
-	public char msgHeader, command;
-	public String message;	
-	char lastKeyCode = MOVERIGHT;
 	
 	/* constructor */
 	ClientThread(JPanel panel, String addr) {
 		killThread = false;
 		this.panel = panel;
 		this.addr = addr;
-		/* default message combination */
-		msgHeader = START_COMMAND;
-		command = IM_ALIVE;
 		Thread thread = new Thread(this);
 		thread.start();
 	}
@@ -66,72 +56,46 @@ public class ClientThread implements Constants, Messages, Runnable, KeyListener,
 		if (killThread == true) {
 			return; // terminate the ClientThread
 		}
+		/* Send your nickname to the server and let the server randomly select an icon */
+		try {
+			nickname = ConnectPanel.nickField.getText();
+			cout.println("" + START_MESSAGE + nickname);
+			cout.flush();
+			
+		}
+		catch (Exception e) {
+			Utility.error(e);
+		}
 		/* Enable the "Ready" button and add an ActionListener */
 		finalButton = ConnectPanel.finalButton;
 		finalButton.setEnabled(true);
 		// Now the ActionListener becomes "this" instead of a TeamManager
 		//tm = new TeamManager();
-		finalButton.addActionListener(this);		
+		finalButton.addActionListener(this);
 		
 		
-		PacmanOnline.inst.gamePanel.addKeyListener(this);		
-		
-		
-		/*** Always do message receiving and sending ***/
-		/* ryanlei: Should this be put to another Thread?? */
-		while (true) {
-			try {
-				char header = (char)cin.read();
-				if (header == START_COMMAND) {
-					/* Respond to command */
-					respondCommand((char)cin.read());
-				}
-				else if (header == START_MESSAGE) {
-					// fill in the blank
-					
-				}
-				else {
-					Utility.unknown(panel);
-				}
-			}
-			catch (Exception e) {
-				Utility.error(e);
-			}			
+		/* For Rex and Vincent to fill in */
+		while(!PacmanOnline.isReady){
+			
 		}
 		
-		//// Put this in the synchronization 
-//		try {
-//			/* Send your nickname to the server and let the server randomly select an icon */
-//			nickname = ConnectPanel.nickField.getText();
-//			cout.println("" + START_MESSAGE + nickname);
-//			cout.flush();			
-//			
-//			/* Receive your playerIndex */
-//			Utility.checkStartCommand(cin.read(), panel);
-//			playerIndex = cin.read() - YOU_ARE_ZERO;
-//			
-//		}
-//		catch (Exception e) {
-//			Utility.error(e);
-//		}
-		
-		
-		
+		PacmanOnline.inst.gamePanel.addKeyListener(this);
 		// try receiving server's messages
 		// set the controlled character
-		/*char msg;
+		char msg;
+		String str;
 		while(true){
 			try {
-				Utility.checkStartCommand(cin.read(), panel);
+				msg = (char)cin.read();
+				if ( msg != START_COMMAND )
+					Utility.unknown(panel);
 				msg = (char)cin.read();
 				switch( msg ){
-					case SET_PLAYER_POSITION:
-						
-						// Send last move after receiving server's messages
-						cout.print(""+START_COMMAND+lastKeyCode);
-						cout.flush();
+					case START_COMMAND:
+						PacmanOnline.movingTimer = new Timer( 40, new MovingListener() );
+						PacmanOnline.movingTimer.start();
 						break;
-					/*case MOVEUP:
+					case MOVEUP:
 						PacmanOnline.map.playerList[4].newDirect = KeyEvent.VK_UP;
 						break;
 					case MOVEDOWN:
@@ -142,32 +106,55 @@ public class ClientThread implements Constants, Messages, Runnable, KeyListener,
 						break;
 					case MOVERIGHT:
 						PacmanOnline.map.playerList[4].newDirect = KeyEvent.VK_RIGHT;
-						break;*/	
-					/*default:
+						break;
+					case SET_PLAYER_POSITION:
+						msg = (char)cin.read();
+						switch( msg ){
+						case MOVEUP:
+							PacmanOnline.map.playerList[0].newDirect = KeyEvent.VK_UP;
+							break;
+						case MOVEDOWN:
+							PacmanOnline.map.playerList[0].newDirect = KeyEvent.VK_DOWN;
+							break;
+						case MOVELEFT:
+							PacmanOnline.map.playerList[0].newDirect = KeyEvent.VK_LEFT;
+							break;
+						case MOVERIGHT:
+							PacmanOnline.map.playerList[0].newDirect = KeyEvent.VK_RIGHT;
+							break;
+						}
+						//str=bf.readLine();
+						//Utility.setPlayerLocation(Integer.parseInt(str));
+						break;
+					default:
 						System.out.println("KeyCode is " + msg );
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				// e.printStackTrace();
 			}
-		}*/
+		}
 		
 	}
 		
 	public void checkConnection() {
 		try {
-			/* First message should be START_COMMAND */
+			int msg = -1;
 			/*** IMPORTANT: set the timeout before read() ***/
-			cs.setSoTimeout(CONN_TIMEOUT);			
-			if (Utility.checkStartCommand(cin.read(), panel) == false) {
+			cs.setSoTimeout(CONN_TIMEOUT);
+			msg = cin.read();
+			/* First message should be START_COMMAND */
+			if (msg != START_COMMAND) {
+				Utility.unknown(panel.getParent().getParent());
 				cs.close();
+				System.out.println("Client: close socket.");
 				killThread = true;
 				return;
 			}
 			System.out.println("step 2");				
 
 			/* Read second message */
-			int msg = cin.read();
+			msg = cin.read();
 			switch (msg) {
 				/* Join OK */
 				case IM_ALIVE:
@@ -223,33 +210,6 @@ public class ClientThread implements Constants, Messages, Runnable, KeyListener,
 		}
 	}
 
-	/* Respond to a command */
-	public void respondCommand(char command) {
-		switch (command) {
-			case IM_ALIVE:
-				PacFrame.msgField.setText("Server is alive @ " + new Date().toString());
-				break;
-			default:
-				System.out.println("Some other command.");
-		}
-		send();
-	}
-	
-	/* Send a message to the server through socket */
-	public void send() {
-		if (msgHeader == START_COMMAND) {
-			cout.print("" + msgHeader + command);
-			cout.flush();
-		}
-		else if (msgHeader == START_MESSAGE) {
-			cout.println("" + msgHeader + message);
-			cout.flush();
-		}
-		else {
-			Utility.unknown(panel);
-		}		
-	}	
-	
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
@@ -257,32 +217,28 @@ public class ClientThread implements Constants, Messages, Runnable, KeyListener,
 		System.out.println("Client Action: "+ keyCode);
 		switch( keyCode ){
 		case KeyEvent.VK_UP:
-			//cout.print(""+START_COMMAND+MOVEUP);
-			lastKeyCode=MOVEUP;
-			//cout.flush();
+			cout.print(""+START_COMMAND+MOVEUP);
+			cout.flush();
 			break;
 		case KeyEvent.VK_DOWN:
-			//cout.print(""+START_COMMAND+MOVEDOWN);
-			lastKeyCode=MOVEDOWN;
-			//cout.flush();
+			cout.print(""+START_COMMAND+MOVEDOWN);
+			cout.flush();
 			break;
 		case KeyEvent.VK_LEFT:
-			//cout.print(""+START_COMMAND+MOVELEFT);
-			lastKeyCode=MOVELEFT;
-			//cout.flush();
+			cout.print(""+START_COMMAND+MOVELEFT);
+			cout.flush();
 			break;
 		case KeyEvent.VK_RIGHT:
-			//cout.print(""+START_COMMAND+MOVERIGHT);
-			lastKeyCode=MOVERIGHT;
-			//cout.flush();
+			cout.print(""+START_COMMAND+MOVERIGHT);
+			cout.flush();
 			break;
 		default:
 			System.out.println("KeyCode is " + keyCode );
 		}
 	}
 	
-	/* Listen on the "Ready" button */
 	@Override
+	/* Listen on the "Ready" button */
 	public void actionPerformed(ActionEvent evt) {
 		if (evt.getSource() == finalButton) {
 			if (finalButton.getText().equals("Ready")) {

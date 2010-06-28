@@ -6,7 +6,6 @@
  */
 import java.awt.event.*;
 import java.net.*;
-import java.util.Date;
 import java.io.*;
 import javax.swing.*;
 
@@ -19,20 +18,12 @@ public class MessageThread implements Runnable, Messages {
 	BufferedReader bf = null;
 	PrintStream cout = null;
 	JTextField msgField;
-	/* Message to be sent to client. Default: (START_COMMAND, IM_ALIVE) */
-	public char msgHeader, command;
-	public String message;
-	
-	
 	
 	MessageThread(Socket socket, TeamManager tm, JPanel panel) {
 		this.socket = socket;
 		this.tm = tm;
 		this.panel = panel;
 		msgField = PacFrame.msgField;
-		/* default message combination */
-		msgHeader = START_COMMAND;
-		command = IM_ALIVE;
 		Thread thread = new Thread(this);
 		thread.start();
 	}
@@ -52,14 +43,12 @@ public class MessageThread implements Runnable, Messages {
 			cout.flush();
 	
 			/* Receive the client's nickname and randomly select an icon for them */
-			Utility.checkStartMessage(cin.read(), panel);
+			int msg = cin.read();
+			if (msg != START_MESSAGE) {
+				Utility.unknown(panel);
+			}
 			nickname = bf.readLine();
-			tm.insertGuest(nickname, socket);
-			
-			/* Tell the client its playIndex */
-			char clientIndex = (char)(TeamManager.vector.size() - 1);
-			cout.print("" + START_COMMAND + (YOU_ARE_ZERO + clientIndex));
-			
+			tm.insertGuest(nickname, socket);						
 		}
 		catch (Exception e) {
 			Utility.error(e);
@@ -192,55 +181,6 @@ public class MessageThread implements Runnable, Messages {
 			ConnectPanel.finalButton.setEnabled(false);
 		}
 		
-	}
-
-	/* Send a message to the client through socket */
-	public void send() {
-		if (msgHeader == START_COMMAND) {
-			cout.print("" + msgHeader + command);
-			cout.flush();
-		}
-		else if (msgHeader == START_MESSAGE) {
-			cout.println("" + msgHeader + message);
-			cout.flush();
-		}
-		else {
-			Utility.unknown(panel);
-		}		
-	}
-	
-	/* Receive and respond to a command/message from the client through socket */
-	public void recvAndRespond() {
-		try {
-			char header = (char)cin.read();
-			System.out.println(header);
-			if (header == START_COMMAND) {
-				/* Respond to command */
-				respondCommand((char)cin.read());
-			}
-			else if (header == START_MESSAGE) {
-				// fill in the blank
-				
-			}
-			else {
-				Utility.unknown(panel);
-			}			
-		}
-		catch (Exception e) {
-			Utility.error(e);
-		}
-	}
-	
-	/* Respond to a command */
-	public void respondCommand(char command) {
-		switch (command) {
-			case IM_ALIVE:
-				System.out.println(nickname + " is alive @ " + new Date().toString());
-				break;
-			default:
-				System.out.println("Some other command.");
-		}
-		send();
 	}
 
 }

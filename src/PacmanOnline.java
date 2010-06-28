@@ -1,5 +1,6 @@
 import java.awt.event.*;
 import java.io.IOException;
+import java.net.Socket;
 
 import javax.swing.*;
 
@@ -15,6 +16,8 @@ public class PacmanOnline implements Constants {
 	
 	public static boolean isServer = false;
 	public static boolean isReady = false;
+	
+	public static Socket sTsocket = null;
 	
 	/**
 	 * @param args

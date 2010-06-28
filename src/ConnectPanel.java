@@ -11,7 +11,7 @@ import javax.swing.*;
 import java.io.*;
 import java.net.*;
 
-public class ConnectPanel extends JPanel implements Constants, ActionListener {
+public class ConnectPanel extends JPanel implements Constants, ActionListener, Messages {
 	JPanel nickPanel, clientPanel, serverPanel, csPanel, finalPanel;
 	public static JTextField nickField;
 	public static JTextField addrField;
@@ -145,16 +145,23 @@ public class ConnectPanel extends JPanel implements Constants, ActionListener {
 			if(PacmanOnline.isServer){
 				PacmanOnline.inst.gamePanel.addKeyListener(new DirectionListener());
 				
-				PacmanOnline.movingTimer = new Timer( MOVING_TIMER_PERIOD, new MovingListener() );
+				PacmanOnline.movingTimer = new Timer( 40, new MovingListener() );
 				PacmanOnline.movingTimer.start();
 				// ryanlei: comment this
 				//finalButton.setEnabled(false);
+				try {
+					PrintWriter cout = new PrintWriter(PacmanOnline.sTsocket.getOutputStream());
+					cout.print(""+START_COMMAND+START_COMMAND);
+					cout.flush();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				PacmanOnline.isReady=true;
 			}else{
-				//////////////////////////////////////////
-				/* Client will not need this, all the moving depend on server. */
-				PacmanOnline.movingTimer = new Timer( MOVING_TIMER_PERIOD, new MovingListener() );
-				PacmanOnline.movingTimer.start();
+				//////////////////////////////////////////之後移到接收server的start時才開
+				//PacmanOnline.movingTimer = new Timer( 40, new MovingListener() );
+				//PacmanOnline.movingTimer.start();
 				//////////////////////////////////////////
 				// ryanlei: comment this
 				//finalButton.setEnabled(false);

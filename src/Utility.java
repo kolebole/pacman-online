@@ -9,7 +9,7 @@ import javax.swing.*;
 import java.io.*;
 import javax.sound.sampled.*;
 
-class Utility implements Messages {
+class Utility {
 	/* Print an exception */ 
 	public static void error(Exception e) {
 		System.err.println(e.toString());
@@ -46,30 +46,15 @@ class Utility implements Messages {
 			Utility.error(e);
 		}
 	}
-	
-	/* Check whether the input is START_COMMAND */
-	public static boolean checkStartCommand(int msg, Container c) {
-		if (msg != START_COMMAND) {
-			JOptionPane.showMessageDialog(c, "Expecting \"START_COMMAND\"",
-					"Fatal Error", JOptionPane.ERROR_MESSAGE);			
-			return false;
-		}
-		else {
-			return true;
-		}
+	public static int pInt(int pIndex, int x, int y){
+		return pIndex*1000000+y*500+x;
 	}
 	
-	/* Check whether the input is START_MESSAGE */
-	public static boolean checkStartMessage(int msg, Container c) {
-		if (msg != START_MESSAGE) {
-			JOptionPane.showMessageDialog(c, "Expecting \"START_MESSAGE\"",
-					"Fatal Error", JOptionPane.ERROR_MESSAGE);			
-			return false;
-		}
-		else {
-			return true;
-		}
+	public static void setPlayerLocation(int pInt){
+		int pIndex = pInt/1000000;
+		int x = pInt%500;
+		int y = pInt/500;
+		PacmanOnline.map.playerList[pIndex].image.setLocation( x, y );
 	}
-	
 
 }

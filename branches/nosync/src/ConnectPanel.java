@@ -166,6 +166,7 @@ public class ConnectPanel extends JPanel implements Constants, ActionListener, M
 				// ryanlei: comment this
 				//finalButton.setEnabled(false);
 				PacmanOnline.isReady=true;
+				PacmanOnline.inst.gamePanel.requestFocusInWindow();
 			}
 		}
 	}
